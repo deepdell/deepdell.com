@@ -76,23 +76,22 @@ const form=document.getElementById('deepdell-contact-form'),status=document.getE
 if(!form)return;
 form.addEventListener('submit',async e=>{
  e.preventDefault(); if(!form.reportValidity())return;
- const d=new FormData(form),email=String(d.get('email')||'').trim(),publicKey='XjPgFj',listId='XXUzia';
- const props={Lead_Source:'deepdell.com/contact.html',Service_Interest:'DEEPDELL Project Enquiry',Project_Message:String(d.get('message')||'').trim(),Enquiry_Date:new Date().toISOString()};
- const profile={data:{type:'profile',attributes:{email,first_name:String(d.get('first_name')||'').trim(),last_name:String(d.get('last_name')||'').trim(),organization:String(d.get('organization')||'').trim(),properties:props}}};
+ const d=new FormData(form);
+ d.append('access_key','a8de0a40-021d-46dd-91de-1deda5706063');
+ d.append('subject','New DEEPDELL Project Enquiry');
+ d.append('from_name','DEEPDELL Website');
+ d.append('replyto',String(d.get('email')||'').trim());
  const btn=form.querySelector('button');btn.disabled=true;status.textContent='Sending…';
  try{
-   const p=await fetch('https://a.klaviyo.com/client/profiles?company_id='+encodeURIComponent(publicKey),{method:'POST',headers:{revision:'2025-07-15','content-type':'application/json',accept:'application/json'},body:JSON.stringify(profile)});
-   if(!p.ok)throw new Error('Profile request failed');
-   if(d.get('marketing_consent')==='on'){
-     const sub={data:{type:'subscription',attributes:{custom_source:'DEEPDELL Website Contact',profiles:{data:[{type:'profile',attributes:{email,subscriptions:{email:{marketing:{consent:'SUBSCRIBED'}}}}}]} }},relationships:{list:{data:{type:'list',id:listId}}}}};
-     const s=await fetch('https://a.klaviyo.com/client/subscriptions/?company_id='+encodeURIComponent(publicKey),{method:'POST',headers:{revision:'2026-07-15','content-type':'application/json',accept:'application/json'},body:JSON.stringify(sub)});
-     if(!s.ok)throw new Error('Subscription request failed');
-   }
-   form.reset();status.textContent='Enquiry received. We’ll be in touch.';
- }catch(err){status.textContent='We could not submit the enquiry. Please email bonjour.deepdell@gmail.com directly.'}
+   const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{Accept:'application/json'},body:d});
+   const json=await res.json();
+   if(!res.ok||!json.success)throw new Error(json.message||'Submission failed');
+   form.reset();status.textContent='Enquiry received. We’ll be in touch within 24 hours.';
+ }catch(err){status.textContent='We could not submit the enquiry. Please try again.'}
  finally{btn.disabled=false}
 });
 })();
+</script>
 </script>
 <script src="script.js"></script>
 </body></html>
