@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEEPDELL AI Companion — Prototype</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--navy:#011434;--night:#021c3d;--cyan:#20f3fb;--aqua:#0ac7e6;--ice:#89f9fd;--white:#fff;--muted:#8fa8c0}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--navy);color:#fff;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{overflow:hidden;background:radial-gradient(circle at 70% 35%,rgba(32,243,251,.10),transparent 28%),linear-gradient(145deg,#011434,#020d24 70%,#011434)}
+.grid{position:fixed;inset:0;background-image:linear-gradient(rgba(137,249,253,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(137,249,253,.035) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,black,transparent 90%);pointer-events:none}
+.top{position:fixed;z-index:5;top:0;left:0;right:0;height:76px;border-bottom:1px solid rgba(137,249,253,.14);background:rgba(1,20,52,.76);backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:space-between;padding:0 34px}
+.brand{display:flex;align-items:center;gap:13px;text-decoration:none;color:#fff}.brand img{width:43px;height:43px;object-fit:contain}.brand b{font-size:14px;letter-spacing:.14em}.brand small{display:block;color:var(--muted);font:10px ui-monospace,SFMono-Regular,monospace;letter-spacing:.12em;margin-top:3px}
+.status{font:10px ui-monospace,SFMono-Regular,monospace;letter-spacing:.12em;color:var(--cyan)}.status i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);margin-right:8px}
+.stage{position:fixed;inset:76px 0 0;display:grid;place-items:center}
+.copy{position:absolute;left:8vw;top:16vh;max-width:430px;pointer-events:none}.kicker{font:10px ui-monospace,SFMono-Regular,monospace;color:var(--cyan);letter-spacing:.18em;margin-bottom:18px}.copy h1{font-size:clamp(38px,5vw,72px);line-height:.98;letter-spacing:-.05em;margin:0 0 18px}.copy h1 em{font-style:normal;color:var(--cyan)}.copy p{color:#9db3ca;line-height:1.7;font-size:15px;max-width:390px}
+.panel{position:absolute;right:8vw;top:16vh;width:min(360px,34vw);padding:24px;border:1px solid rgba(137,249,253,.17);background:rgba(2,28,61,.72);backdrop-filter:blur(18px);box-shadow:0 25px 80px rgba(0,0,0,.28);border-radius:12px}.panel h2{font-size:13px;letter-spacing:.08em;margin:0 0 16px}.panel p{color:#91a8c0;font-size:12px;line-height:1.65;margin:0 0 20px}.control{display:flex;gap:8px;flex-wrap:wrap}.control button{border:1px solid rgba(137,249,253,.2);background:rgba(255,255,255,.035);color:#dceeff;padding:9px 11px;border-radius:5px;font:10px ui-monospace,SFMono-Regular,monospace;cursor:pointer}.control button:hover,.control button.active{border-color:var(--cyan);color:var(--cyan)}
+.hint{position:absolute;bottom:8vh;left:50%;transform:translateX(-50%);font:10px ui-monospace,SFMono-Regular,monospace;color:#617991;letter-spacing:.08em;white-space:nowrap}
+#dog{position:fixed;z-index:20;width:170px;height:auto;left:calc(100% - 230px);top:calc(100% - 220px);pointer-events:auto;user-select:none;will-change:left,top,transform;filter:drop-shadow(0 18px 22px rgba(0,0,0,.32));transition:filter .2s}
+#dog.running{animation:runBob .18s infinite alternate}#dog.idle{animation:idle 2.8s ease-in-out infinite}
+@keyframes idle{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-7px) rotate(-1deg)}}@keyframes runBob{from{transform:translateY(1px) rotate(-2deg)}to{transform:translateY(-4px) rotate(2deg)}}
+.bubble{position:fixed;z-index:25;display:none;max-width:290px;padding:16px 18px;background:#fff;color:#071b3b;border-radius:14px 14px 14px 4px;box-shadow:0 20px 60px rgba(0,0,0,.28);font-size:13px;line-height:1.45}.bubble strong{display:block;font-size:14px;margin-bottom:4px}.bubble.show{display:block;animation:pop .22s ease-out}@keyframes pop{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}}
+.menu{display:none}
+@media(max-width:900px){.copy{left:6vw;top:9vh}.panel{right:5vw;top:auto;bottom:12vh;width:300px}.copy{max-width:360px}.copy h1{font-size:44px}}
+@media(max-width:700px){.top{height:64px;padding:0 18px}.stage{inset:64px 0 0}.copy{left:22px;top:42px;max-width:300px}.copy h1{font-size:39px}.copy p{font-size:13px}.panel{left:22px;right:22px;bottom:28px;width:auto}.hint{display:none}.status{display:none}#dog{width:135px;left:calc(100% - 165px);top:calc(100% - 205px)}}
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<header class="top">
+<a class="brand" href="/"><img src="assets/deepdell-logo.svg" alt=""><span><b>DEEPDELL</b><small>AI COMPANION / TEST LAB</small></span></a>
+<div class="status"><i></i>EXPERIMENTAL OVERLAY</div>
+</header>
+<main class="stage">
+<section class="copy"><div class="kicker">PHASE 01 / INTERACTION PROTOTYPE</div><h1>Meet your <em>DEEPDELL</em> companion.</h1><p>This isolated test page is deliberately separate from the production website. Move your cursor around the screen and the companion will react, follow and approach it. Click the dog to open the AI panel.</p></section>
+<section class="panel"><h2>COMPANION CONTROL</h2><p id="state">IDLE — observing the interface.</p><div class="control"><button class="active" data-mode="chase">CURSOR CHASE</button><button data-mode="orbit">RETURN HOME</button><button data-mode="greet">GREETING</button><button data-mode="chat">AI PANEL</button></div></section>
+<div class="hint">MOVE THE CURSOR · THE COMPANION WILL FOLLOW · CLICK THE DOG</div>
+</main>
+<img id="dog" class="idle" src="assets/deepdell-dog-test.svg" alt="DEEPDELL AI companion">
+<div id="bubble" class="bubble"><strong>Hi! 👋 I'm DEEPDELL AI.</strong>How can I help you today?</div>
+<script>
+(()=>{const dog=document.getElementById('dog'),bubble=document.getElementById('bubble'),state=document.getElementById('state');let mx=innerWidth-120,my=innerHeight-140,x=innerWidth-230,y=innerHeight-220,mode='chase',home=[innerWidth-230,innerHeight-220],lastMove=0;
+addEventListener('resize',()=>{if(innerWidth<701){home=[innerWidth-165,innerHeight-205]}else home=[innerWidth-230,innerHeight-220]});
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;lastMove=performance.now()});
+function say(t){state.textContent=t}
+function placeBubble(){const r=dog.getBoundingClientRect();bubble.style.left=Math.min(innerWidth-310,Math.max(14,r.left+35))+'px';bubble.style.top=Math.max(82,r.top-75)+'px'}
+function loop(){if(mode==='chase'){const dx=mx-x-75,dy=my-y-75,d=Math.hypot(dx,dy);if(d>105){x+=dx*.055;y+=dy*.055;dog.classList.add('running');dog.classList.remove('idle');say('FOLLOWING — tracking your cursor.')}else{dog.classList.remove('running');dog.classList.add('idle');say('ATTENTION — looking at the cursor.')}}else if(mode==='orbit'){x+=(home[0]-x)*.035;y+=(home[1]-y)*.035;dog.classList.add('idle');dog.classList.remove('running');say('RETURNING — back to the home position.')}dog.style.left=x+'px';dog.style.top=y+'px';requestAnimationFrame(loop)}loop();
+dog.addEventListener('click',()=>{bubble.classList.toggle('show');placeBubble();say(bubble.classList.contains('show')?'AI PANEL — ready for interaction.':'IDLE — observing the interface.')});
+document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-mode]').forEach(q=>q.classList.remove('active'));b.classList.add('active');mode=b.dataset.mode;if(mode==='greet'){bubble.classList.add('show');placeBubble();say('GREETING — companion says hello.')}if(mode==='chat'){bubble.classList.add('show');placeBubble();say('AI PANEL — ready for interaction.')}if(mode==='orbit'){bubble.classList.remove('show')}if(mode==='chase'){bubble.classList.remove('show')}}));
+})();
+</script>
+</body>
+</html>
