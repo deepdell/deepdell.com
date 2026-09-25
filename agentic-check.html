@@ -67,6 +67,7 @@ async function captureLead(base,email,results,total){
  data.append('from_name','DEEPDELL Agentic Checker');
  data.append('email',email);
  data.append('replyto',email);
+ data.append('botcheck','');
  data.append('website_url',base);
  data.append('audit_score',String(total)+'/100');
  data.append('found_signals',String(found)+'/'+String(results.length));
@@ -78,7 +79,7 @@ async function captureLead(base,email,results,total){
  data.append('audit_results',summary);
  const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{Accept:'application/json'},body:data});
  const json=await r.json();
- if(!r.ok||!json.success)throw new Error(json.message||'Email delivery failed');
+ if(!r.ok||!json.success)throw new Error(json.message||json?.body?.message||'Email delivery failed');
  return true;
 }
 function render(base,results){
@@ -116,7 +117,7 @@ document.getElementById('unlock-button')?.addEventListener('click',async(e)=>{
  emailError.style.display='none';
  const unlock=document.getElementById('unlock-button');unlock.disabled=true;unlock.textContent='UNLOCKING…';server.textContent='SENDING AUDIT / UNLOCKING REPORT…';server.className='server-status';
  try{await captureLead(pendingAudit.base,email,pendingAudit.results,pendingAudit.total);render(pendingAudit.base,pendingAudit.results);document.getElementById('email-gate').style.display='none';server.textContent='AUDIT COMPLETE / FULL REPORT UNLOCKED';}
- catch(err){server.textContent='REPORT READY / EMAIL DELIVERY FAILED — PLEASE TRY AGAIN';server.className='server-status error'}
+ catch(err){server.textContent='REPORT READY / EMAIL DELIVERY FAILED — '+(err.message||'PLEASE TRY AGAIN');server.className='server-status error'}
  finally{unlock.disabled=false;unlock.textContent='VIEW FULL REPORT ↗'}
 });
 })();
