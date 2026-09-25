@@ -70,7 +70,7 @@ async function captureLead(base,email,results,total){
  data.append('botcheck','');
  data.append('website_url',base);
  data.append('audit_score',String(total)+'/100');
- data.append('found_signals',String(found)+'/'+String(results.length));
+ data.append('found_signals',String(found)+'/'+String(checks.length));
  data.append('technical_seo',String(c.technicalSeo)+'/20');
  data.append('machine_discovery',String(c.machineDiscovery)+'/20');
  data.append('llm_readability',String(c.llmReadability)+'/20');
@@ -84,7 +84,7 @@ async function captureLead(base,email,results,total){
 }
 function render(base,results){
  const c=score(results),total=Object.values(c).reduce((a,b)=>a+b,0),groups={};results.forEach(x=>(groups[x.group]??=[]).push(x));
- status.innerHTML='<div class="audit-url">'+esc(base)+'</div><div class="audit-head"><div><div class="audit-score">'+total+'<small>/100</small></div><div class="audit-label">BASIC DISCOVERY AUDIT</div></div><div class="audit-label">FOUND '+results.filter(x=>x.found).length+' / '+results.length+'<br>PUBLIC PAGE CHECK</div></div><section class="score-box"><h3>AGENTIC READINESS</h3>'+
+ status.innerHTML='<div class="audit-url">'+esc(base)+'</div><div class="audit-head"><div><div class="audit-score">'+total+'<small>/100</small></div><div class="audit-label">BASIC DISCOVERY AUDIT</div></div><div class="audit-label">FOUND '+results.filter(x=>x.found).length+' / '+checks.length+'<br>PUBLIC PAGE CHECK</div></div><section class="score-box"><h3>AGENTIC READINESS</h3>'+
  [['Technical SEO',c.technicalSeo],['Machine Discovery',c.machineDiscovery],['LLM Readability',c.llmReadability],['Agent Identity',c.agentIdentity],['Agent Protocols',c.agentProtocols]].map(x=>'<div class="score-row"><span>'+x[0]+'</span><strong>'+x[1]+' / 20</strong></div>').join('')+
  '<div class="score-total"><span>TOTAL</span><b>'+total+' / 100</b></div></section>'+
  Object.entries(groups).map(([g,items])=>'<div class="group-title">'+esc(g.toUpperCase())+'</div><div class="audit-grid">'+items.map(x=>'<article class="audit-card '+(x.found?'pass':'warn')+'"><div class="audit-top"><strong>'+esc(x.name)+'</strong><span class="badge">'+(x.found?'FOUND':'NOT FOUND')+'</span></div><p><code>'+esc(x.path)+'</code> · '+(x.found?'Public page detected.':'No public page detected.')+(x.status?' HTTP '+x.status+'.':'')+'</p></article>').join('')+'</div>').join('')+
@@ -94,7 +94,7 @@ function render(base,results){
 let pendingAudit=null;
 function showLockedReport(base,results){
  const c=score(results),total=Object.values(c).reduce((a,b)=>a+b,0),found=results.filter(x=>x.found).length;
- status.innerHTML='<div class="audit-url">'+esc(base)+'</div><div class="audit-head"><div><div class="audit-score">'+total+'<small>/100</small></div><div class="audit-label">AUDIT COMPLETE / REPORT LOCKED</div></div><div class="audit-label">FOUND '+found+' / '+results.length+'<br>ENTER EMAIL TO VIEW</div></div><div class="score-box" style="filter:blur(5px);user-select:none"><h3>AGENTIC READINESS</h3><div class="score-row"><span>Technical SEO</span><strong>'+c.technicalSeo+' / 20</strong></div><div class="score-row"><span>Machine Discovery</span><strong>'+c.machineDiscovery+' / 20</strong></div><div class="score-row"><span>LLM Readability</span><strong>'+c.llmReadability+' / 20</strong></div><div class="score-row"><span>Agent Identity</span><strong>'+c.agentIdentity+' / 20</strong></div><div class="score-row"><span>Agent Protocols</span><strong>'+c.agentProtocols+' / 20</strong></div></div>'; status.classList.add('show');
+ status.innerHTML='<div class="audit-url">'+esc(base)+'</div><div class="audit-head"><div><div class="audit-score">'+total+'<small>/100</small></div><div class="audit-label">AUDIT COMPLETE / REPORT LOCKED</div></div><div class="audit-label">FOUND '+found+' / '+checks.length+'<br>ENTER EMAIL TO VIEW</div></div><div class="score-box" style="filter:blur(5px);user-select:none"><h3>AGENTIC READINESS</h3><div class="score-row"><span>Technical SEO</span><strong>'+c.technicalSeo+' / 20</strong></div><div class="score-row"><span>Machine Discovery</span><strong>'+c.machineDiscovery+' / 20</strong></div><div class="score-row"><span>LLM Readability</span><strong>'+c.llmReadability+' / 20</strong></div><div class="score-row"><span>Agent Identity</span><strong>'+c.agentIdentity+' / 20</strong></div><div class="score-row"><span>Agent Protocols</span><strong>'+c.agentProtocols+' / 20</strong></div></div>'; status.classList.add('show');
 }
 form.addEventListener('submit',async e=>{
  e.preventDefault();let value=input.value.trim();if(!value)return;
