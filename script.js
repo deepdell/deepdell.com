@@ -5,7 +5,7 @@ const body=document.body,loader=document.getElementById('site-loader'),progress=
 body.classList.remove('light');try{localStorage.removeItem('deepdell-theme')}catch(e){}document.querySelectorAll('.theme-toggle,.contact-backup').forEach(el=>el.remove());
 const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content='#011434';
 document.querySelectorAll('.brand').forEach(brand=>{const img=brand.querySelector('img');if(!img)return;img.src='/assets/deepdell-guideline-icon.svg';img.alt='DEEPDELL orbital mark';let word=brand.querySelector('.brand-wordmark');if(!word){word=document.createElement('span');word.className='brand-wordmark';word.textContent='DEEPDELL';brand.appendChild(word)}});
-document.querySelectorAll('.footer-brand > a').forEach(brand=>{brand.innerHTML='<img class="footer-attached-logo" src="/assets/deepdell-attached-logo.webp" alt="DEEPDELL">';});
+document.querySelectorAll('.footer-brand > a').forEach(brand=>{brand.innerHTML='<img class="footer-attached-logo" src="/assets/deepdell-lockup.svg" alt="DEEPDELL">';});
 if(!document.querySelector('link[data-site-fixes]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/site-fixes.css';l.dataset.siteFixes='1';document.head.appendChild(l)}
 /* Keep the Agentic Readiness Checker visible in the primary navigation on every page. */
 document.querySelectorAll('.nav').forEach(nav=>{if(!nav.querySelector('a[href="agentic-check.html"]')){const a=document.createElement('a');a.href='agentic-check.html';a.textContent='Agentic Check';nav.appendChild(a)}});
@@ -23,3 +23,82 @@ if((path==='/'||path==='')&&!document.querySelector('script[data-deepdell-schema
 const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach(a=>{if(a.getAttribute('href')===page)a.setAttribute('aria-current','page')});
 })();
 
+
+// ─────────────────────────────────────────────────────────────
+// DEEPDELL / FREE GOOGLE CONSENT MODE — BASIC MODE
+// Google tags do not load until the visitor chooses.
+// No paid CMP is required for this implementation.
+// ─────────────────────────────────────────────────────────────
+(function(){
+  const GA_ID='G-K592HB9699';
+  const KEY='deepdell-consent-v1';
+
+  function loadGA(){
+    if(window.__deepdellGA) return;
+    window.__deepdellGA=true;
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag=gtag;
+    gtag('consent','default',{
+      analytics_storage:'denied',
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied',
+      wait_for_update:500
+    });
+    gtag('js',new Date());
+    gtag('config',GA_ID,{anonymize_ip:true});
+    const s=document.createElement('script');
+    s.async=true;
+    s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;
+    document.head.appendChild(s);
+    // Consent has already been granted when this function runs.
+    gtag('consent','update',{
+      analytics_storage:'granted',
+      ad_storage:'denied',
+      ad_user_data:'denied',
+      ad_personalization:'denied'
+    });
+  }
+
+  function setConsent(value){
+    try{localStorage.setItem(KEY,value)}catch(e){}
+    const banner=document.getElementById('deepdell-consent');
+    if(banner) banner.remove();
+    if(value==='accepted') loadGA();
+  }
+
+  function showBanner(){
+    if(document.getElementById('deepdell-consent')) return;
+    const el=document.createElement('aside');
+    el.id='deepdell-consent';
+    el.setAttribute('aria-label','Cookie and analytics consent');
+    el.innerHTML=
+      '<div class="deepdell-consent-inner">'+
+        '<div class="deepdell-consent-copy">'+
+          '<div class="deepdell-consent-kicker">PRIVACY / ANALYTICS</div>'+
+          '<strong>Help us improve DEEPDELL.</strong>'+
+          '<p>We use Google Analytics to understand website usage and improve the experience. Analytics is off until you choose.</p>'+
+          '<a href="/privacy.html">Privacy details</a>'+
+        '</div>'+
+        '<div class="deepdell-consent-actions">'+
+          '<button type="button" class="deepdell-consent-secondary" data-consent="declined">Reject</button>'+
+          '<button type="button" class="deepdell-consent-primary" data-consent="accepted">Allow analytics</button>'+
+        '</div>'+
+      '</div>';
+    document.body.appendChild(el);
+    el.querySelectorAll('[data-consent]').forEach(btn=>{
+      btn.addEventListener('click',()=>setConsent(btn.dataset.consent));
+    });
+  }
+
+  function init(){
+    let choice=null;
+    try{choice=localStorage.getItem(KEY)}catch(e){}
+    if(choice==='accepted') loadGA();
+    else if(choice==='declined') return;
+    else showBanner();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
