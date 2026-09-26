@@ -74,3 +74,112 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
 
 /* Keep homepage header identical to all inner pages. */
 .site-header{height:82px!important;padding:0 max(28px,calc((100vw - 1440px)/2))!important}.brand{width:48px!important;height:48px!important;min-width:48px!important}.brand img{width:48px!important;height:48px!important;max-width:48px!important;max-height:48px!important;object-fit:contain!important}.brand:after{display:none!important}@media(max-width:700px){.site-header{height:70px!important;padding:0 18px!important}.brand,.brand img{width:42px!important;height:42px!important;min-width:42px!important;max-width:42px!important;max-height:42px!important}}
+
+/* MOBILE HERO + TRUST REFINEMENT
+   Keep the orbital visual contained and make the capability strip read as a
+   deliberate information system rather than loose floating content. */
+@media(max-width:700px){
+  .hero{
+    display:block!important;
+    min-height:auto!important;
+    padding:58px 22px 24px!important;
+  }
+  .hero-copy{
+    position:relative!important;
+    z-index:3!important;
+  }
+  .hero-art{
+    height:340px!important;
+    width:100%!important;
+    margin:22px 0 0!important;
+    display:block!important;
+    position:relative!important;
+    overflow:visible!important;
+  }
+  .hero-art:before{
+    width:305px!important;
+    height:305px!important;
+    left:50%!important;
+    top:12px!important;
+    transform:translateX(-50%) rotateX(66deg) rotateZ(-18deg)!important;
+  }
+  .hero-art:after{
+    width:290px!important;
+    height:290px!important;
+    left:50%!important;
+    top:18px!important;
+    transform:translateX(-50%)!important;
+  }
+  .hero-art .orb{
+    position:absolute!important;
+    left:50%!important;
+    top:8px!important;
+    width:300px!important;
+    height:300px!important;
+    max-width:300px!important;
+    margin:0!important;
+    transform:translateX(-50%)!important;
+  }
+  .hero-art .orb .r4{width:250px!important;height:195px!important}
+  .hero-art .orb .r3{width:205px!important;height:160px!important}
+  .hero-art .orb .r2{width:155px!important;height:122px!important}
+  .hero-art .orb .r1{width:112px!important;height:88px!important}
+  .hero-art .orb .orb-core{width:58px!important;height:58px!important}
+  .hero-art .floating-card{
+    z-index:5!important;
+    transform:none!important;
+    min-width:0!important;
+    width:auto!important;
+    max-width:185px!important;
+    padding:10px 13px!important;
+    border-radius:4px!important;
+  }
+  .hero-art .floating-card span{font-size:9px!important}
+  .hero-art .floating-card strong{font-size:14px!important;line-height:1.25!important}
+  .hero-art .floating-card small{font-size:9px!important;line-height:1.35!important}
+  .hero-art .card-a{left:0!important;top:32px!important}
+  .hero-art .card-b{right:0!important;bottom:14px!important;top:auto!important}
+  
+  .trust{
+    max-width:none!important;
+    margin:0!important;
+    padding:0 22px!important;
+    border-top:1px solid var(--dd-line)!important;
+    border-bottom:1px solid var(--dd-line)!important;
+  }
+  .trust-line{
+    min-height:0!important;
+    width:100%!important;
+    padding:0!important;
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:0!important;
+    border:0!important;
+  }
+  .trust-line span{
+    width:auto!important;
+    min-height:82px!important;
+    padding:17px 15px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    border-right:1px solid var(--dd-line)!important;
+    border-bottom:1px solid var(--dd-line)!important;
+    color:#70869c!important;
+    font-size:9px!important;
+    line-height:1.55!important;
+    letter-spacing:.13em!important;
+  }
+  .trust-line span:nth-child(2n){border-right:0!important}
+  .trust-line span:nth-last-child(-n+2){border-bottom:0!important}
+  .trust-line span:first-child{color:#20f3fb!important}
+}
+@media(max-width:380px){
+  .hero-art{height:325px!important}
+  .hero-art .orb{width:278px!important;height:278px!important}
+  .hero-art .floating-card{max-width:164px!important;padding:9px 11px!important}
+  .hero-art .card-a{left:-3px!important}
+  .hero-art .card-b{right:-3px!important}
+  .trust{padding:0 18px!important}
+  .trust-line span{min-height:78px!important;padding:15px 12px!important;font-size:8.5px!important}
+}
