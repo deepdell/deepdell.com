@@ -22,7 +22,7 @@ body{
   font-family:Inter,Manrope,Sora,Arial,Helvetica,sans-serif!important;
 }
 
-/* Controlled depth: navy → blue → cyan, never rainbow */
+/* Controlled depth: navy - blue - cyan, never rainbow */
 body:before{
   content:"";
   position:fixed;
