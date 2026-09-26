@@ -102,3 +102,23 @@ button,a,input,textarea,select{font:inherit}
   .agent-step,.arch-node{flex:0 0 auto}
   .footer{grid-template-columns:1fr!important}
 }
+
+/* INDUSTRIES — visual index instead of generic card wall */
+.industry-card{position:relative!important;min-height:340px!important;padding:32px!important;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden!important;background:linear-gradient(145deg,rgba(5,34,66,.88),rgba(1,17,36,.92))!important;border:1px solid rgba(137,249,253,.12)!important}
+.industry-card:before{content:"";position:absolute;inset:auto -15% -35% 35%;height:75%;background:radial-gradient(circle,rgba(32,243,251,.16),transparent 62%);transition:transform .45s var(--dd-ease),opacity .45s}
+.industry-card:after{content:"";position:absolute;left:0;top:0;width:42%;height:1px;background:linear-gradient(90deg,var(--dd-cyan),transparent);opacity:.7}
+.industry-card:hover:before{transform:scale(1.35) translate(-10%,-8%);opacity:1}
+.industry-icon{position:absolute;top:30px;left:30px;width:58px;height:58px;fill:none;stroke:var(--dd-cyan);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 12px rgba(32,243,251,.15));transition:transform .35s var(--dd-ease),filter .35s}
+.industry-card:hover .industry-icon{transform:translateY(-5px) scale(1.08);filter:drop-shadow(0 0 20px rgba(32,243,251,.32))}
+.industry-card .card-code{position:relative;z-index:2;color:var(--dd-cyan)!important;letter-spacing:.14em!important}
+.industry-card h3{position:relative;z-index:2;font-size:27px!important;line-height:1.08!important;margin:10px 0!important;max-width:300px}
+.industry-card p{position:relative;z-index:2;max-width:330px;color:#a9bfd3!important;line-height:1.65!important}
+.industry-card:nth-child(3n+2){transform:translateY(24px)}
+.industry-card:nth-child(3n+2):hover{transform:translateY(15px)!important}
+.industry-card:nth-child(3n+3){background:linear-gradient(145deg,rgba(3,27,54,.96),rgba(1,11,25,.94))!important}
+@media(max-width:850px){.industry-card:nth-child(3n+2){transform:none}.industry-card:nth-child(3n+2):hover{transform:translateY(-9px)!important}}
+@media(max-width:600px){.industry-card{min-height:300px!important}.industry-icon{top:24px;left:24px;width:50px;height:50px}}
+.footer-brand>a{display:block;width:min(420px,100%);margin-bottom:20px}
+.footer-brand>a img,.footer-attached-logo{display:block;width:min(420px,100%);height:auto!important;max-height:none!important;object-fit:contain;object-position:left center}
+.footer-brand>a img{min-height:80px}
+.footer-qr-frame{display:grid;place-items:center}
