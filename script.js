@@ -4,7 +4,7 @@ if(path==='/index.html'||path==='/index.htm'){location.replace('/'+location.sear
 const body=document.body,loader=document.getElementById('site-loader'),progress=document.querySelector('.scroll-progress'),header=document.querySelector('.site-header'),menu=document.querySelector('.menu');
 body.classList.remove('light');try{localStorage.removeItem('deepdell-theme')}catch(e){}document.querySelectorAll('.theme-toggle,.contact-backup').forEach(el=>el.remove());
 const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content='#011434';
-document.querySelectorAll('.brand').forEach(brand=>{const img=brand.querySelector('img');if(!img)return;img.src='/assets/deepdell-guideline-icon.svg';img.alt='DEEPDELL orbital mark';img.className='brand-mark';let word=brand.querySelector('.brand-wordmark');if(!word){word=document.createElement('span');word.className='brand-wordmark';word.textContent='DEEPDELL';brand.appendChild(word)}});document.querySelectorAll('.footer-brand > a').forEach(brand=>{brand.innerHTML='<img class="footer-logo-mark" src="/assets/deepdell-guideline-icon.svg" alt="DEEPDELL orbital mark"><span class="footer-logo-word">DEEPDELL</span>';});
+
 /* Keep the Agentic Readiness Checker visible in the primary navigation on every page. */
 document.querySelectorAll('.nav').forEach(nav=>{if(!nav.querySelector('a[href="agentic-check.html"]')){const a=document.createElement('a');a.href='agentic-check.html';a.textContent='Agentic Check';nav.appendChild(a)}});
 /* Prefer the self-hosted icon assets. CDN icons are retained only as a compatibility fallback. */
