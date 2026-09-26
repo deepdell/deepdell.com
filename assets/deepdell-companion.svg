@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-labelledby="title desc">
+<title>DEEPDELL digital companion</title><desc>A friendly abstract AI companion with a luminous cyan orbital core.</desc>
+<defs><linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0a7fdb"/><stop offset="1" stop-color="#20f3fb"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<g filter="url(#glow)">
+<path d="M49 78c-8-31 7-54 30-60l18 25c9-4 18-4 27 0l18-25c23 6 38 29 30 60 13 12 19 28 16 48-4 31-27 50-65 50s-61-19-65-50c-3-20 3-36 16-48Z" fill="#021c3d" stroke="#20f3fb" stroke-width="4"/>
+<path d="M58 83c5-20 21-32 52-32s47 12 52 32c-7-7-17-11-29-11-10 0-17 3-23 7-6-4-13-7-23-7-12 0-22 4-29 11Z" fill="url(#body)" opacity=".55"/>
+<circle cx="86" cy="102" r="8" fill="#fff"/><circle cx="134" cy="102" r="8" fill="#fff"/><circle cx="86" cy="102" r="3" fill="#20f3fb"/><circle cx="134" cy="102" r="3" fill="#20f3fb"/>
+<path d="M95 126c8 8 22 8 30 0" fill="none" stroke="#89f9fd" stroke-width="4" stroke-linecap="round"/>
+<path d="M78 151c13 11 51 11 64 0" fill="none" stroke="#0a7fdb" stroke-width="8" stroke-linecap="round"/>
+<circle cx="110" cy="39" r="9" fill="#20f3fb"/><path d="M110 48v18" stroke="#20f3fb" stroke-width="4"/>
+</g></svg>
