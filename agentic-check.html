@@ -1,13 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-K592HB9699');
-</script>
-
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#011434">
 <meta name="description" content="Check your website for public machine-readable discovery signals and understand where your digital presence can become more agent-ready.">
 <link rel="canonical" href="https://deepdell.com/agentic-check.html"><link rel="icon" href="assets/favicon.svg">
@@ -84,9 +77,6 @@ async function captureLead(base,email,results,total){
  data.append('email',email);
  data.append('replyto',email);
  data.append('botcheck','');
- const captcha=document.querySelector('textarea[name="h-captcha-response"]')?.value||'';
- if(!captcha)throw new Error('Please complete the security check to continue.');
- data.append('h-captcha-response',captcha);
  data.append('website_url',base);
  data.append('audit_score',String(total)+'/100');
  data.append('found_signals',String(found)+'/'+String(checks.length));
@@ -144,8 +134,6 @@ document.getElementById('unlock-button')?.addEventListener('click',async(e)=>{
  if(!pendingAudit)return;
  if(!emailInput.reportValidity()){emailInput.focus();return}
  if(!consent.checked){emailError.style.display='block';server.textContent='CONSENT REQUIRED';server.className='server-status error';consent.focus();return}
- const captchaError=document.getElementById('captcha-error'); const captchaToken=document.querySelector('textarea[name="h-captcha-response"]')?.value||'';
- if(!captchaToken){captchaError.style.display='block';server.textContent='SECURITY CHECK REQUIRED';server.className='server-status error';return} captchaError.style.display='none';
  emailError.style.display='none';
  const unlock=document.getElementById('unlock-button');unlock.disabled=true;unlock.textContent='UNLOCKING…';server.textContent='SENDING AUDIT / UNLOCKING REPORT…';server.className='server-status';
  try{await captureLead(pendingAudit.base,email,pendingAudit.results,pendingAudit.total);render(pendingAudit.base,pendingAudit.results);document.getElementById('email-gate').style.display='none';server.textContent='AUDIT COMPLETE / FULL REPORT UNLOCKED';}
@@ -154,5 +142,4 @@ document.getElementById('unlock-button')?.addEventListener('click',async(e)=>{
 });
 })();
 </script>
-<script src="https://web3forms.com/client/script.js" async defer></script>
 </body></html>
