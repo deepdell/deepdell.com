@@ -1,0 +1,206 @@
+/* DEEPDELL V4 — premium digital engineering studio
+   Clean editorial direction. Minimal chrome, stronger hierarchy, fewer UI cards.
+*/
+:root{
+  --v4-bg:#07111d; --v4-panel:#0a1725; --v4-white:#f5f7f8;
+  --v4-text:#c3cdd5; --v4-muted:#7e919f; --v4-line:rgba(231,239,244,.12);
+  --v4-accent:#3de2df;
+}
+body{
+  background:var(--v4-bg)!important;
+  background-image:radial-gradient(900px 600px at 78% -5%,rgba(61,226,223,.045),transparent 62%)!important;
+}
+.site-header{height:82px!important;background:rgba(7,17,29,.9)!important;border-bottom:1px solid var(--v4-line)!important}
+.site-header .brand img{width:148px!important}
+.nav a{font-size:11px!important;letter-spacing:.055em!important;text-transform:uppercase!important;color:#9aaab6!important}
+.nav a:hover,.nav a[aria-current=page]{color:#fff!important}
+.header-cta{background:#f2f5f6!important;color:#07111d!important;border:0!important;border-radius:2px!important;padding:12px 17px!important}
+.header-cta:hover{background:var(--v4-accent)!important}
+
+/* HERO — consultancy/editorial, not SaaS dashboard */
+.hero{
+  min-height:790px!important;
+  padding-top:105px!important;
+  padding-bottom:85px!important;
+  align-items:center!important;
+}
+.hero-copy{max-width:720px!important}
+.eyebrow{
+  color:var(--v4-muted)!important;
+  font-size:10px!important;
+  letter-spacing:.16em!important;
+}
+.pulse{width:5px!important;height:5px!important;background:var(--v4-accent)!important;box-shadow:none!important}
+.hero h1{
+  font-size:clamp(64px,8vw,112px)!important;
+  line-height:.9!important;
+  letter-spacing:-.072em!important;
+  font-weight:700!important;
+  margin:25px 0 30px!important;
+}
+.hero h1 em{color:var(--v4-accent)!important}
+.hero-lead{font-size:18px!important;line-height:1.75!important;color:#aebbc5!important;max-width:620px!important}
+.hero-actions{margin-top:38px!important}
+.btn{border-radius:2px!important}
+.btn.primary{background:var(--v4-accent)!important;color:#06131d!important;box-shadow:none!important}
+.btn.ghost{border-color:var(--v4-line)!important}
+.hero-note{margin-top:28px!important;color:#657988!important;letter-spacing:.08em!important;font-size:9px!important}
+
+/* Replace the system diagram with an understated architectural field */
+.hero-art{min-height:620px!important}
+.system-visual{
+  width:min(600px,46vw)!important;
+  height:min(600px,46vw)!important;
+  min-width:440px!important;
+  min-height:440px!important;
+  border:1px solid var(--v4-line)!important;
+  border-radius:50%!important;
+  background:
+    radial-gradient(circle at center,rgba(61,226,223,.08) 0 1%,transparent 1.5%),
+    linear-gradient(rgba(231,239,244,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(231,239,244,.035) 1px,transparent 1px)!important;
+  background-size:auto,48px 48px,48px 48px!important;
+  box-shadow:0 0 100px rgba(0,0,0,.22)!important;
+}
+.system-visual:after{
+  content:"";
+  position:absolute;inset:13%;
+  border:1px solid rgba(61,226,223,.16);
+  border-radius:50%;
+  box-shadow:0 0 0 90px rgba(61,226,223,.012),0 0 0 180px rgba(61,226,223,.008);
+}
+.system-top{
+  left:50%!important;top:9%!important;transform:translateX(-50%)!important;
+  width:70%!important;justify-content:center!important;
+  color:#637887!important;font-size:8px!important;letter-spacing:.16em!important;
+}
+.system-top span:last-child{display:none!important}
+.system-core{
+  width:190px!important;height:190px!important;
+  border:1px solid rgba(61,226,223,.42)!important;
+  border-radius:50%!important;
+  background:#081725!important;
+  box-shadow:0 0 70px rgba(61,226,223,.06)!important;
+  z-index:3!important;
+}
+.system-core:before{content:"DEEPDELL";position:absolute;top:31px;left:0;right:0;text-align:center;font:700 9px 'DM Mono',monospace;letter-spacing:.2em;color:#718692}
+.system-core strong{font-size:22px!important;line-height:1!important;letter-spacing:-.04em!important}
+.system-core small{font-size:7px!important;color:#607786!important;letter-spacing:.13em!important}
+.system-core .core-dot{width:7px!important;height:7px!important;background:var(--v4-accent)!important;box-shadow:0 0 18px rgba(61,226,223,.45)!important}
+.system-node{display:none!important}
+.system-line{display:none!important}
+.system-footer{
+  bottom:11%!important;left:50%!important;transform:translateX(-50%)!important;
+  width:62%!important;justify-content:center!important;gap:28px!important;
+  color:#647988!important;font-size:7px!important;letter-spacing:.14em!important;
+}
+.system-footer span:nth-child(2),.system-footer span:nth-child(4){display:none!important}
+
+/* Proof — typography, not boxes */
+.proof-strip{padding-top:0!important;padding-bottom:105px!important}
+.proof-grid{grid-template-columns:.65fr .65fr 1.7fr!important;border-top:1px solid var(--v4-line)!important;border-bottom:1px solid var(--v4-line)!important}
+.proof-stat,.proof-statement{padding:38px 30px!important;border-color:var(--v4-line)!important}
+.proof-stat strong{font-size:clamp(54px,5vw,82px)!important;color:#f5f7f8!important;font-weight:600!important}
+.proof-stat span,.proof-statement>span{font-size:9px!important;color:#8294a1!important;letter-spacing:.15em!important}
+.proof-stat small{color:#718593!important}
+.proof-statement p{font-size:18px!important;line-height:1.65!important;color:#c3ced5!important}
+.proof-statement em{color:var(--v4-accent)!important}
+
+/* Sections */
+.section-pad{max-width:1240px!important;padding-block:125px!important}
+.section-kicker{font-size:9px!important;letter-spacing:.17em!important;color:var(--v4-accent)!important}
+.section-heading{margin-bottom:52px!important}
+.section-heading h2,.shopify-copy h2,.dashboard-copy h2{
+  font-size:clamp(43px,5.5vw,74px)!important;
+  line-height:.98!important;letter-spacing:-.065em!important;
+}
+.section-heading p{color:#899ba8!important;max-width:500px!important}
+
+/* Services — magazine index */
+.service-grid{
+  grid-template-columns:repeat(2,1fr)!important;
+  border:0!important;border-top:1px solid var(--v4-line)!important;
+}
+.service{
+  min-height:285px!important;padding:34px 36px!important;
+  border:0!important;border-bottom:1px solid var(--v4-line)!important;
+  border-right:1px solid var(--v4-line)!important;
+  background:transparent!important;
+}
+.service:nth-child(2n){border-right:0!important}
+.service:before{width:32px!important;background:var(--v4-accent)!important}
+.service:hover{background:rgba(255,255,255,.018)!important;transform:none!important}
+.service-num{font-size:9px!important;color:var(--v4-accent)!important}
+.service h3{font-size:27px!important;letter-spacing:-.035em!important}
+.service p{max-width:390px!important;color:#81939f!important;font-size:13px!important}
+
+/* Technology — logo index, never card wall */
+.premium-tech .tech-grid{
+  grid-template-columns:repeat(5,1fr)!important;
+  border:0!important;border-top:1px solid var(--v4-line)!important;
+  border-left:1px solid var(--v4-line)!important;border-radius:0!important;
+}
+.premium-tech .tech-item{
+  min-height:155px!important;
+  padding:25px!important;
+  background:transparent!important;
+  border:0!important;border-right:1px solid var(--v4-line)!important;border-bottom:1px solid var(--v4-line)!important;
+  border-radius:0!important;transform:none!important;
+}
+.premium-tech .tech-item:nth-child(4n){border-right:1px solid var(--v4-line)!important}
+.premium-tech .tech-item:nth-child(5n){border-right:0!important}
+.premium-tech .tech-item:hover{background:rgba(255,255,255,.018)!important}
+.premium-tech .tech-item img{
+  width:26px!important;height:26px!important;
+  filter:grayscale(1) brightness(1.55)!important;opacity:.72!important;
+}
+.premium-tech .tech-item strong{font-size:13px!important;color:#dce4e9!important}
+.premium-tech .tech-item small{font-size:8px!important;color:#617684!important}
+.premium-tech .tool-note{color:#566c79!important}
+
+/* Other modules */
+.premium-commerce{background:#081522!important;border-color:var(--v4-line)!important}
+.premium-commerce .shopify-mark{border-radius:0!important;background:#091825!important;border-color:var(--v4-line)!important;box-shadow:none!important}
+.ai-grid{border-color:var(--v4-line)!important;border-radius:0!important}
+.ai-grid article{background:transparent!important;border-color:var(--v4-line)!important}
+.ai-grid article:hover{background:rgba(255,255,255,.018)!important}
+.architecture{background:transparent!important}
+.architecture div{background:#091825!important;border-color:var(--v4-line)!important;border-radius:0!important}
+.dashboard{background:#091825!important;border-color:var(--v4-line)!important;border-radius:0!important;box-shadow:none!important}
+.contact-panel{border-radius:0!important;background:#091825!important;border-color:var(--v4-line)!important}
+.footer{background:#07111d!important;border-top-color:var(--v4-line)!important}
+
+/* Remove visual noise from old effects */
+.noise{opacity:.012!important}
+.scroll-progress{height:1px!important;background:var(--v4-accent)!important;box-shadow:none!important}
+
+/* Responsive */
+@media(max-width:1050px){
+ .hero{grid-template-columns:1fr!important;padding-top:85px!important}
+ .hero-copy{max-width:800px!important}
+ .hero-art{min-height:560px!important}
+ .system-visual{width:500px!important;height:500px!important}
+ .premium-tech .tech-grid{grid-template-columns:repeat(3,1fr)!important}
+ .premium-tech .tech-item:nth-child(5n){border-right:1px solid var(--v4-line)!important}
+ .premium-tech .tech-item:nth-child(3n){border-right:0!important}
+}
+@media(max-width:700px){
+ .site-header{height:70px!important}
+ .hero{padding-top:65px!important;padding-bottom:40px!important}
+ .hero h1{font-size:clamp(52px,15vw,76px)!important}
+ .hero-lead{font-size:15px!important}
+ .hero-art{min-height:390px!important}
+ .system-visual{width:340px!important;height:340px!important;min-width:340px!important;min-height:340px!important}
+ .system-core{width:130px!important;height:130px!important}
+ .system-core strong{font-size:16px!important}
+ .system-footer{gap:12px!important}
+ .proof-grid{grid-template-columns:1fr!important}
+ .proof-stat{border-right:0!important}
+ .service-grid{grid-template-columns:1fr!important}
+ .service,.service:nth-child(2n){border-right:0!important}
+ .section-pad{padding-block:82px!important;padding-inline:20px!important}
+ .premium-tech .tech-grid{grid-template-columns:repeat(2,1fr)!important}
+ .premium-tech .tech-item:nth-child(3n){border-right:1px solid var(--v4-line)!important}
+ .premium-tech .tech-item:nth-child(2n){border-right:0!important}
+ .premium-tech .tech-item{min-height:120px!important;padding:18px!important}
+}
