@@ -192,3 +192,5 @@ h1 em,h2 span{
 .footer-brand>a .brand-wordmark{font-size:24px}
 @media(max-width:1050px){.brand img,.footer-brand>a img{width:32px!important;height:32px!important}.brand-wordmark{font-size:19px}}
 @media(max-width:700px){.brand img,.footer-brand>a img{width:30px!important;height:30px!important}.brand-wordmark{font-size:18px}}
+
+.footer-brand>a.footer-logo,.footer-brand>a{display:inline-flex;align-items:center}.footer-attached-logo{width:118px!important;height:118px!important;object-fit:contain;display:block;border-radius:0}.footer-brand>a:has(.footer-attached-logo){margin-bottom:16px}@media(max-width:700px){.footer-attached-logo{width:96px!important;height:96px!important}}
