@@ -4,7 +4,7 @@ if(path==='/index.html'||path==='/index.htm'){location.replace('/'+location.sear
 const body=document.body,loader=document.getElementById('site-loader'),progress=document.querySelector('.scroll-progress'),header=document.querySelector('.site-header'),menu=document.querySelector('.menu');
 body.classList.remove('light');try{localStorage.removeItem('deepdell-theme')}catch(e){}document.querySelectorAll('.theme-toggle,.contact-backup').forEach(el=>el.remove());
 const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content='#011434';
-const v2=document.createElement('link');v2.rel='stylesheet';v2.href='/deepdell-v2.css';document.head.appendChild(v2);
+if(!document.querySelector('link[href="/deepdell-v2.css"]')){const v2=document.createElement('link');v2.rel='stylesheet';v2.href='/deepdell-v2.css';document.head.appendChild(v2);}
 document.querySelectorAll('.brand').forEach(brand=>{const img=brand.querySelector('img');if(!img)return;img.src='/assets/deepdell-guideline-icon.svg';img.alt='DEEPDELL orbital mark';let word=brand.querySelector('.brand-wordmark');if(!word){word=document.createElement('span');word.className='brand-wordmark';word.textContent='DEEPDELL';brand.appendChild(word)}});
 document.querySelectorAll('.footer-brand > a').forEach(brand=>{brand.innerHTML='<img class="footer-attached-logo" src="/assets/deepdell-lockup.svg" alt="DEEPDELL">';});
 if(!document.querySelector('link[data-site-fixes]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/site-fixes.css';l.dataset.siteFixes='1';document.head.appendChild(l)}
