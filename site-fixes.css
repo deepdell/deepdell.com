@@ -104,3 +104,33 @@ html,body{max-width:100%;overflow-x:hidden}.tech-grid{width:100%;box-sizing:bord
 @media(max-width:950px){.site-header .brand .brand-mark{width:34px!important;height:34px!important;min-width:34px!important;max-width:34px!important;min-height:34px!important;max-height:34px!important;flex-basis:34px!important}.site-header .brand .brand-wordmark{font-size:20px!important}}
 @media(max-width:700px){.site-header .brand{height:42px!important;gap:8px!important}.site-header .brand .brand-mark{width:30px!important;height:30px!important;min-width:30px!important;max-width:30px!important;min-height:30px!important;max-height:30px!important;flex-basis:30px!important}.site-header .brand .brand-wordmark{font-size:19px!important;letter-spacing:-1.1px!important}.footer-brand>a{gap:9px!important}.footer-brand>a .footer-logo-mark{width:38px!important;height:38px!important;min-width:38px!important;max-width:38px!important;min-height:38px!important;max-height:38px!important;flex-basis:38px!important}.footer-brand>a .footer-logo-word{font-size:24px!important}}
 @media(max-width:360px){.site-header .brand .brand-mark{width:28px!important;height:28px!important;min-width:28px!important;max-width:28px!important;min-height:28px!important;max-height:28px!important;flex-basis:28px!important}.site-header .brand .brand-wordmark{font-size:18px!important}}
+
+/* MOBILE HEADER LOGO — isolated wrapper prevents iOS/WebKit SVG clipping */
+.site-header,.site-header .brand,.site-header .brand-mark-wrap{overflow:visible!important}
+.site-header .brand{position:relative!important;left:0!important;transform:none!important}
+.site-header .brand-mark-wrap{
+  width:38px!important;height:38px!important;min-width:38px!important;min-height:38px!important;
+  max-width:38px!important;max-height:38px!important;flex:0 0 38px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  overflow:visible!important;position:relative!important;
+}
+.site-header .brand-mark-wrap .brand-mark{
+  width:38px!important;height:38px!important;min-width:38px!important;min-height:38px!important;
+  max-width:38px!important;max-height:38px!important;display:block!important;
+  flex:0 0 38px!important;object-fit:contain!important;object-position:center!important;
+  margin:0!important;padding:0!important;position:relative!important;left:0!important;top:0!important;
+  transform:none!important;clip-path:none!important;filter:none!important;
+}
+@media(max-width:950px){
+  .site-header .brand-mark-wrap{width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;max-width:34px!important;max-height:34px!important;flex-basis:34px!important}
+  .site-header .brand-mark-wrap .brand-mark{width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;max-width:34px!important;max-height:34px!important;flex-basis:34px!important}
+}
+@media(max-width:700px){
+  .site-header .brand-mark-wrap{width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;max-width:32px!important;max-height:32px!important;flex-basis:32px!important}
+  .site-header .brand-mark-wrap .brand-mark{width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;max-width:32px!important;max-height:32px!important;flex-basis:32px!important}
+  .site-header .brand{gap:8px!important;padding-left:0!important;margin-left:0!important}
+}
+@media(max-width:360px){
+  .site-header .brand-mark-wrap{width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;max-width:30px!important;max-height:30px!important;flex-basis:30px!important}
+  .site-header .brand-mark-wrap .brand-mark{width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;max-width:30px!important;max-height:30px!important;flex-basis:30px!important}
+}
