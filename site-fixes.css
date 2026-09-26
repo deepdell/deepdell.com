@@ -49,3 +49,11 @@ html,body{max-width:100%;overflow-x:hidden}.tech-grid{width:100%;box-sizing:bord
   .deepdell-consent-actions{margin-top:14px}
   .deepdell-consent-actions button{flex:1}
 }
+
+/* Footer logo: use the validated vector favicon mark instead of the broken embedded WebP lockup. */
+.footer-brand>a.footer-logo-link{display:inline-flex!important;align-items:center!important;gap:12px!important;margin:0 0 18px!important;text-decoration:none!important}
+.footer-brand>a.footer-logo-link .footer-logo-mark{width:54px!important;height:54px!important;display:block!important;object-fit:contain!important}
+.footer-brand>a.footer-logo-link .footer-logo-word{font-family:Inter,Manrope,Sora,Arial,sans-serif!important;font-size:26px!important;font-weight:800!important;letter-spacing:-.055em!important;line-height:1!important;color:#fff!important}
+.footer-brand>a.footer-logo-link:after{display:none!important}
+.footer-brand:after{display:none!important}
+@media(max-width:700px){.footer-brand>a.footer-logo-link .footer-logo-mark{width:46px!important;height:46px!important}.footer-brand>a.footer-logo-link .footer-logo-word{font-size:22px!important}}
