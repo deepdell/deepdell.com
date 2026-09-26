@@ -49,3 +49,41 @@ html,body{max-width:100%;overflow-x:hidden}.tech-grid{width:100%;box-sizing:bord
   .deepdell-consent-actions{margin-top:14px}
   .deepdell-consent-actions button{flex:1}
 }
+
+/* V1 responsive header/footer hardening */
+.site-header .brand{display:inline-flex!important;align-items:center!important;gap:10px!important;min-width:0!important;flex:0 0 auto!important;text-decoration:none!important}
+.site-header .brand img.brand-mark{width:34px!important;height:34px!important;max-width:34px!important;max-height:34px!important;object-fit:contain!important;display:block!important;flex:0 0 34px!important}
+.site-header .brand .brand-wordmark{display:inline-block!important;color:#fff!important;font-family:Manrope,Arial,sans-serif!important;font-size:21px!important;font-weight:800!important;letter-spacing:-.055em!important;line-height:1!important;white-space:nowrap!important}
+.footer-brand>a{display:inline-flex!important;align-items:center!important;gap:11px!important;min-width:0!important;text-decoration:none!important}
+.footer-brand>a .footer-logo-mark{width:44px!important;height:44px!important;max-width:44px!important;max-height:44px!important;object-fit:contain!important;display:block!important;flex:0 0 44px!important}
+.footer-brand>a .footer-logo-word{display:inline-block!important;color:#fff!important;font-family:Manrope,Arial,sans-serif!important;font-size:27px!important;font-weight:800!important;letter-spacing:-.06em!important;line-height:1!important;white-space:nowrap!important}
+.footer-brand>a img{width:44px!important;height:44px!important}
+@media(max-width:950px){
+ .site-header{height:68px!important;padding:0 20px!important;gap:12px!important}
+ .site-header .brand img.brand-mark{width:32px!important;height:32px!important;max-width:32px!important;max-height:32px!important;flex-basis:32px!important}
+ .site-header .brand .brand-wordmark{font-size:20px!important}
+ .site-header .header-tools{margin-left:auto!important}
+ .site-header .menu{display:flex!important;align-items:center!important;justify-content:center!important;width:42px!important;height:42px!important;padding:8px!important;cursor:pointer!important;z-index:1002!important}
+ .site-header .menu i{width:23px!important;height:2px!important;margin:3px 0!important;background:#fff!important;display:block!important;transition:transform .2s ease,opacity .2s ease!important}
+ .site-header.menu-open .menu i:first-child{transform:translateY(4px) rotate(45deg)!important}
+ .site-header.menu-open .menu i:last-child{transform:translateY(-4px) rotate(-45deg)!important}
+ .site-header .nav{display:none!important}
+ .site-header.menu-open .nav{display:flex!important;position:absolute!important;top:68px!important;left:0!important;right:0!important;width:100%!important;box-sizing:border-box!important;padding:10px 20px 18px!important;background:#011434!important;flex-direction:column!important;align-items:stretch!important;gap:0!important;border-bottom:1px solid rgba(137,249,253,.14)!important;box-shadow:0 20px 45px rgba(0,0,0,.35)!important;z-index:1001!important}
+ .site-header.menu-open .nav a{display:block!important;padding:13px 4px!important;font-size:13px!important;line-height:1.3!important;color:#c7d6e4!important}
+ .site-header.menu-open .nav a:hover{color:#20f3fb!important}
+ .site-header.menu-open .header-cta{display:none!important}
+}
+@media(max-width:600px){
+ .site-header{padding:0 16px!important}
+ .site-header .brand{gap:8px!important}
+ .site-header .brand img.brand-mark{width:29px!important;height:29px!important;max-width:29px!important;max-height:29px!important;flex-basis:29px!important}
+ .site-header .brand .brand-wordmark{font-size:19px!important}
+ .footer-brand>a .footer-logo-mark{width:38px!important;height:38px!important;max-width:38px!important;max-height:38px!important;flex-basis:38px!important}
+ .footer-brand>a .footer-logo-word{font-size:24px!important}
+ .footer-brand>a{gap:9px!important}
+}
+@media(max-width:360px){
+ .site-header .brand .brand-wordmark{font-size:17px!important}
+ .site-header .brand img.brand-mark{width:27px!important;height:27px!important;max-width:27px!important;max-height:27px!important;flex-basis:27px!important}
+ .site-header{padding:0 12px!important}
+}
