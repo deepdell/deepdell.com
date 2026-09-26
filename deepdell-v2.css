@@ -150,3 +150,403 @@ button,a,input,textarea,select{font:inherit}
 .growth-service-grid p{color:var(--dd-muted);line-height:1.65;font-size:14px}
 @media(max-width:900px){.proof-grid{grid-template-columns:1fr 1fr}.proof-statement{grid-column:1/-1;border-right:0;border-top:1px solid var(--dd-line)}.growth-flow{grid-template-columns:1fr}.growth-flow>i{padding:8px;border-block:1px solid var(--dd-line);border-inline:0;transform:rotate(90deg)}.growth-service-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.proof-grid{grid-template-columns:1fr}.proof-stat{border-right:0;border-bottom:1px solid var(--dd-line)}.proof-statement{grid-column:auto}.growth-service-grid{grid-template-columns:1fr}.growth-flow article{padding:24px}}
+
+/* =========================================================
+   DEEPDELL V2 — MATURE EDITORIAL / ENGINEERING SYSTEM
+   Replaces decorative "tech startup" treatments with a
+   restrained digital-engineering visual language.
+   ========================================================= */
+:root{
+  --dd-ink:#f4f8fb;
+  --dd-paper:#d8e2ea;
+  --dd-subtle:#91a6b9;
+  --dd-rule:rgba(216,226,234,.13);
+  --dd-rule-strong:rgba(216,226,234,.22);
+  --dd-accent:#20e9e8;
+  --dd-accent-soft:rgba(32,233,232,.08);
+  --dd-bg:#061321;
+  --dd-bg2:#081a2b;
+}
+body{
+  background:#061321!important;
+  background-image:
+    linear-gradient(rgba(216,226,234,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(216,226,234,.025) 1px,transparent 1px)!important;
+  background-size:72px 72px!important;
+}
+body:after{display:none!important}
+
+/* Header: quiet, precise, expensive */
+.site-header{
+  background:rgba(6,19,33,.90)!important;
+  backdrop-filter:blur(18px)!important;
+  border-bottom:1px solid var(--dd-rule)!important;
+}
+.site-header:after{display:none!important}
+.nav a{color:#aebdca!important;font-weight:600!important}
+.nav a:hover,.nav a[aria-current=page]{color:#fff!important}
+.nav a:after{height:1px!important;background:var(--dd-accent)!important}
+.header-cta{
+  background:transparent!important;
+  border:1px solid var(--dd-rule-strong)!important;
+  border-radius:3px!important;
+  color:#fff!important;
+}
+.header-cta:hover{background:var(--dd-accent-soft)!important;border-color:rgba(32,233,232,.45)!important}
+
+/* Typography */
+.hero h1,.page-hero h1{
+  font-size:clamp(54px,6.7vw,92px)!important;
+  line-height:.98!important;
+  letter-spacing:-.055em!important;
+  max-width:1000px!important;
+  font-weight:700!important;
+}
+.hero h1 em,.page-hero h1 em{
+  color:var(--dd-accent)!important;
+  font-style:normal!important;
+}
+.hero-lead{
+  max-width:650px!important;
+  color:#b4c4d1!important;
+  font-size:17px!important;
+  line-height:1.75!important;
+}
+.eyebrow,.section-kicker,.card-code,.service-num,.ai-index{
+  font-family:'DM Mono',monospace!important;
+  letter-spacing:.12em!important;
+}
+
+/* Buttons: square, controlled */
+.btn{
+  border-radius:3px!important;
+  box-shadow:none!important;
+  font-weight:700!important;
+}
+.btn.primary{
+  background:var(--dd-accent)!important;
+  color:#03121d!important;
+  box-shadow:none!important;
+}
+.btn.primary:hover{transform:translateY(-2px)!important;background:#6ff4f0!important}
+.btn.ghost{
+  border:1px solid var(--dd-rule-strong)!important;
+  background:transparent!important;
+}
+
+/* Hero art: engineering diagram rather than glowing toy */
+.hero-art .orb{
+  background:transparent!important;
+  box-shadow:none!important;
+  border:1px solid var(--dd-rule)!important;
+}
+.hero-art .orb:before{
+  content:"DIGITAL ENGINEERING / SYSTEM CORE";
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:180px;
+  color:#b7c7d3;
+  font:10px/1.5 'DM Mono',monospace;
+  letter-spacing:.12em;
+  text-align:center;
+  z-index:5;
+}
+.hero-art .orb-core{
+  width:14px!important;height:14px!important;
+  background:var(--dd-accent)!important;
+  box-shadow:0 0 0 8px rgba(32,233,232,.08)!important;
+}
+.hero-art .ring{
+  border-color:rgba(216,226,234,.18)!important;
+  box-shadow:none!important;
+}
+.hero-art .dot{
+  background:var(--dd-accent)!important;
+  box-shadow:none!important;
+  width:5px!important;height:5px!important;
+}
+.floating-card{
+  border:1px solid var(--dd-rule-strong)!important;
+  background:#081a2b!important;
+  border-radius:3px!important;
+  box-shadow:0 18px 45px rgba(0,0,0,.24)!important;
+  backdrop-filter:none!important;
+}
+.floating-card span{color:var(--dd-accent)!important}
+.floating-card strong{font-size:18px!important}
+
+/* Replace generic service icons with editorial numbering */
+.service .icon{display:none!important}
+.service{
+  min-height:285px!important;
+  padding:34px 32px!important;
+  border:0!important;
+  border-top:1px solid var(--dd-rule)!important;
+  border-radius:0!important;
+  background:transparent!important;
+  position:relative!important;
+}
+.service:before{
+  content:"";
+  position:absolute;
+  top:-1px;left:0;
+  width:42px;height:1px;
+  background:var(--dd-accent);
+}
+.service:hover{
+  background:rgba(255,255,255,.025)!important;
+  transform:none!important;
+}
+.service h3{font-size:25px!important;letter-spacing:-.02em!important}
+.service p{color:#8fa5b7!important;line-height:1.7!important}
+.service-num{
+  color:var(--dd-accent)!important;
+  font-size:10px!important;
+  margin-bottom:48px!important;
+}
+
+/* Capability grid becomes an engineering index */
+.service-grid{
+  border:0!important;
+  border-top:1px solid var(--dd-rule)!important;
+  border-left:1px solid var(--dd-rule)!important;
+  border-radius:0!important;
+  overflow:visible!important;
+  gap:0!important;
+  background:transparent!important;
+}
+.service-grid .service{
+  border-right:1px solid var(--dd-rule)!important;
+  border-bottom:1px solid var(--dd-rule)!important;
+}
+.premium-capabilities .service.featured{
+  grid-column:span 1!important;
+}
+.premium-capabilities .service.featured h3{font-size:25px!important}
+
+/* Generic internal-page cards: rows, not toy tiles */
+.page-grid{
+  gap:0!important;
+  border:0!important;
+  border-top:1px solid var(--dd-rule)!important;
+  border-left:1px solid var(--dd-rule)!important;
+  border-radius:0!important;
+  overflow:visible!important;
+}
+.page-card{
+  min-height:280px!important;
+  border:0!important;
+  border-right:1px solid var(--dd-rule)!important;
+  border-bottom:1px solid var(--dd-rule)!important;
+  border-radius:0!important;
+  background:transparent!important;
+  padding:34px!important;
+  transition:background .25s ease!important;
+}
+.page-card:hover{
+  transform:none!important;
+  background:rgba(255,255,255,.025)!important;
+}
+.page-card:before{
+  display:none!important;
+}
+.page-card h3{
+  font-size:25px!important;
+  letter-spacing:-.025em!important;
+}
+.page-card p{color:#91a6b9!important;line-height:1.7!important}
+
+/* Architecture / systems: diagrams instead of glossy blocks */
+.architecture{
+  border:1px solid var(--dd-rule)!important;
+  border-radius:3px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.architecture div{
+  background:transparent!important;
+  border:0!important;
+  color:#dbe7ef!important;
+  font:700 11px 'DM Mono',monospace!important;
+  letter-spacing:.08em!important;
+}
+.architecture b{color:var(--dd-accent)!important}
+
+/* Shopify / data visuals */
+.shopify-mark{
+  background:transparent!important;
+  border:1px solid var(--dd-rule)!important;
+  border-radius:3px!important;
+  box-shadow:none!important;
+}
+.shopify-mark:after{display:none!important}
+.dashboard{
+  border:1px solid var(--dd-rule)!important;
+  border-radius:3px!important;
+  background:#081a2b!important;
+  box-shadow:none!important;
+}
+.dashboard .dash-top{border-bottom:1px solid var(--dd-rule)!important}
+.dashboard .metric-row>div{border-right:1px solid var(--dd-rule)!important}
+
+/* AI cards */
+.ai-grid{
+  border:0!important;
+  border-top:1px solid var(--dd-rule)!important;
+  border-left:1px solid var(--dd-rule)!important;
+  border-radius:0!important;
+  overflow:visible!important;
+}
+.ai-grid article{
+  min-height:250px!important;
+  border-radius:0!important;
+  border-right:1px solid var(--dd-rule)!important;
+  border-bottom:1px solid var(--dd-rule)!important;
+  background:transparent!important;
+}
+.ai-grid article:hover{
+  transform:none!important;
+  background:rgba(255,255,255,.025)!important;
+}
+.ai-index{color:var(--dd-accent)!important}
+
+/* Technology ecosystem: restrained */
+.premium-tech .tech-grid{
+  border:0!important;
+  border-top:1px solid var(--dd-rule)!important;
+  border-left:1px solid var(--dd-rule)!important;
+  border-radius:0!important;
+  background:transparent!important;
+}
+.tech-item{
+  border:0!important;
+  border-right:1px solid var(--dd-rule)!important;
+  border-bottom:1px solid var(--dd-rule)!important;
+  border-radius:0!important;
+  background:transparent!important;
+  min-height:108px!important;
+}
+.tech-item:hover{
+  background:rgba(255,255,255,.025)!important;
+  transform:none!important;
+}
+.tech-item img{
+  filter:none!important;
+  opacity:.75;
+}
+
+/* Industry page: remove glow/card-game feel */
+.industry-card{
+  min-height:310px!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.industry-card:before,.industry-card:after{display:none!important}
+.industry-icon{
+  width:42px!important;height:42px!important;
+  stroke-width:1.3!important;
+  filter:none!important;
+  opacity:.65!important;
+}
+.industry-card:hover .industry-icon{
+  transform:none!important;
+  filter:none!important;
+}
+.industry-card:nth-child(3n+2),
+.industry-card:nth-child(3n+2):hover{transform:none!important}
+.industry-card:hover{background:rgba(255,255,255,.025)!important}
+
+/* Growth system */
+.growth-flow{
+  border-radius:0!important;
+  border:0!important;
+  border-top:1px solid var(--dd-rule)!important;
+  border-left:1px solid var(--dd-rule)!important;
+}
+.growth-flow article{
+  border-right:1px solid var(--dd-rule)!important;
+  border-bottom:1px solid var(--dd-rule)!important;
+  background:transparent!important;
+}
+.growth-flow article:hover{background:rgba(255,255,255,.025)!important}
+.growth-flow>i{border-right:1px solid var(--dd-rule)!important;border-left:0!important}
+
+/* Growth services */
+.growth-service-grid{
+  border:0!important;
+  border-top:1px solid var(--dd-rule)!important;
+  border-left:1px solid var(--dd-rule)!important;
+  border-radius:0!important;
+}
+.growth-service-grid article{
+  border-right:1px solid var(--dd-rule)!important;
+  border-bottom:1px solid var(--dd-rule)!important;
+  background:transparent!important;
+  border-radius:0!important;
+}
+.growth-service-grid article:hover{
+  transform:none!important;
+  background:rgba(255,255,255,.025)!important;
+}
+
+/* Footer — quiet, architectural */
+.footer{
+  border-top:1px solid var(--dd-rule)!important;
+  background:#04101d!important;
+}
+.footer-brand>a{
+  width:min(360px,100%)!important;
+}
+.footer-brand>a img{
+  min-height:0!important;
+  width:100%!important;
+}
+.footer-links a{color:#9fb2c2!important}
+.footer-links a:hover{color:#fff!important}
+.footer-qr{border-left:1px solid var(--dd-rule)!important}
+.footer-bottom{border-top:1px solid var(--dd-rule)!important}
+
+/* Companion: make it feel like a product detail, not a mascot */
+.dd-companion{
+  width:58px!important;height:58px!important;
+  filter:none!important;
+  opacity:.88;
+}
+.dd-companion img{
+  animation:none!important;
+}
+.dd-companion:hover{transform:scale(1.03)!important;filter:none!important}
+.dd-companion .dd-bubble{
+  border-radius:3px!important;
+  background:#081a2b!important;
+  border:1px solid var(--dd-rule-strong)!important;
+}
+
+/* Section rhythm */
+.section-pad{padding-block:clamp(90px,10vw,150px)!important}
+.section-heading{max-width:900px!important}
+.section-heading h2{
+  font-size:clamp(42px,4.8vw,68px)!important;
+  line-height:1.02!important;
+  letter-spacing:-.05em!important;
+}
+.section-heading h2 span,.shopify-copy h2 span,.dashboard-copy h2 span{color:var(--dd-accent)!important}
+
+/* Mobile: stop oversized typography from becoming the design */
+@media(max-width:850px){
+  .hero h1,.page-hero h1{font-size:clamp(46px,9.5vw,72px)!important}
+  .hero-art{min-height:430px!important}
+  .hero-art .orb{width:min(430px,78vw)!important;height:min(430px,78vw)!important}
+  .service-grid,.page-grid,.ai-grid,.premium-tech .tech-grid,.growth-service-grid{grid-template-columns:1fr 1fr!important}
+}
+@media(max-width:600px){
+  .hero h1,.page-hero h1{font-size:clamp(43px,12vw,62px)!important}
+  .hero-lead{font-size:16px!important}
+  .service-grid,.page-grid,.ai-grid,.premium-tech .tech-grid,.growth-service-grid{grid-template-columns:1fr!important}
+  .hero-art{min-height:350px!important}
+  .hero-art .orb{width:310px!important;height:310px!important}
+  .hero-art .orb:before{font-size:8px;width:150px}
+  .floating-card{transform:scale(.78)!important}
+}
