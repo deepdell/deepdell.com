@@ -87,3 +87,6 @@ html,body{max-width:100%;overflow-x:hidden}.tech-grid{width:100%;box-sizing:bord
  .site-header .brand img.brand-mark{width:27px!important;height:27px!important;max-width:27px!important;max-height:27px!important;flex-basis:27px!important}
  .site-header{padding:0 12px!important}
 }
+
+/* Official Shopify brand asset */
+.tech-item.shopify-official img{width:auto;height:34px;max-width:150px;object-fit:contain;display:block;margin-bottom:12px}.tech-item.shopify-official{overflow:hidden}.tech-item.shopify-official strong{display:block}.tech-item.shopify-official small{display:block}
