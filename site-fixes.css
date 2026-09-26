@@ -160,7 +160,7 @@ html,body{max-width:100%;overflow-x:hidden}.tech-grid{width:100%;box-sizing:bord
   .site-header .brand-mark-wrap{flex-basis:30px!important;width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;max-width:30px!important;max-height:30px!important}
 }
 
-/* Clean vector-style CTA arrow — replaces emoji-looking ↗ */
+/* Clean vector-style CTA arrow */
 .btn .cta-arrow,
 .header-cta .cta-arrow{
   position:relative!important;display:inline-block!important;width:15px!important;height:15px!important;
