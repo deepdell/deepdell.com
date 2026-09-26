@@ -202,3 +202,33 @@ h1 em,h2 span{
 .footer-brand>a img{width:190px!important;height:auto!important;max-height:58px!important;object-fit:contain!important;display:block!important}
 @media(max-width:1050px){.brand img{width:154px!important}.footer-brand>a img{width:175px!important}}
 @media(max-width:700px){.brand img{width:142px!important;max-height:42px!important}.footer-brand>a img{width:165px!important;max-height:50px!important}}
+
+/* FINAL HEADER FIX — stable logo + mobile navigation */
+.site-header{position:sticky!important;top:0!important;z-index:5000!important}
+.site-header .brand{display:inline-flex!important;align-items:center!important;gap:9px!important;flex:0 0 auto!important;min-width:0!important;height:48px!important}
+.site-header .brand img{width:38px!important;height:38px!important;max-width:38px!important;max-height:38px!important;object-fit:contain!important;display:block!important;flex:0 0 38px!important}
+.site-header .brand-wordmark{display:inline-block!important;color:#fff!important;font-family:Arial,Helvetica,sans-serif!important;font-size:21px!important;font-weight:900!important;line-height:1!important;letter-spacing:-1.7px!important;white-space:nowrap!important}
+.site-header .nav{display:flex!important;align-items:center!important}
+.site-header .menu{display:none!important;position:relative!important;z-index:5002!important;border:0!important;background:transparent!important}
+@media(max-width:950px){
+ .site-header{height:68px!important;padding:0 20px!important}
+ .site-header .nav{display:none!important}
+ .site-header .menu{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;width:44px!important;height:44px!important;padding:7px!important;cursor:pointer!important}
+ .site-header .menu i{display:block!important;width:23px!important;height:2px!important;margin:3px 0!important;background:#fff!important}
+ .site-header.menu-open .nav{display:flex!important;position:absolute!important;top:68px!important;left:0!important;right:0!important;width:100%!important;box-sizing:border-box!important;padding:12px 20px 20px!important;background:#011434!important;flex-direction:column!important;align-items:stretch!important;gap:0!important;border-bottom:1px solid rgba(137,249,253,.18)!important;box-shadow:0 18px 45px rgba(0,0,0,.45)!important;z-index:5001!important}
+ .site-header.menu-open .nav a{display:block!important;width:100%!important;box-sizing:border-box!important;padding:14px 4px!important;color:#d5e3ef!important;font-size:14px!important;line-height:1.25!important}
+ .site-header.menu-open .nav a:hover{color:#20f3fb!important}
+ .site-header.menu-open .menu i:first-child{transform:translateY(4px) rotate(45deg)!important}
+ .site-header.menu-open .menu i:last-child{transform:translateY(-4px) rotate(-45deg)!important}
+ .site-header.menu-open .header-cta{display:none!important}
+}
+@media(max-width:600px){
+ .site-header{padding:0 16px!important}
+ .site-header .brand{gap:8px!important}
+ .site-header .brand img{width:32px!important;height:32px!important;max-width:32px!important;max-height:32px!important;flex-basis:32px!important}
+ .site-header .brand-wordmark{font-size:19px!important;letter-spacing:-1.45px!important}
+}
+@media(max-width:360px){
+ .site-header .brand img{width:29px!important;height:29px!important;max-width:29px!important;max-height:29px!important;flex-basis:29px!important}
+ .site-header .brand-wordmark{font-size:17px!important;letter-spacing:-1.2px!important}
+}
