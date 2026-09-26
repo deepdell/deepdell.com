@@ -328,3 +328,402 @@ html,body{max-width:100%;overflow-x:hidden}.tech-grid{width:100%;box-sizing:bord
 .metric-row .ui-arrow{margin:0 4px 0 0!important;width:11px!important;height:11px!important;min-width:11px!important;flex-basis:11px!important}
 .footer-qr .ui-arrow,.contact-point .ui-arrow,.footer-links .ui-arrow{margin-left:5px!important}
 @media(max-width:600px){.ui-arrow{width:13px!important;height:13px!important;min-width:13px!important;flex-basis:13px!important}}
+
+
+/* =========================================================
+   FINAL RESPONSIVE SYSTEM
+   Calibrated for desktop, tablet, iPhone/Android and narrow
+   screens. No fixed-width element is allowed to create a
+   horizontal overflow or crop the hero artwork.
+   ========================================================= */
+
+html,body{max-width:100%;overflow-x:hidden!important}
+img,svg,video{max-width:100%;height:auto}
+
+/* Header: stable logo lockup at every width */
+.site-header{width:100%!important;box-sizing:border-box!important}
+.site-header .brand{
+  flex-shrink:0!important;
+  overflow:visible!important;
+}
+.site-header .brand > .brand-mark{
+  flex-shrink:0!important;
+  object-fit:contain!important;
+}
+.site-header .brand > .brand-wordmark{
+  flex:0 0 auto!important;
+  overflow:visible!important;
+}
+
+/* Hero artwork: desktop */
+.hero{
+  width:100%!important;
+  max-width:1440px!important;
+  box-sizing:border-box!important;
+  overflow:visible!important;
+}
+.hero-art{
+  width:100%!important;
+  min-width:0!important;
+  overflow:visible!important;
+}
+.hero-art .orb{
+  max-width:100%!important;
+}
+.floating-card{
+  max-width:calc(100% - 24px)!important;
+  box-sizing:border-box!important;
+}
+
+/* Trust strip: never create a cramped six-column mobile strip */
+.trust{
+  width:100%!important;
+  box-sizing:border-box!important;
+}
+.trust-line{
+  width:100%!important;
+  box-sizing:border-box!important;
+}
+
+/* Large desktop */
+@media(min-width:1201px){
+  .site-header{padding-left:40px!important;padding-right:40px!important}
+  .hero{
+    grid-template-columns:minmax(0,1.03fr) minmax(520px,.97fr)!important;
+    gap:28px!important;
+    padding-left:44px!important;
+    padding-right:44px!important;
+  }
+  .hero-art{height:650px!important}
+  .hero-art .orb{width:min(600px,46vw)!important}
+  .card-a{left:2%!important;top:18%!important}
+  .card-b{right:0!important;bottom:14%!important}
+}
+
+/* Laptop / small desktop */
+@media(min-width:951px) and (max-width:1200px){
+  .site-header{padding-left:28px!important;padding-right:28px!important}
+  .nav{gap:16px!important}
+  .nav a,.header-cta{font-size:12px!important}
+  .hero{
+    grid-template-columns:minmax(0,1fr) minmax(420px,.9fr)!important;
+    gap:12px!important;
+    padding:72px 30px 55px!important;
+  }
+  .hero-art{height:570px!important}
+  .hero-art .orb{width:min(500px,48vw)!important}
+  .floating-card{min-width:150px!important}
+  .card-a{left:0!important;top:15%!important}
+  .card-b{right:0!important;bottom:12%!important}
+  .trust-line{grid-template-columns:repeat(3,1fr)!important}
+  .trust-line span{border-right:1px solid var(--dd-line)!important;border-bottom:1px solid var(--dd-line)!important;padding:16px!important}
+}
+
+/* Tablet */
+@media(min-width:701px) and (max-width:950px){
+  .site-header{
+    height:72px!important;
+    padding:0 24px!important;
+  }
+  .site-header .brand{height:42px!important;gap:8px!important}
+  .site-header .brand > .brand-mark{
+    width:32px!important;height:32px!important;
+    min-width:32px!important;max-width:32px!important;
+    min-height:32px!important;max-height:32px!important;
+    flex-basis:32px!important;
+  }
+  .site-header .brand > .brand-wordmark{font-size:20px!important}
+  .site-header .nav{display:none!important}
+  .site-header .menu{display:block!important}
+
+  .hero{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    min-height:auto!important;
+    padding:64px 30px 42px!important;
+    gap:18px!important;
+  }
+  .hero h1{
+    font-size:clamp(58px,9vw,82px)!important;
+    line-height:.9!important;
+  }
+  .hero-lead{font-size:16px!important;max-width:720px!important}
+  .hero-art{
+    height:500px!important;
+    margin-top:0!important;
+  }
+  .hero-art .orb{
+    width:min(430px,68vw)!important;
+  }
+  .floating-card{
+    transform:none!important;
+    min-width:150px!important;
+  }
+  .card-a{left:3%!important;top:12%!important}
+  .card-b{right:3%!important;bottom:8%!important}
+
+  .trust-line{
+    grid-template-columns:repeat(3,1fr)!important;
+    min-height:auto!important;
+  }
+  .trust-line span{
+    min-height:70px!important;
+    display:flex!important;
+    align-items:center!important;
+    padding:14px!important;
+    border-right:1px solid var(--dd-line)!important;
+    border-bottom:1px solid var(--dd-line)!important;
+  }
+
+  .service-grid{grid-template-columns:repeat(2,1fr)!important}
+  .service.featured{grid-column:span 2!important}
+  .ai-grid{grid-template-columns:repeat(2,1fr)!important}
+  .reporting{grid-template-columns:1fr!important}
+}
+
+/* Mobile — primary calibration */
+@media(max-width:700px){
+  .site-header{
+    height:70px!important;
+    min-height:70px!important;
+    padding:0 18px!important;
+  }
+  .site-header .brand{
+    height:40px!important;
+    gap:8px!important;
+    max-width:calc(100vw - 90px)!important;
+  }
+  .site-header .brand > .brand-mark{
+    width:30px!important;height:30px!important;
+    min-width:30px!important;max-width:30px!important;
+    min-height:30px!important;max-height:30px!important;
+    flex:0 0 30px!important;
+  }
+  .site-header .brand > .brand-wordmark{
+    font-size:19px!important;
+    letter-spacing:-1px!important;
+  }
+  .site-header .menu{
+    display:block!important;
+    flex:0 0 auto!important;
+    width:40px!important;
+    height:40px!important;
+    padding:4px!important;
+    margin:0!important;
+  }
+  .site-header .menu i{width:25px!important}
+
+  .hero{
+    display:flex!important;
+    flex-direction:column!important;
+    min-height:auto!important;
+    width:100%!important;
+    padding:54px 20px 38px!important;
+    gap:0!important;
+  }
+  .hero-copy{width:100%!important}
+  .hero h1{
+    font-size:clamp(52px,15.5vw,70px)!important;
+    line-height:.9!important;
+    letter-spacing:-.065em!important;
+    margin:20px 0 22px!important;
+    max-width:100%!important;
+  }
+  .hero-lead{
+    font-size:15px!important;
+    line-height:1.65!important;
+    max-width:100%!important;
+  }
+  .hero-actions{
+    margin:26px 0 15px!important;
+    gap:10px!important;
+  }
+  .hero-actions .btn{
+    min-height:50px!important;
+    width:100%!important;
+    padding:13px 16px!important;
+  }
+  .hero-note{
+    line-height:1.65!important;
+    max-width:100%!important;
+  }
+
+  /* The orb is now a controlled visual module, not a viewport-sized object. */
+  .hero-art{
+    width:100%!important;
+    height:355px!important;
+    min-height:355px!important;
+    margin:12px 0 0!important;
+    display:grid!important;
+    place-items:center!important;
+    overflow:visible!important;
+  }
+  .hero-art .orb{
+    width:min(300px,78vw)!important;
+    height:min(300px,78vw)!important;
+    max-width:300px!important;
+    max-height:300px!important;
+  }
+  .hero-art .orb-core{
+    width:58px!important;height:58px!important;
+  }
+  .hero-art .r1{width:120px!important;height:92px!important}
+  .hero-art .r2{width:175px!important;height:135px!important}
+  .hero-art .r3{width:230px!important;height:175px!important}
+  .hero-art .r4{width:285px!important;height:215px!important}
+
+  .floating-card{
+    min-width:0!important;
+    width:auto!important;
+    max-width:150px!important;
+    padding:10px 12px!important;
+    border-radius:4px!important;
+    transform:none!important;
+  }
+  .floating-card strong{font-size:14px!important;line-height:1.3!important}
+  .floating-card small{font-size:9px!important;line-height:1.4!important}
+  .floating-card span{font-size:9px!important}
+  .card-a{left:0!important;top:4%!important}
+  .card-b{right:0!important;bottom:2%!important}
+
+  /* Trust becomes a clean 2-column information grid. */
+  .trust{
+    padding:0!important;
+    border-top:1px solid var(--line)!important;
+    border-bottom:1px solid var(--line)!important;
+  }
+  .trust-line{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    width:100%!important;
+    min-height:0!important;
+    padding:0!important;
+    gap:0!important;
+  }
+  .trust-line span{
+    width:auto!important;
+    min-width:0!important;
+    min-height:74px!important;
+    padding:14px 16px!important;
+    display:flex!important;
+    align-items:center!important;
+    line-height:1.55!important;
+    border-right:1px solid var(--dd-line)!important;
+    border-bottom:1px solid var(--dd-line)!important;
+    overflow-wrap:anywhere!important;
+  }
+  .trust-line span:nth-child(2n){border-right:0!important}
+  .trust-line span:nth-last-child(-n+2){border-bottom:0!important}
+
+  .section-pad{
+    padding-left:20px!important;
+    padding-right:20px!important;
+  }
+  .section-heading{gap:16px!important;margin-bottom:34px!important}
+  .section-heading h2,h2{
+    font-size:clamp(38px,11vw,52px)!important;
+  }
+  .service-grid,.ai-grid,.why-grid,.steps{
+    grid-template-columns:1fr!important;
+  }
+  .service.featured{grid-column:span 1!important}
+  .service{padding:24px!important}
+  .service-num{right:18px!important;top:18px!important}
+  .service .icon{margin-bottom:34px!important}
+
+  .shopify-visual{
+    height:280px!important;
+    min-height:280px!important;
+  }
+  .shopify-mark{
+    width:180px!important;
+    height:180px!important;
+    font-size:110px!important;
+  }
+
+  .reporting{grid-template-columns:1fr!important;gap:40px!important}
+  .metric-row{grid-template-columns:1fr!important}
+  .dashboard{width:100%!important;padding:15px!important}
+
+  .architecture{
+    justify-content:flex-start!important;
+    gap:7px!important;
+    line-height:1.4!important;
+  }
+  .architecture div{padding:10px 12px!important}
+  .architecture .ui-arrow{margin:0 1px!important}
+
+  .contact-panel{padding:30px 22px!important}
+  .footer{padding-left:20px!important;padding-right:20px!important}
+}
+
+/* Small phones */
+@media(max-width:480px){
+  .site-header{padding:0 16px!important}
+  .hero{padding:48px 18px 32px!important}
+  .hero h1{
+    font-size:clamp(48px,15.2vw,62px)!important;
+    line-height:.91!important;
+  }
+  .hero-art{
+    height:320px!important;
+    min-height:320px!important;
+  }
+  .hero-art .orb{
+    width:min(270px,74vw)!important;
+    height:min(270px,74vw)!important;
+  }
+  .hero-art .r1{width:108px!important;height:82px!important}
+  .hero-art .r2{width:158px!important;height:120px!important}
+  .hero-art .r3{width:205px!important;height:158px!important}
+  .hero-art .r4{width:255px!important;height:195px!important}
+  .floating-card{max-width:135px!important;padding:9px 10px!important}
+  .card-a{left:-2px!important;top:3%!important}
+  .card-b{right:-2px!important;bottom:1%!important}
+
+  .trust-line span{
+    min-height:78px!important;
+    padding:13px 12px!important;
+    font-size:9px!important;
+  }
+  .section-pad{padding-top:58px!important;padding-bottom:58px!important}
+  .footer-links{gap:18px!important}
+}
+
+/* Very narrow phones */
+@media(max-width:360px){
+  .site-header{
+    padding:0 13px!important;
+  }
+  .site-header .brand{
+    gap:6px!important;
+    max-width:calc(100vw - 72px)!important;
+  }
+  .site-header .brand > .brand-mark{
+    width:28px!important;height:28px!important;
+    min-width:28px!important;max-width:28px!important;
+    min-height:28px!important;max-height:28px!important;
+    flex-basis:28px!important;
+  }
+  .site-header .brand > .brand-wordmark{font-size:18px!important}
+  .site-header .menu{width:36px!important}
+
+  .hero{padding-left:16px!important;padding-right:16px!important}
+  .hero h1{font-size:47px!important}
+  .hero-art{height:295px!important;min-height:295px!important}
+  .hero-art .orb{
+    width:245px!important;height:245px!important;
+  }
+  .floating-card{
+    max-width:122px!important;
+    padding:8px 9px!important;
+  }
+  .floating-card strong{font-size:12px!important}
+  .floating-card small{font-size:8px!important}
+  .floating-card span{font-size:8px!important}
+  .trust-line span{
+    min-height:72px!important;
+    padding:11px 10px!important;
+    font-size:8px!important;
+  }
+}
