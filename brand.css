@@ -183,3 +183,12 @@ h1 em,h2 span{
   .site-header.menu-open .nav{top:70px!important;background:var(--brand-deep-navy)!important;border-bottom:1px solid var(--brand-line)!important}
 }
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+
+/* Production logo lockup: supplied DEEPDELL orbital mark + precise wordmark. */
+.brand,.footer-brand>a{display:inline-flex;align-items:center;gap:10px;text-decoration:none;white-space:nowrap}
+.brand img,.footer-brand>a img{width:34px!important;height:34px!important;object-fit:contain;display:block}
+.brand-wordmark{font-family:Manrope,Arial,sans-serif;font-size:21px;font-weight:800;line-height:1;letter-spacing:-.055em;color:#fff}
+.footer-brand>a .brand-wordmark{font-size:24px}
+@media(max-width:1050px){.brand img,.footer-brand>a img{width:32px!important;height:32px!important}.brand-wordmark{font-size:19px}}
+@media(max-width:700px){.brand img,.footer-brand>a img{width:30px!important;height:30px!important}.brand-wordmark{font-size:18px}}
