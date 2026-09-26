@@ -194,3 +194,11 @@ h1 em,h2 span{
 @media(max-width:700px){.brand img,.footer-brand>a img{width:30px!important;height:30px!important}.brand-wordmark{font-size:18px}}
 
 .footer-brand>a.footer-logo,.footer-brand>a{display:inline-flex;align-items:center}.footer-attached-logo{width:118px!important;height:118px!important;object-fit:contain;display:block;border-radius:0}.footer-brand>a:has(.footer-attached-logo){margin-bottom:16px}@media(max-width:700px){.footer-attached-logo{width:96px!important;height:96px!important}}
+
+/* Final DEEPDELL logo lockup: use the supplied orbital artwork with its web-ready wordmark. */
+.brand:after,.footer-brand:after{content:none!important;display:none!important}
+.brand,.footer-brand>a{display:inline-flex!important;align-items:center!important;gap:0!important;white-space:nowrap!important;text-decoration:none!important}
+.brand img{width:168px!important;height:auto!important;max-height:48px!important;object-fit:contain!important;display:block!important}
+.footer-brand>a img{width:190px!important;height:auto!important;max-height:58px!important;object-fit:contain!important;display:block!important}
+@media(max-width:1050px){.brand img{width:154px!important}.footer-brand>a img{width:175px!important}}
+@media(max-width:700px){.brand img{width:142px!important;max-height:42px!important}.footer-brand>a img{width:165px!important;max-height:50px!important}}
