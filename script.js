@@ -7,7 +7,7 @@ const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.conte
 if(!document.querySelector('link[href="/deepdell-v2.css"]')){const v2=document.createElement('link');v2.rel='stylesheet';v2.href='/deepdell-v2.css';document.head.appendChild(v2);}
 document.querySelectorAll('.brand').forEach(brand=>{const img=brand.querySelector('img');if(!img)return;img.src='/assets/deepdell-guideline-icon.svg';img.alt='DEEPDELL orbital mark';let word=brand.querySelector('.brand-wordmark');if(!word){word=document.createElement('span');word.className='brand-wordmark';word.textContent='DEEPDELL';brand.appendChild(word)}});
 document.querySelectorAll('.footer-brand > a').forEach(brand=>{brand.innerHTML='<img class="footer-attached-logo" src="/assets/deepdell-lockup.svg" alt="DEEPDELL">';});
-if(!document.querySelector('link[data-site-fixes]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/site-fixes.css';l.dataset.siteFixes='1';document.head.appendChild(l)}
+if(!document.querySelector('link[href="site-fixes.css"],link[href="/site-fixes.css"]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/site-fixes.css';l.dataset.siteFixes='1';document.head.appendChild(l)}
 /* Keep the Agentic Readiness Checker visible in the primary navigation on every page. */
 document.querySelectorAll('.nav').forEach(nav=>{if(!nav.querySelector('a[href="agentic-check.html"]')){const a=document.createElement('a');a.href='agentic-check.html';a.textContent='Agentic Check';nav.appendChild(a)}});
 /* Prefer the self-hosted icon assets. CDN icons are retained only as a compatibility fallback. */
