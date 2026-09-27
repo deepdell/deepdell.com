@@ -1,5 +1,5 @@
 const ALLOWED_ORIGINS = new Set(['https://deepdell.com', 'https://www.deepdell.com']);
-const TO = 'support@deepdell.com';
+const TO = 'bonjour.deepdell@gmail.com';
 const FROM = 'DEEPDELL Website <leads@support.deepdell.com>';
 const MAX_AUDIT_BODY = 12000;
 const MAX_FETCH_BYTES = 300000;
@@ -75,12 +75,11 @@ function rateLimited(request, keyPrefix, limit) {
 }
 
 const checks = [
-  ['Core','robots.txt','/robots.txt',true],['Core','sitemap.xml','/sitemap.xml',true],['Core','sitemap index','/sitemap_index.xml',false],
-  ['AI discovery','llms.txt','/llms.txt',true],['AI discovery','llms-full.txt','/llms-full.txt',false],['AI discovery','llms.md','/llms.md',false],['AI discovery','llms-full.md','/llms-full.md',false],
-  ['Agent docs','agent.md','/agent.md',false],['Agent docs','agents.md','/agents.md',false],['Agent docs','agent.json','/agent.json',false],['Agent docs','agents.json','/agents.json',false],['Agent docs','ai.txt','/ai.txt',false],['Agent docs','ai.md','/ai.md',false],['Agent docs','ai.json','/ai.json',false],['Agent docs','model-context.md','/model-context.md',false],['Agent docs','machine-readable.md','/machine-readable.md',false],
-  ['Well-known','UCP profile','/.well-known/ucp',true],['Well-known','A2A Agent Card','/.well-known/agent-card.json',true],['Well-known','AI plugin manifest','/.well-known/ai-plugin.json',false],['Well-known','OIDC configuration','/.well-known/openid-configuration',false],['Well-known','OAuth authorization server','/.well-known/oauth-authorization-server',false],
-  ['Protocol','UCP MCP endpoint','/ucp/mcp',false],['Protocol','MCP endpoint','/mcp',false],['Protocol','MCP SSE endpoint','/sse',false],['Protocol','API MCP endpoint','/api/mcp',false],
-  ['Additional','security.txt','/security.txt',false],['Additional','humans.txt','/humans.txt',false],['Additional','sitemap.txt','/sitemap.txt',false],['Additional','ai-agent.md','/ai-agent.md',false],['Additional','agentic.md','/agentic.md',false],['Additional','agentic.json','/agentic.json',false]
+  ['Core Discovery','robots.txt','/robots.txt',true],['Core Discovery','sitemap.xml','/sitemap.xml',true],['Core Discovery','sitemap index','/sitemap_index.xml',false],['Core Discovery','security.txt','/security.txt',false],
+  ['AI Discovery','llms.txt','/llms.txt',true],['AI Discovery','llms-full.txt','/llms-full.txt',false],['AI Discovery','llms.md','/llms.md',false],['AI Discovery','llms-full.md','/llms-full.md',false],
+  ['Agent Documents','agent.md','/agent.md',false],['Agent Documents','agents.md','/agents.md',false],['Agent Documents','agent.json','/agent.json',false],['Agent Documents','agents.json','/agents.json',false],['Agent Documents','ai.txt','/ai.txt',false],['Agent Documents','ai.md','/ai.md',false],['Agent Documents','ai.json','/ai.json',false],['Agent Documents','model-context.md','/model-context.md',false],
+  ['Machine Context','machine-readable.md','/machine-readable.md',false],['Machine Context','machine-readable.txt','/machine-readable.txt',false],['Machine Context','ai-agent.md','/ai-agent.md',false],['Machine Context','agentic.md','/agentic.md',false],['Machine Context','agentic.json','/agentic.json',false],
+  ['Additional Discovery','humans.txt','/humans.txt',false],['Additional Discovery','sitemap.txt','/sitemap.txt',false],['Additional Discovery','security.txt (well-known)','/.well-known/security.txt',false],['Additional Discovery','favicon.svg','/assets/favicon.svg',false]
 ];
 
 async function fetchPublic(url, timeoutMs = FETCH_TIMEOUT) {
@@ -139,8 +138,8 @@ async function audit(request,body){
   const machinePoints=(found('robots.txt')?5:0)+(found('sitemap.xml')?5:0)+(found('sitemap index')?2:0)+(found('security.txt')?1:0)+(found('sitemap.txt')?1:0)+Math.min(6,results.filter(x=>x.group==='Additional'&&x.found&&!['security.txt','sitemap.txt'].includes(x.name)).length*2);
   const agentDocs=results.filter(x=>x.group==='Agent docs'&&x.found).length;
   const llmPoints=(found('llms.txt')?8:0)+(found('llms-full.txt')?4:0)+(found('llms.md')?2:0)+(found('llms-full.md')?2:0)+(agentDocs>0?4:0);
-  const identityPoints=(found('UCP profile')?8:0)+(found('A2A Agent Card')?8:0)+Math.min(4,agentDocs);
-  const protocolPoints=(found('UCP MCP endpoint')?5:0)+(found('MCP endpoint')?5:0)+(found('MCP SSE endpoint')?3:0)+(found('API MCP endpoint')?3:0)+(results.some(x=>x.group==='Protocol'&&x.found)?4:0);
+  const identityPoints=(found('machine-readable.md')?5:0)+(found('machine-readable.txt')?4:0)+(found('ai-agent.md')?4:0)+(found('agentic.md')?4:0)+(found('agentic.json')?3:0);
+  const protocolPoints=0;
   const clamp=n=>Math.max(0,Math.min(20,Math.round(n)));
   const categories={technicalSeo:clamp(seoPoints),machineDiscovery:clamp(machinePoints),llmReadability:clamp(llmPoints),agentIdentity:clamp(identityPoints),agentProtocols:clamp(protocolPoints)};
   return response({ok:true,base:u.href.replace(/\/$/,''),mode:'server',homepage:{status:home.status,finalUrl:home.finalUrl,title:titleText,description:desc,canonical:canonicalRaw,canonicalPass:canonical,lang,og,structuredData:schema,h1,headings,links,textLength:bodyText.length},results,categories},200,request);
