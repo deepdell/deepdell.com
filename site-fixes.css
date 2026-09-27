@@ -11,8 +11,6 @@ html,body{max-width:100%;overflow-x:hidden}.tech-grid{width:100%;box-sizing:bord
 @media(prefers-reduced-motion:reduce){.agentic-badge span{animation:none}}
 
 /* Self-hosted brand icons: use repository assets instead of external icon CDNs. */
-.tech-item img[alt="Shopify"]{content:url('/assets/icons/shopify.svg')}.tech-item img[alt="React"]{content:url('/assets/icons/react.svg')}.tech-item img[alt="Next.js"]{content:url('/assets/icons/nextdotjs.svg')}.tech-item img[alt="Node.js"]{content:url('/assets/icons/nodejs.svg')}.tech-item img[alt="TypeScript"]{content:url('/assets/icons/typescript.svg')}.tech-item img[alt="PHP"]{content:url('/assets/icons/php.svg')}.tech-item img[alt="GraphQL"]{content:url('/assets/icons/graphql.svg')}.tech-item img[alt="Python"]{content:url('/assets/icons/python.svg')}.tech-item img[alt="OpenAI"]{content:url('/assets/icons/openai.svg')}.tech-item img[alt="Supabase"]{content:url('/assets/icons/supabase.svg')}.tech-item img[alt="Cloudflare"]{content:url('/assets/icons/cloudflare.svg')}.tech-item img[alt="Vercel"]{content:url('/assets/icons/vercel.svg')}.tech-item img[alt="Docker"]{content:url('/assets/icons/docker.svg')}.tech-item img[alt="GitHub"]{content:url('/assets/icons/github.svg')}.tech-item img[alt="AWS"]{content:url('/assets/icons/amazonaws.svg')}.tech-item img[alt="Stripe"]{content:url('/assets/icons/stripe.svg')}.tech-item img[alt="Google Analytics"]{content:url('/assets/icons/googleanalytics.svg')}.tech-item img[alt="Klaviyo"]{content:url('/assets/icons/klaviyo.svg')}.tech-item img[alt="Odoo"]{content:url('/assets/icons/odoo.svg')}.tech-item img[alt="Figma"]{content:url('/assets/icons/figma.svg')}
-.service:nth-child(1) .icon{background-image:url('/assets/icons/shopify.svg')!important}.service:nth-child(2) .icon{background-image:url('/assets/icons/openai.svg')!important}.service:nth-child(3) .icon{background-image:url('/assets/icons/automation.svg')!important}.service:nth-child(4) .icon{background-image:url('/assets/icons/graphql.svg')!important}.service:nth-child(5) .icon{background-image:url('/assets/icons/googleanalytics.svg')!important}.service:nth-child(6) .icon{background-image:url('/assets/icons/react.svg')!important}.shopify-mark{background-image:url('/assets/icons/shopify.svg')!important;background-size:120px!important;background-repeat:no-repeat!important;background-position:center!important}
 
 
 /* ── Free Google Consent Mode banner ───────────────────────── */
@@ -902,3 +900,19 @@ img,svg,video{max-width:100%;height:auto}
   background-position:center!important;
   background-repeat:no-repeat!important;
 }
+
+/* AUTHENTIC BRAND ICONS — no placeholder/local fallback artwork */
+.tech-item img{
+  width:38px!important;height:38px!important;
+  object-fit:contain!important;
+  filter:none!important;
+}
+.tech-item:hover img{filter:none!important}
+.service:nth-child(1) .icon{background-image:url("https://cdn.simpleicons.org/shopify/20F3FB")!important}
+.service:nth-child(2) .icon{background-image:url("https://cdn.simpleicons.org/openai/20F3FB")!important}
+.service:nth-child(3) .icon{background-image:url("https://cdn.simpleicons.org/zapier/20F3FB")!important}
+.service:nth-child(4) .icon{background-image:url("https://cdn.simpleicons.org/graphql/20F3FB")!important}
+.service:nth-child(5) .icon{background-image:url("https://cdn.simpleicons.org/googleanalytics/20F3FB")!important}
+.service:nth-child(6) .icon{background-image:url("https://cdn.simpleicons.org/react/20F3FB")!important}
+@media(max-width:700px){.tech-item img{width:30px!important;height:30px!important}}
+@media(max-width:430px){.tech-item img{width:28px!important;height:28px!important}}
