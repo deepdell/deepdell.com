@@ -908,11 +908,11 @@ img,svg,video{max-width:100%;height:auto}
   filter:none!important;
 }
 .tech-item:hover img{filter:none!important}
-.service:nth-child(1) .icon{background-image:url("https://cdn.simpleicons.org/shopify/20F3FB")!important}
-.service:nth-child(2) .icon{background-image:url("https://cdn.simpleicons.org/openai/20F3FB")!important}
+.service:nth-child(1) .icon{background-image:url("/assets/icons/brands/shopify.svg")!important}
+.service:nth-child(2) .icon{background-image:url("/assets/icons/openai.svg")!important}
 .service:nth-child(3) .icon{background-image:url("https://cdn.simpleicons.org/zapier/20F3FB")!important}
-.service:nth-child(4) .icon{background-image:url("https://cdn.simpleicons.org/graphql/20F3FB")!important}
-.service:nth-child(5) .icon{background-image:url("https://cdn.simpleicons.org/googleanalytics/20F3FB")!important}
-.service:nth-child(6) .icon{background-image:url("https://cdn.simpleicons.org/react/20F3FB")!important}
+.service:nth-child(4) .icon{background-image:url("/assets/icons/brands/graphql.svg")!important}
+.service:nth-child(5) .icon{background-image:url("/assets/icons/brands/googleanalytics.svg")!important}
+.service:nth-child(6) .icon{background-image:url("/assets/icons/brands/react.svg")!important}
 @media(max-width:700px){.tech-item img{width:30px!important;height:30px!important}}
 @media(max-width:430px){.tech-item img{width:28px!important;height:28px!important}}
