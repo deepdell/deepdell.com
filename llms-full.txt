@@ -46,7 +46,6 @@ Shopify, Shopify Plus, React, Next.js, Node.js, TypeScript, JavaScript, PHP, Mag
 - https://deepdell.com/llms.txt
 - https://deepdell.com/agentic.json
 - https://deepdell.com/.well-known/ucp
-- https://deepdell.com/.well-known/agent-card.json
 
 ## Important note
 DEEPDELL's machine-readable files describe public capabilities and discovery metadata. They do not grant access to private systems, credentials or customer data.
