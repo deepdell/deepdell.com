@@ -67,6 +67,10 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
     window.dataLayer=window.dataLayer||[];
     function gtag(){dataLayer.push(arguments);}
     window.gtag=gtag;
+
+    // Consent Mode defaults are sent before the Google tag loads.
+    // The tag can therefore be detected by Tag Assistant while analytics
+    // storage remains denied until the visitor explicitly accepts.
     gtag('consent','default',{
       analytics_storage:'denied',
       ad_storage:'denied',
@@ -76,13 +80,17 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
     });
     gtag('js',new Date());
     gtag('config',GA_ID,{anonymize_ip:true});
+
     const s=document.createElement('script');
     s.async=true;
     s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;
     document.head.appendChild(s);
-    // Consent has already been granted when this function runs.
-    gtag('consent','update',{
-      analytics_storage:'granted',
+  }
+
+  function applyConsent(value){
+    if(typeof window.gtag!=='function') return;
+    window.gtag('consent','update',{
+      analytics_storage:value==='accepted'?'granted':'denied',
       ad_storage:'denied',
       ad_user_data:'denied',
       ad_personalization:'denied'
@@ -93,7 +101,8 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
     try{localStorage.setItem(KEY,value)}catch(e){}
     const banner=document.getElementById('deepdell-consent');
     if(banner) banner.remove();
-    if(value==='accepted') loadGA();
+    loadGA();
+    applyConsent(value);
   }
 
   function showBanner(){
@@ -123,8 +132,12 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
   function init(){
     let choice=null;
     try{choice=localStorage.getItem(KEY)}catch(e){}
-    if(choice==='accepted') loadGA();
-    else if(choice==='declined') return;
+    // Always load the Google tag with Consent Mode default-denied.
+    // This lets Google/Tag Assistant detect the tag without enabling
+    // analytics storage before the visitor makes a choice.
+    loadGA();
+    if(choice==='accepted') applyConsent('accepted');
+    else if(choice==='declined') applyConsent('declined');
     else showBanner();
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});
