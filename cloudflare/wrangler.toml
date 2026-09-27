@@ -1,7 +1,0 @@
-name = "deepdell-contact-api"
-main = "contact-worker.js"
-compatibility_date = "2026-09-16"
-workers_dev = true
-
-# After deployment, attach api.deepdell.com as a Custom Domain in Cloudflare.
-# Set RESEND_API_KEY as a Worker Secret; never commit the key to GitHub.
