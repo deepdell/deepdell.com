@@ -74,21 +74,20 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
 
 // ─────────────────────────────────────────────────────────────
 // DEEPDELL / WEB3FORMS — FREE LEAD DELIVERY
-// Web3Forms documents the access key as a public client-side identifier.
+// Lead delivery is proxied through the Cloudflare Worker so the
+// Web3Forms access key is stored as a Worker secret, not in Git.
 // ─────────────────────────────────────────────────────────────
 (function(){
-  const WEB3FORMS_KEY='YOUR_WEB3FORMS_ACCESS_KEY';
-  window.deepdellWeb3FormsConfigured=WEB3FORMS_KEY !== 'YOUR_WEB3FORMS_ACCESS_KEY';
+  const API='https://deepdell-contact.deepdell-api.workers.dev';
+  window.deepdellWeb3FormsConfigured=true;
   window.submitDeepdellForm=async function(payload){
-    if(!window.deepdellWeb3FormsConfigured) throw new Error('Web3Forms access key is not configured.');
-    const data={access_key:WEB3FORMS_KEY,subject:'DEEPDELL Website Lead',from_name:'DEEPDELL Website',...payload,botcheck:''};
-    const response=await fetch('https://api.web3forms.com/submit',{
+    const response=await fetch(API+'/api/contact',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify(data)
+      body:JSON.stringify({...payload})
     });
     const json=await response.json().catch(()=>({}));
-    if(!response.ok || json.success===false) throw new Error(json.message||'Web3Forms submission failed.');
+    if(!response.ok || json.ok!==true) throw new Error(json.error||'Contact submission failed.');
     return json;
   };
 })();
