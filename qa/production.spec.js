@@ -50,7 +50,7 @@ test('GA4 and consent mode are active on the production homepage', async ({ page
 
   const accepted = await page.evaluate(() => ({
     granted: Array.isArray(window.dataLayer) && window.dataLayer.some(
-      item => Array.isArray(item) && item[0] === 'consent' && item[1] === 'update' &&
+      item => item && item[0] === 'consent' && item[1] === 'update' &&
         item[2]?.analytics_storage === 'granted'
     )
   }));
