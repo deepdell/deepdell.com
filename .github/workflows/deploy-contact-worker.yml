@@ -33,6 +33,15 @@ jobs:
             echo "workers.dev subdomain registered: deepdell-api"
           fi
 
+      - name: Configure Web3Forms Worker secret
+        shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          WEB3FORMS_ACCESS_KEY: ${{ secrets.WEB3FORMS_ACCESS_KEY }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$WEB3FORMS_ACCESS_KEY" | npx --yes wrangler@4 secret put WEB3FORMS_ACCESS_KEY --name deepdell-contact
+
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v4
         env:
