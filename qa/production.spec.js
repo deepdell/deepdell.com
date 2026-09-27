@@ -24,7 +24,7 @@ test('production pages load without browser errors', async ({ page }) => {
   for (const path of PAGES) {
     const response = await page.goto(BASE + path, { waitUntil: 'domcontentloaded', timeout: 30000 });
     expect(response?.status(), path).toBe(200);
-    await expect(page.locator('title'), path).toHaveText(/.+/);
+    expect(await page.title(), path).toMatch(/.+/);
   }
   expect(failures, 'browser page errors').toEqual([]);
 });
