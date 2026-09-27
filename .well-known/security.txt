@@ -1,0 +1,4 @@
+Contact: mailto:support@deepdell.com
+Canonical: https://deepdell.com/.well-known/security.txt
+Policy: https://deepdell.com/contact.html
+Preferred-Languages: en
