@@ -38,7 +38,7 @@
 <div id="site-loader" aria-hidden="true"><div class="loader-inner"><div class="loader-orbit"><span class="loader-core"></span></div><span class="loader-label">DEEPDELL / INITIALISING</span></div></div>
 <header class="site-header" id="top"><a class="brand" href="index.html" aria-label="DEEPDELL home"><img class="brand-mark" src="assets/deepdell-guideline-icon.svg" alt="" aria-hidden="true"><span class="brand-wordmark">DEEPDELL</span></a><nav class="nav" aria-label="Main navigation"><a href="services.html">Services</a><a href="shopify-plus.html">Shopify Plus</a><a href="ai.html">AI & Automation</a><a href="data.html">Data & BI</a><a href="industries.html">Industries</a><a href="agentic-check.html">Agentic Check</a><a href="contact.html">Contact</a></nav><div class="header-tools"><a class="header-cta" href="contact.html">Start a project <span aria-hidden="true"></span></a><button class="menu" aria-label="Open menu" aria-expanded="false" type="button"><i></i><i></i></button></div></header>
 <main class="check-wrap">
-<section class="check-hero"><div class="section-kicker">PUBLIC TOOL / AGENTIC DISCOVERY</div><h1>Is your website <span>agentic-ready?</span></h1><p>Enter any public website. We check whether common machine-readable discovery pages are publicly available and give you a simple readiness score.</p><form class="check-form" id="scan-form"><input id="url" type="url" inputmode="url" autocomplete="url" placeholder="https://yourwebsite.com" aria-label="Website URL" required><button id="scan-button" type="submit">CHECK WEBSITE <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span></button></form><div id="email-gate" style="display:none;margin-top:18px;padding:22px;border:1px solid rgba(32,243,251,.22);background:#021c3d"><div style="font:700 11px 'DM Mono',monospace;letter-spacing:.12em;color:#20f3fb;margin-bottom:8px">AUDIT COMPLETE / VIEW FULL REPORT</div><p style="margin:0 0 14px;color:#9db3ca;font-size:13px;line-height:1.6">Enter your business email to unlock the complete report on this page and receive a copy of the audit.</p><div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px"><input id="email" type="email" autocomplete="email" placeholder="Business email" aria-label="Business email" required><button id="unlock-button" type="button" class="btn primary">VIEW FULL REPORT <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span></button></div><label class="consent" style="margin-top:12px"><input id="consent" type="checkbox"><span>I agree to receive my DEEPDELL audit and relevant follow-up by email.</span></label><div id="consent-error" style="display:none;margin-top:8px;color:#ffb7b7;font-size:11px">Please tick the checkbox to continue.</div></div><div class="server-status" id="server-status">BASIC PUBLIC PAGE CHECK / READY</div><div class="scan-hud" id="scan-hud"><div class="scan-hud-top"><span>DISCOVERY ENGINE / LIVE</span><span><b class="signal-count" id="signal-count">0</b> / 25 SIGNALS</span></div><div class="scan-track"><div class="scan-fill" id="scan-fill"></div></div></div><div class="check-note">Basic discovery audit only. FOUND means a public response was detected for the page; it does not prove protocol implementation or acceptance by any AI platform.</div></section>
+<section class="check-hero"><div class="section-kicker">PUBLIC TOOL / AGENTIC DISCOVERY</div><h1>Is your website <span>agentic-ready?</span></h1><p>Enter any public website. We check whether common machine-readable discovery pages are publicly available and give you a simple readiness score.</p><form class="check-form" id="scan-form"><input id="url" type="url" inputmode="url" autocomplete="url" placeholder="https://yourwebsite.com" aria-label="Website URL" required><button id="scan-button" type="submit">CHECK WEBSITE <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span></button></form><form id="email-gate" style="display:none;margin-top:18px;padding:22px;border:1px solid rgba(32,243,251,.22);background:#021c3d" novalidate><div style="font:700 11px 'DM Mono',monospace;letter-spacing:.12em;color:#20f3fb;margin-bottom:8px">AUDIT COMPLETE / VIEW FULL REPORT</div><p style="margin:0 0 14px;color:#9db3ca;font-size:13px;line-height:1.6">Enter your business email to unlock the complete report on this page. We will also receive your audit request.</p><div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px"><input id="email" type="email" autocomplete="email" inputmode="email" placeholder="Business email" aria-label="Business email" required><button id="unlock-button" type="submit" class="btn primary">VIEW FULL REPORT <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span></button></div><label class="consent" style="margin-top:12px"><input id="consent" type="checkbox" required><span>I agree to receive my DEEPDELL audit and relevant follow-up by email.</span></label><div id="consent-error" style="display:none;margin-top:8px;color:#ffb7b7;font-size:11px">Please tick the checkbox to continue.</div><div id="email-gate-status" role="status" aria-live="polite" style="margin-top:10px;color:#89f9fd;font:10px 'DM Mono',monospace"></div></form><div class="server-status" id="server-status">BASIC PUBLIC PAGE CHECK / READY</div><div class="scan-hud" id="scan-hud"><div class="scan-hud-top"><span>DISCOVERY ENGINE / LIVE</span><span><b class="signal-count" id="signal-count">0</b> / 25 SIGNALS</span></div><div class="scan-track"><div class="scan-fill" id="scan-fill"></div></div></div><div class="check-note">Basic discovery audit only. FOUND means a public response was detected for the page; it does not prove protocol implementation or acceptance by any AI platform.</div></section>
 <section class="audit-panel" id="status" aria-live="polite"></section>
 <section class="method"><h2>What we inspect</h2><p>This basic audit checks whether these public discovery pages exist. It does not require a special AI backend or protocol implementation.</p><div class="group-title">CORE DISCOVERY</div><div class="path-list"><div class="path standard">/robots.txt</div><div class="path standard">/sitemap.xml</div><div class="path standard">/sitemap_index.xml</div><div class="path standard">/llms.txt</div></div><div class="group-title">AGENT / AI DOCUMENTS</div><div class="path-list"><div class="path">/agent.md</div><div class="path">/agents.md</div><div class="path">/agent.json</div><div class="path">/agents.json</div><div class="path">/ai.txt</div><div class="path">/ai.md</div><div class="path">/ai.json</div><div class="path">/model-context.md</div></div><div class="group-title">WELL-KNOWN / IDENTITY</div><div class="path-list"><div class="path standard">/.well-known/ucp</div><div class="path standard">/.well-known/agent-card.json</div><div class="path">/.well-known/ai-plugin.json</div><div class="path">/.well-known/openid-configuration</div><div class="path">/.well-known/oauth-authorization-server</div></div><div class="group-title">PROTOCOL / ADDITIONAL SIGNALS</div><div class="path-list"><div class="path">/ucp/mcp</div><div class="path">/mcp</div><div class="path">/sse</div><div class="path">/api/mcp</div><div class="path">/security.txt</div><div class="path">/sitemap.txt</div><div class="path">/agentic.md</div><div class="path">/agentic.json</div></div></section>
 </main>
@@ -51,7 +51,7 @@ const deepdellEvent = window.deepdellEvent || function(name, params){ try { if (
 window.deepdellEvent = deepdellEvent;
 let pendingAudit = null;
 const form=document.getElementById('scan-form'),input=document.getElementById('url'),emailInput=document.getElementById('email'),consent=document.getElementById('consent'),status=document.getElementById('status'),button=document.getElementById('scan-button'),server=document.getElementById('server-status');
-const q=new URLSearchParams(location.search);if(q.get('url'))input.value=q.get('url');if(q.get('email'))emailInput.value=q.get('email');
+const q=new URLSearchParams(location.search);if(q.get('url'))input.value=q.get('url');
 const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 const checks=[
 ['Core Discovery','robots.txt','/robots.txt',true],['Core Discovery','sitemap.xml','/sitemap.xml',true],['Core Discovery','sitemap index','/sitemap_index.xml',true],['Core Discovery','llms.txt','/llms.txt',true],
@@ -100,10 +100,11 @@ async function captureLead(base,email,results,total){
  data.append('agent_protocols',String(c.agentProtocols)+'/20');
  data.append('audit_results',summary);data.append('report_url',buildShareUrl(base,results));data.append('message','DEEPDELL Agentic Readiness Audit | Website: '+base+' | Score: '+total+'/100 | Signals: '+found+'/'+checks.length+' | Report: '+buildShareUrl(base,results));
  const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{Accept:'application/json'},body:data});
- const json=await r.json();
- if(!r.ok||!json.success)throw new Error(json.message||json?.body?.message||'Email delivery failed');
+ const raw=await r.text();let json={};try{json=JSON.parse(raw)}catch{}
+ if(!r.ok||json.success!==true)throw new Error(json.message||'Web3Forms submission failed');
  return true;
 }
+let resultsCache=[];
 function buildShareUrl(base,results){
  const mask=results.map(x=>x.found?'1':'0').join('');
  const u=new URL(location.href);u.search='?report=1&url='+encodeURIComponent(base)+'&signals='+mask;u.hash='';return u.toString();
@@ -156,7 +157,7 @@ function loadSharedReport(){
  try{new URL(base)}catch{return false}
  const results=checks.map(([group,name,path,standard],i)=>({group,name,path,standard,found:mask[i]==='1',status:0,source:'SHARED REPORT'}));
  document.querySelector('.check-hero').style.display='none';
- document.getElementById('email-gate').style.display='none';
+ document.getElementById('email-gate').style.display='none';document.getElementById('email-gate-status').textContent='';
  document.getElementById('scan-hud').classList.remove('active');
  document.querySelector('.method').style.display='none';
  server.textContent='SHARED REPORT / READ ONLY';
@@ -174,18 +175,30 @@ form.addEventListener('submit',async e=>{
  }catch(err){status.innerHTML='<div class="score-box"><h3>AUDIT COULD NOT COMPLETE</h3><p style="margin:0;color:#9db3ca;line-height:1.7;font-size:13px">'+esc(err.message||'The basic check could not complete.')+'</p></div>';status.classList.add('show');server.textContent='BASIC PUBLIC PAGE CHECK / ERROR';server.className='server-status error'}
  finally{button.disabled=false;button.innerHTML='CHECK WEBSITE <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span>'}
 });
-document.getElementById('unlock-button')?.addEventListener('click',async(e)=>{
+document.getElementById('email-gate')?.addEventListener('submit',async(e)=>{
  e.preventDefault();
- const emailError=document.getElementById('consent-error');
+ const gate=e.currentTarget,emailError=document.getElementById('consent-error'),gateStatus=document.getElementById('email-gate-status');
  const email=emailInput.value.trim();
- if(!pendingAudit)return;
- if(!emailInput.reportValidity()){emailInput.focus();return}
- if(!consent.checked){emailError.style.display='block';server.textContent='CONSENT REQUIRED';server.className='server-status error';consent.focus();return}
+ if(!emailInput.checkValidity()){emailInput.reportValidity();emailInput.focus();return}
+ if(!consent.checked){emailError.style.display='block';gateStatus.textContent='CONSENT REQUIRED';consent.focus();return}
  emailError.style.display='none';
- const unlock=document.getElementById('unlock-button');unlock.disabled=true;unlock.textContent='UNLOCKING…';server.textContent='SENDING AUDIT / UNLOCKING REPORT…';server.className='server-status';
- try{await captureLead(pendingAudit.base,email,pendingAudit.results,pendingAudit.total );window.deepdellEvent('audit_email_submitted',{audit_score:pendingAudit.total,signals_found:pendingAudit.results.filter(x=>x.found).length} );window.deepdellEvent('agentic_report_unlocked',{audit_score:pendingAudit.total});render(pendingAudit.base,pendingAudit.results);document.getElementById('email-gate').style.display='none';server.textContent='AUDIT COMPLETE / FULL REPORT UNLOCKED';}
- catch(err){server.textContent='REPORT READY / EMAIL DELIVERY FAILED — '+(err.message||'PLEASE TRY AGAIN');server.className='server-status error'}
- finally{unlock.disabled=false;unlock.innerHTML='VIEW FULL REPORT <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span>'}
+ const unlock=document.getElementById('unlock-button');unlock.disabled=true;unlock.textContent='VERIFYING…';server.textContent='SENDING AUDIT / VERIFYING EMAIL…';server.className='server-status';gateStatus.textContent='Sending your audit securely…';
+ try{
+   await captureLead(pendingAudit.base,email,pendingAudit.results,pendingAudit.total);
+   gateStatus.textContent='Audit received. Unlocking your report…';
+   window.deepdellEvent('audit_email_submitted',{audit_score:pendingAudit.total,signals_found:pendingAudit.results.filter(x=>x.found).length});
+   window.deepdellEvent('agentic_report_unlocked',{audit_score:pendingAudit.total});
+   gate.style.display='none';
+   render(pendingAudit.base,pendingAudit.results);
+   server.textContent='AUDIT COMPLETE / FULL REPORT UNLOCKED';
+   server.className='server-status';
+   status.scrollIntoView({behavior:'smooth',block:'start'});
+ }catch(err){
+   gateStatus.textContent='We could not submit the audit. Your email was not cleared. Please try again.';
+   server.textContent='REPORT LOCKED / SUBMISSION FAILED';
+   server.className='server-status error';
+   unlock.disabled=false;unlock.textContent='VIEW FULL REPORT';
+ }
 });
 loadSharedReport();
 })();
