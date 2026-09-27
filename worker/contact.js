@@ -132,7 +132,7 @@ async function audit(request,body){
   const titleText=title(html),desc=meta(html,'description'),og=!!meta(html,'og:title','property');
   const bodyText=stripHtml(html),h1=count(html,'h1')>0,headings=count(html,'h1')+count(html,'h2')+count(html,'h3'),links=count(html,'a'),schema=hasLd(html);
   const results=[];
-  for(let i=0;i<checks.length;i+=8){const batch=checks.slice(i,i+8);const out=await Promise.all(batch.map(async([group,name,path,standard])=>{const r=await fetchPublic(base+path,FETCH_TIMEOUT);let found=r.ok&&r.status>=200&&r.status<300&&!!r.text.trim();if((name==='UCP profile'||name==='A2A Agent Card')&&found)found=validJson(r.text);if(name.includes('MCP endpoint')&&[400,401,403,405,406].includes(r.status))found=true;return{group,name,path,standard,found,status:r.status}}));results.push(...out)}
+  for(let i=0;i<checks.length;i+=8){const batch=checks.slice(i,i+8);const out=await Promise.all(batch.map(async([group,name,path,standard])=>{const r=await fetchPublic(base+path,FETCH_TIMEOUT);let found=r.ok&&r.status>=200&&r.status<300&&!!r.text.trim();return{group,name,path,standard,found,status:r.status}}));results.push(...out)}
   const found=n=>!!results.find(x=>x.name===n)?.found;
   const seoPoints=(u.protocol==='https:'?3:0)+(home.status>=200&&home.status<400?2:0)+(canonical?3:0)+(titleText.length>=20&&titleText.length<=65?2:0)+(desc.length>=70&&desc.length<=170?3:0)+(!!lang?1:0)+(og?1:0)+(schema?3:0)+(h1&&bodyText.length>=500&&headings>=3?2:0);
   const machinePoints=(found('robots.txt')?5:0)+(found('sitemap.xml')?5:0)+(found('sitemap index')?2:0)+(found('security.txt')?1:0)+(found('sitemap.txt')?1:0)+Math.min(6,results.filter(x=>x.group==='Additional'&&x.found&&!['security.txt','sitemap.txt'].includes(x.name)).length*2);
