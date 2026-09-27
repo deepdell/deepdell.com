@@ -23,3 +23,26 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: .
+
+      - name: Verify live Worker endpoints
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Checking /api/config..."
+          CONFIG="$(curl -fsS --max-time 20 https://deepdell.com/api/config)"
+          echo "$CONFIG"
+          echo "$CONFIG" | jq -e '.ok == true and .auditAvailable == true and .emailAvailable == true' >/dev/null
+
+          echo "Checking /api/contact honeypot path..."
+          CONTACT="$(curl -fsS --max-time 20 -X POST https://deepdell.com/api/contact \
+            -H 'Content-Type: application/json' \
+            --data '{"name":"","email":"","service":"","message":"","website_field":"healthcheck"}')"
+          echo "$CONTACT"
+          echo "$CONTACT" | jq -e '.ok == true' >/dev/null
+
+          echo "Checking /api/audit..."
+          AUDIT="$(curl -fsS --max-time 90 -X POST https://deepdell.com/api/audit \
+            -H 'Content-Type: application/json' \
+            --data '{"url":"https://deepdell.com"}')"
+          echo "$AUDIT" | jq -e '.ok == true and .mode == "server" and (.results | length) == 25' >/dev/null
+          echo "Live Worker endpoint checks passed."
