@@ -78,7 +78,7 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
 // No paid CMP is required for this implementation.
 // ─────────────────────────────────────────────────────────────
 (function(){
-  const GA_ID='G-K592HB9699';
+  const GA_ID='G-K592HB9G99';
   const KEY='deepdell-consent-v1';
 
   function loadGA(){
