@@ -112,8 +112,9 @@ function buildShareUrl(base,results){
  const u=new URL(location.href);u.search='?report=1&url='+encodeURIComponent(base)+'&signals='+mask;u.hash='';return u.toString();
 }
 function openShare(url){
- if(navigator.share){navigator.share({title:'DEEPDELL Agentic Readiness Report',text:'Agentic Readiness Report',url}).catch(()=>{});}
- else copyReportLink(url);
+ if(navigator.share){
+   navigator.share({title:'DEEPDELL Agentic Readiness Report',text:'Agentic Readiness Report',url}).catch(()=>copyReportLink(url));
+ } else copyReportLink(url);
 }
 function copyReportLink(url){
  if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>setCopyState()).catch(()=>window.prompt('Copy report link',url));}
