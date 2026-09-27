@@ -43,7 +43,7 @@
 <section class="method"><h2>What we inspect</h2><p>This basic audit checks whether these public discovery pages exist. It does not require a special AI backend or protocol implementation.</p><div class="group-title">CORE DISCOVERY</div><div class="path-list"><div class="path standard">/robots.txt</div><div class="path standard">/sitemap.xml</div><div class="path standard">/sitemap_index.xml</div><div class="path standard">/llms.txt</div></div><div class="group-title">AGENT / AI DOCUMENTS</div><div class="path-list"><div class="path">/agent.md</div><div class="path">/agents.md</div><div class="path">/agent.json</div><div class="path">/agents.json</div><div class="path">/ai.txt</div><div class="path">/ai.md</div><div class="path">/ai.json</div><div class="path">/model-context.md</div></div><div class="group-title">WELL-KNOWN / IDENTITY</div><div class="path-list"><div class="path standard">/.well-known/ucp</div><div class="path standard">/.well-known/agent-card.json</div><div class="path">/.well-known/ai-plugin.json</div><div class="path">/.well-known/openid-configuration</div><div class="path">/.well-known/oauth-authorization-server</div></div><div class="group-title">PROTOCOL / ADDITIONAL SIGNALS</div><div class="path-list"><div class="path">/ucp/mcp</div><div class="path">/mcp</div><div class="path">/sse</div><div class="path">/api/mcp</div><div class="path">/security.txt</div><div class="path">/sitemap.txt</div><div class="path">/agentic.md</div><div class="path">/agentic.json</div></div></section>
 </main>
 <footer class="footer"><div class="footer-brand"><a href="index.html" aria-label="DEEPDELL home"><img class="footer-logo-mark" src="assets/deepdell-guideline-icon.svg" alt="" aria-hidden="true"><span class="footer-logo-word">DEEPDELL</span></a><p>Deep technology. Clear impact. Commerce engineering, AI, automation and connected digital systems.</p><div class="footer-email"><span>CONTACT</span><a href="mailto:bonjour.deepdell@gmail.com">bonjour.deepdell@gmail.com</a></div></div><div class="footer-links"><div><strong>CAPABILITIES</strong><a href="shopify-plus.html">Shopify Plus</a><a href="ai.html">AI & Automation</a><a href="data.html">Data & BI</a><a href="services.html">Digital Engineering</a></div><div><strong>CONNECT</strong><a href="agentic-check.html">Agentic Readiness Checker</a><a href="contact.html">Start a project</a><a href="contact-card.html">Digital Contact Card</a></div></div><a class="footer-qr" href="contact-card.html" aria-label="Open DEEPDELL digital contact card"><div class="footer-qr-frame"><img src="https://quickchart.io/qr?text=https%3A%2F%2Fdeepdell.com%2Fcontact.vcf&size=180&margin=2" alt="QR code to save DEEPDELL contact"></div><span>SCAN / SAVE CONTACT <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span></span></a><div class="footer-bottom"><span>© 2026 DEEPDELL. All rights reserved.</span><span>Deep Technology. Clear Impact.</span></div></footer>
-<script src="script.js"></script>
+<script src="script.js?v=20260927-agentic-final"></script>
 <script>
 (()=> {
 // Analytics must never be allowed to break the public audit.
@@ -98,23 +98,30 @@ async function captureLead(base,email,results,total){
  data.append('llm_readability',String(c.llmReadability)+'/20');
  data.append('agent_identity',String(c.agentIdentity)+'/20');
  data.append('agent_protocols',String(c.agentProtocols)+'/20');
- data.append('audit_results',summary);
+ data.append('audit_results',summary);data.append('report_url',buildShareUrl(base,results));data.append('message','DEEPDELL Agentic Readiness Audit | Website: '+base+' | Score: '+total+'/100 | Signals: '+found+'/'+checks.length+' | Report: '+buildShareUrl(base,results));
  const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{Accept:'application/json'},body:data});
  const json=await r.json();
  if(!r.ok||!json.success)throw new Error(json.message||json?.body?.message||'Email delivery failed');
  return true;
 }
-function buildShareUrl(base,total){
- const u=new URL(location.href); u.search=new URLSearchParams({url:base,score:String(total),signals:String(resultsCache.filter(x=>x.found).length)}).toString(); return u.toString();
+function buildShareUrl(base,results){
+ const mask=results.map(x=>x.found?'1':'0').join('');
+ const u=new URL(location.href);u.hash='report=1&url='+encodeURIComponent(base)+'&signals='+mask;return u.toString();
 }
-let resultsCache=[];
 function openShare(url){
- if(navigator.share){navigator.share({title:'DEEPDELL Agentic Readiness Audit',text:'Check this website\'s Agentic Readiness Report',url}).catch(()=>{});}
- else navigator.clipboard?.writeText(url);
+ if(navigator.share){navigator.share({title:'DEEPDELL Agentic Readiness Report',text:'Agentic Readiness Report',url}).catch(()=>{});}
+ else copyReportLink(url);
 }
-function copyReportLink(url){navigator.clipboard?.writeText(url).then(()=>{const b=document.querySelector('.report-sharebar button:nth-child(3)');if(b){const t=b.textContent;b.textContent='LINK COPIED';setTimeout(()=>b.textContent=t,1600)}})}
+function copyReportLink(url){
+ if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>setCopyState()).catch(()=>window.prompt('Copy report link',url));}
+ else window.prompt('Copy report link',url);
+}
+function setCopyState(){
+ const b=document.querySelector('.report-sharebar .copy-report');if(!b)return;
+ const t=b.textContent;b.textContent='LINK COPIED';setTimeout(()=>b.textContent=t,1800);
+}
 function printReport(){
- const old=document.title; document.title='DEEPDELL Agentic Readiness Report'; window.print(); setTimeout(()=>document.title=old,500);
+ const old=document.title;document.title='DEEPDELL Agentic Readiness Report';window.print();setTimeout(()=>document.title=old,700);
 }
 function render(base,results){resultsCache=results;
  const c=score(results),total=Object.values(c).reduce((a,b)=>a+b,0),groups={};results.forEach(x=>(groups[x.group]??=[]).push(x));
@@ -133,22 +140,37 @@ function render(base,results){resultsCache=results;
  '<section class="report-section blueprint"><div class="report-section-head"><div><span class="section-kicker">ENGINEERING BLUEPRINT / 02</span><h3>What DEEPDELL would build next</h3></div></div><div class="blueprint-grid">'+next.slice(0,5).map((x,i)=>'<article><span>0'+(i+1)+'</span><h4>'+['DISCOVER','DEFINE','CONNECT','IDENTIFY','ENABLE'][i]+'</h4><p>'+esc(x)+'</p></article>').join('')+'</div></section>'+
  '<section class="report-section signal-explorer"><div class="report-section-head"><div><span class="section-kicker">SIGNAL EXPLORER / 03</span><h3>What the audit actually detected</h3></div><span class="found-pill">'+found+' / '+checks.length+' PUBLIC RESPONSES</span></div><div class="signal-grid">'+
  Object.entries(groups).map(([g,items])=>'<div class="signal-group"><div class="group-title">'+esc(g.toUpperCase())+'</div>'+items.map(x=>'<div class="signal-item '+(x.found?'pass':'warn')+'"><span class="signal-dot"></span><div><strong>'+esc(x.name)+'</strong><small>'+esc(x.path)+(x.status?' · HTTP '+x.status:'')+'</small></div><b>'+(x.found?'FOUND':'GAP')+'</b></div>').join('')+'</div>').join('')+'</div></section>'+
- '<section class="conversion-panel"><div><span class="section-kicker">NEXT SYSTEM / 04</span><h2>Turn discovery into an agent-ready digital system.</h2><p>This audit identifies the public signals. DEEPDELL can take the next engineering step: architecture, machine-readable context, agent identity, integrations and controlled actions.</p><div class="conversion-points"><span>01 / Discovery architecture</span><span>02 / AI-readable content layer</span><span>03 / Agent identity & protocols</span><span>04 / Connected actions & automation</span></div></div><a class="btn primary" href="contact.html?audit='+encodeURIComponent(base)+'">MAKE MY WEBSITE AGENTIC <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span></a></section>';
+ '<section class="report-section report-sharing"><div class="report-section-head"><div><span class="section-kicker">SHARE / 05</span><h3>Share this Agentic Readiness Report</h3><p style="color:#8da5bc;line-height:1.7;max-width:720px;margin:0">Download it as a PDF, share the report link, or scan the QR code to open this exact audit.</p></div><div class="report-qr" style="display:block;width:126px;flex:0 0 126px"><img style="display:block;width:126px;height:126px;background:#fff;padding:7px;box-sizing:border-box" src="https://quickchart.io/qr?size=220&margin=2&text='+encodeURIComponent(buildShareUrl(base,results))+'" alt="QR code for this DEEPDELL Agentic Readiness Report"></div></div><div class="report-sharebar"><button class="primary-share" type="button" onclick="printReport()">DOWNLOAD / PRINT PDF</button><button type="button" onclick="openShare(buildShareUrl(base,resultsCache))">SHARE REPORT</button><button class="copy-report" type="button" onclick="copyReportLink(buildShareUrl(base,resultsCache))">COPY REPORT LINK</button><a href="contact.html?audit='+encodeURIComponent(base)+'">REQUEST COMPLETE AUDIT</a></div></section>'+'<section class="conversion-panel"><div><span class="section-kicker">NEXT SYSTEM / 04</span><h2>Turn discovery into an agent-ready digital system.</h2><p>This audit identifies the public signals. DEEPDELL can take the next engineering step: architecture, machine-readable context, agent identity, integrations and controlled actions.</p><div class="conversion-points"><span>01 / Discovery architecture</span><span>02 / AI-readable content layer</span><span>03 / Agent identity & protocols</span><span>04 / Connected actions & automation</span></div></div><a class="btn primary" href="contact.html?audit='+encodeURIComponent(base)+'">MAKE MY WEBSITE AGENTIC <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span></a></section>';
  status.classList.add('show');try{sessionStorage.setItem('deepdell-last-audit',base)}catch{}
 }
 let pendingAudit=null;
 function showLockedReport(base,results){
- const c=score(results),total=Object.values(c).reduce((a,b)=>a+b,0),found=results.filter(x=>x.found).length;
- status.innerHTML='<div class="audit-url">'+esc(base)+'</div><div class="audit-head"><div><div class="audit-score">'+total+'<small>/100</small></div><div class="audit-label">AUDIT COMPLETE / REPORT LOCKED</div></div><div class="audit-label">FOUND '+found+' / '+checks.length+'<br>ENTER EMAIL TO VIEW</div></div><div class="score-box" style="filter:blur(5px);user-select:none"><h3>AGENTIC READINESS</h3><div class="score-row"><span>Technical SEO</span><strong>'+c.technicalSeo+' / 20</strong></div><div class="score-row"><span>Machine Discovery</span><strong>'+c.machineDiscovery+' / 20</strong></div><div class="score-row"><span>LLM Readability</span><strong>'+c.llmReadability+' / 20</strong></div><div class="score-row"><span>Agent Identity</span><strong>'+c.agentIdentity+' / 20</strong></div><div class="score-row"><span>Agent Protocols</span><strong>'+c.agentProtocols+' / 20</strong></div></div>'; status.classList.add('show');
+ status.innerHTML='<div class="audit-report-hero"><div class="audit-url">'+esc(base)+'</div><div class="report-meta"><span>DEEPDELL AGENTIC READINESS AUDIT</span><span>25 PUBLIC SIGNALS CHECKED</span></div><div style="max-width:760px"><div class="audit-label">AUDIT COMPLETE / REPORT LOCKED</div><h2 style="font-size:clamp(28px,5vw,52px);margin:12px 0">Your report is ready.</h2><p style="color:#9db3ca;line-height:1.75;margin:0">Enter your business email below to unlock the complete readiness score, signal breakdown, engineering blueprint and shareable report.</p></div></div>';
+ status.classList.add('show');
+}
+function loadSharedReport(){
+ const h=new URLSearchParams(location.hash.replace(/^#/,''));
+ if(h.get('report')!=='1')return false;
+ const base=h.get('url'),mask=h.get('signals')||'';
+ if(!base||mask.length!==checks.length)return false;
+ try{new URL(base)}catch{return false}
+ const results=checks.map(([group,name,path,standard],i)=>({group,name,path,standard,found:mask[i]==='1',status:0,source:'SHARED REPORT'}));
+ document.querySelector('.check-hero').style.display='none';
+ document.getElementById('email-gate').style.display='none';
+ document.getElementById('scan-hud').classList.remove('active');
+ document.querySelector('.method').style.display='none';
+ server.textContent='SHARED REPORT / READ ONLY';
+ render(base,results);
+ return true;
 }
 form.addEventListener('submit',async e=>{
  e.preventDefault();let value=input.value.trim();if(!value)return;
  try{const u=new URL(value);if(!/^https?:$/.test(u.protocol))throw new Error('Use a public http:// or https:// URL.');value=u.origin+'/'}catch{server.textContent='BASIC PUBLIC PAGE CHECK / INVALID URL';server.className='server-status error';return}
- button.disabled=true;button.innerHTML='CHECKING…';server.textContent='BASIC PUBLIC PAGE CHECK / SCANNING';server.className='server-status';status.classList.remove('show');
+ button.disabled=true;button.innerHTML='CHECKING…';server.textContent='BASIC PUBLIC PAGE CHECK / SCANNING';server.className='server-status';status.classList.remove('show');document.getElementById('email-gate').style.display='none';
  try{
   const hud=document.getElementById('scan-hud'),fill=document.getElementById('scan-fill'),countEl=document.getElementById('signal-count');hud.classList.add('active');let completed=0;const results=await Promise.all(checks.map(async ([group,name,path,standard])=>{const r=await probe(value.replace(/\/$/,'')+path);completed++;fill.style.width=(completed/checks.length*100)+'%';countEl.textContent=completed;server.textContent='SCANNING / '+name.toUpperCase();return {group,name,path,standard,found:r.ok,status:r.status,source:r.source}}));
   pendingAudit={base:value,results,total:Object.values(score(results)).reduce((a,b)=>a+b,0)};window.deepdellEvent('agentic_check_completed',{audit_score:pendingAudit.total,signals_found:results.filter(x=>x.found).length,signals_total:results.length});
-  showLockedReport(value,results); document.getElementById('email-gate').style.display='block'; server.textContent='AUDIT COMPLETE / '+results.filter(x=>x.found).length+' SIGNALS FOUND';
+  showLockedReport(value,results); document.getElementById('email-gate').style.display='block'; server.textContent='AUDIT COMPLETE / EMAIL REQUIRED TO VIEW REPORT';
  }catch(err){status.innerHTML='<div class="score-box"><h3>AUDIT COULD NOT COMPLETE</h3><p style="margin:0;color:#9db3ca;line-height:1.7;font-size:13px">'+esc(err.message||'The basic check could not complete.')+'</p></div>';status.classList.add('show');server.textContent='BASIC PUBLIC PAGE CHECK / ERROR';server.className='server-status error'}
  finally{button.disabled=false;button.innerHTML='CHECK WEBSITE <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span>'}
 });
@@ -165,6 +187,7 @@ document.getElementById('unlock-button')?.addEventListener('click',async(e)=>{
  catch(err){server.textContent='REPORT READY / EMAIL DELIVERY FAILED — '+(err.message||'PLEASE TRY AGAIN');server.className='server-status error'}
  finally{unlock.disabled=false;unlock.innerHTML='VIEW FULL REPORT <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span>'}
 });
+loadSharedReport();
 })();
 </script>
 </body></html>
