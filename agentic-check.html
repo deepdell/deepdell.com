@@ -79,7 +79,7 @@ async function auditWebsite(base){
  const res=await fetch(AUDIT_API+'/api/audit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({url:base})});
  const json=await res.json().catch(()=>({}));
  if(!res.ok||!json.ok)throw new Error(json.error||'The audit service could not complete the check.');
- return {base:json.base||base,results:Array.isArray(json.results)?json.results:[],categories:json.categories||{}};
+ return {base:json.base||base,results:Array.isArray(json.results)?json.results:[],categories:json.categories||{},homepage:json.homepage||{}};
 }
 
 function score(results){
@@ -155,7 +155,7 @@ function render(base,results){resultsCache=results;
 }
 
 function showLockedReport(base,results){
- status.innerHTML='<div class="audit-report-hero"><div class="audit-url">'+esc(base)+'</div><div class="report-meta"><span>DEEPDELL AGENTIC READINESS AUDIT</span><span>25 PUBLIC SIGNALS CHECKED</span></div><div style="max-width:760px"><div class="audit-label">AUDIT COMPLETE / REPORT LOCKED</div><h2 style="font-size:clamp(28px,5vw,52px);margin:12px 0">Your report is ready.</h2><p style="color:#9db3ca;line-height:1.75;margin:0">Enter your business email below to unlock the complete readiness score, signal breakdown, engineering blueprint and shareable report.</p></div></div>';
+ status.innerHTML='<div class="audit-report-hero"><div class="audit-url">'+esc(base)+'</div><div class="report-meta"><span>DEEPDELL AGENTIC READINESS AUDIT</span><span>25 PUBLIC SIGNALS CHECKED</span></div><div style="max-width:760px"><div class="audit-label">AUDIT COMPLETE / REPORT LOCKED</div><h2 style="font-size:clamp(28px,5vw,52px);margin:12px 0">Your report is ready.</h2><p style="color:#9db3ca;line-height:1.75;margin:0">Enter your business email below to unlock the complete readiness score, signal breakdown, engineering blueprint and shareable report. If the site's homepage blocks automated fetching, the report will still use the public discovery signals that were independently checked.</p></div></div>';
  status.classList.add('show');
 }
 function loadSharedReport(){
@@ -178,9 +178,9 @@ form.addEventListener('submit',async e=>{
  try{if(!/^https?:\/\//i.test(value))value='https://'+value;const u=new URL(value);if(!/^https?:$/.test(u.protocol)||!u.hostname.includes('.'))throw new Error('Enter a valid public website domain.');value=u.origin+'/';input.value=value}catch{server.textContent='BASIC PUBLIC PAGE CHECK / INVALID URL';server.className='server-status error';input.focus();return}
  button.disabled=true;button.innerHTML='CHECKING…';server.textContent='BASIC PUBLIC PAGE CHECK / SCANNING';server.className='server-status';status.classList.remove('show');document.getElementById('email-gate').style.display='none';
  try{
-  const hud=document.getElementById('scan-hud'),fill=document.getElementById('scan-fill'),countEl=document.getElementById('signal-count');hud.classList.add('active');fill.style.width='0%';countEl.textContent='0';server.textContent='DISCOVERY ENGINE / STARTING';let completed=0;let results=[];const base=value.replace(/\/$/,'');const audit=await auditWebsite(base);results=audit.results;completed=checks.length;fill.style.width='100%';countEl.textContent=completed;server.textContent='DISCOVERY ENGINE / COMPLETE';
-  pendingAudit={base:value,results,total:Object.values(score(results)).reduce((a,b)=>a+b,0)};window.deepdellEvent('agentic_check_completed',{audit_score:pendingAudit.total,signals_found:results.filter(x=>x.found).length,signals_total:results.length});
-  showLockedReport(value,results); document.getElementById('email-gate').style.display='block'; server.textContent='AUDIT COMPLETE / EMAIL REQUIRED TO VIEW REPORT';
+  const hud=document.getElementById('scan-hud'),fill=document.getElementById('scan-fill'),countEl=document.getElementById('signal-count');hud.classList.add('active');fill.style.width='0%';countEl.textContent='0';server.textContent='DISCOVERY ENGINE / STARTING';let completed=0;let results=[];const base=value.replace(/\/$/,'');const audit=await auditWebsite(base);results=audit.results;completed=checks.length;fill.style.width='100%';countEl.textContent=results.filter(x=>x.found).length;server.textContent=(audit.homepage&&audit.homepage.available===false)?'DISCOVERY ENGINE / COMPLETE — HOMEPAGE RESTRICTED':'DISCOVERY ENGINE / COMPLETE';
+  pendingAudit={base:value,results,total:Object.values(score(results)).reduce((a,b)=>a+b,0),homepage:audit.homepage||{}};window.deepdellEvent('agentic_check_completed',{audit_score:pendingAudit.total,signals_found:results.filter(x=>x.found).length,signals_total:results.length});
+  showLockedReport(value,results); document.getElementById('email-gate').style.display='block'; server.textContent=(pendingAudit.homepage&&pendingAudit.homepage.available===false)?'AUDIT COMPLETE / DISCOVERY SIGNALS CHECKED':'AUDIT COMPLETE / EMAIL REQUIRED TO VIEW REPORT';
  }catch(err){status.innerHTML='<div class="score-box"><h3>AUDIT COULD NOT COMPLETE</h3><p style="margin:0;color:#9db3ca;line-height:1.7;font-size:13px">'+esc(err.message||'The basic check could not complete.')+'</p></div>';status.classList.add('show');server.textContent='BASIC PUBLIC PAGE CHECK / ERROR';server.className='server-status error'}
  finally{button.disabled=false;button.innerHTML='CHECK WEBSITE <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span>'}
 });
