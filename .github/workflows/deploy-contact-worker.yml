@@ -67,12 +67,23 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo "Checking /api/config..."
-          CONFIG="$(curl -fsS --max-time 20 https://deepdell-contact.deepdell-api.workers.dev/api/config)"
+          API="https://deepdell-contact.deepdell-api.workers.dev"
+          echo "Checking Worker endpoint..."
+          CONFIG=""
+          for attempt in 1 2 3 4 5 6; do
+            if CONFIG="$(curl -4 -fsS --http1.1 --max-time 20 "${API}/api/config")"; then
+              break
+            fi
+            echo "Worker endpoint not ready yet (attempt $attempt/6); waiting 15s..."
+            sleep 15
+          done
+          test -n "$CONFIG"
           echo "$CONFIG"
           echo "$CONFIG" | jq -e '.ok == true and .auditAvailable == true and .formProvider == "web3forms"' >/dev/null
 
           echo "Checking /api/audit..."
-          AUDIT="$(curl -fsS --max-time 90 -X POST https://deepdell.com/api/audit             -H 'Content-Type: application/json'             --data '{"url":"https://deepdell.com"}')"
+          AUDIT="$(curl -4 -fsS --http1.1 --max-time 90 -X POST "${API}/api/audit" \
+            -H 'Content-Type: application/json' \
+            --data '{"url":"https://deepdell.com"}')"
           echo "$AUDIT" | jq -e '.ok == true and .mode == "server" and (.results | length) == 25' >/dev/null
           echo "Live audit Worker endpoint checks passed."
