@@ -2,8 +2,8 @@ const ALLOWED_ORIGINS = new Set(['https://deepdell.com', 'https://www.deepdell.c
 const MAX_AUDIT_BODY = 12000;
 const MAX_FETCH_BYTES = 300000;
 const MAX_REDIRECTS = 5;
-const FETCH_TIMEOUT = 1800;
-const HOME_TIMEOUT = 3500;
+const FETCH_TIMEOUT = 5000;
+const HOME_TIMEOUT = 10000;
 
 const esc = (value) => String(value ?? '')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -148,7 +148,7 @@ export default { async fetch(request,env){
   if(request.method==='OPTIONS')return response({ok:true},200,request);
   if(url.pathname==='/api/config'){
     if(!originAllowed(request))return fail('Origin not allowed.',403,request);
-    return response({ok:true,auditAvailable:true,formProvider:'web3forms',contactAvailable:!!env.WEB3FORMS_ACCESS_KEY},200,request);
+    return response({ok:true,auditAvailable:true,formProvider:'web3forms',contactAvailable:!!env.WEB3FORMS_ACCESS_KEY,web3formsAccessKey:env.WEB3FORMS_ACCESS_KEY||''},200,request);
   }
   if(url.pathname==='/api/audit'){
     if(request.method==='POST'){
