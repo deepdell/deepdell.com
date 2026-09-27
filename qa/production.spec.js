@@ -37,7 +37,7 @@ test('GA4 and consent mode are active on the production homepage', async ({ page
     tag: document.querySelector('script[src*="googletagmanager.com/gtag/js?id=G-K592HB9G99"]') !== null,
     gtag: typeof window.gtag === 'function',
     defaultDenied: Array.isArray(window.dataLayer) && window.dataLayer.some(
-      item => Array.isArray(item) && item[0] === 'consent' && item[1] === 'default' &&
+      item => item && item[0] === 'consent' && item[1] === 'default' &&
         item[2]?.analytics_storage === 'denied'
     )
   }));
@@ -61,7 +61,7 @@ test('consent rejection keeps analytics storage denied', async ({ page }) => {
   await page.goto(BASE + '/', { waitUntil: 'domcontentloaded', timeout: 30000 });
   await page.getByRole('button', { name: 'Reject' }).click();
   const denied = await page.evaluate(() => Array.isArray(window.dataLayer) && window.dataLayer.some(
-    item => Array.isArray(item) && item[0] === 'consent' && item[1] === 'update' &&
+    item => item && item[0] === 'consent' && item[1] === 'update' &&
       item[2]?.analytics_storage === 'denied'
   ));
   expect(denied).toBe(true);
