@@ -136,7 +136,7 @@ async function audit(request,body){
   const found=n=>!!results.find(x=>x.name===n)?.found;
   const seoPoints=(u.protocol==='https:'?3:0)+(home.status>=200&&home.status<400?2:0)+(canonical?3:0)+(titleText.length>=20&&titleText.length<=65?2:0)+(desc.length>=70&&desc.length<=170?3:0)+(!!lang?1:0)+(og?1:0)+(schema?3:0)+(h1&&bodyText.length>=500&&headings>=3?2:0);
   const machinePoints=(found('robots.txt')?5:0)+(found('sitemap.xml')?5:0)+(found('sitemap index')?2:0)+(found('security.txt')?1:0)+(found('sitemap.txt')?1:0)+Math.min(6,results.filter(x=>x.group==='Additional'&&x.found&&!['security.txt','sitemap.txt'].includes(x.name)).length*2);
-  const agentDocs=results.filter(x=>x.group==='Agent docs'&&x.found).length;
+  const agentDocs=results.filter(x=>x.group==='Agent Documents'&&x.found).length;
   const llmPoints=(found('llms.txt')?8:0)+(found('llms-full.txt')?4:0)+(found('llms.md')?2:0)+(found('llms-full.md')?2:0)+(agentDocs>0?4:0);
   const identityPoints=(found('machine-readable.md')?5:0)+(found('machine-readable.txt')?4:0)+(found('ai-agent.md')?4:0)+(found('agentic.md')?4:0)+(found('agentic.json')?3:0);
   const protocolPoints=0;
