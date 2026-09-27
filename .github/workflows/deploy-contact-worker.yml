@@ -68,7 +68,7 @@ jobs:
         run: |
           set -euo pipefail
           echo "Checking /api/config..."
-          CONFIG="$(curl -fsS --max-time 20 https://deepdell.com/api/config)"
+          CONFIG="$(curl -fsS --max-time 20 https://deepdell-contact.deepdell-api.workers.dev/api/config)"
           echo "$CONFIG"
           echo "$CONFIG" | jq -e '.ok == true and .auditAvailable == true and .formProvider == "web3forms"' >/dev/null
 
