@@ -80,15 +80,28 @@ test('mobile navigation opens and closes', async ({ browser }) => {
   await context.close();
 });
 
-test('Agentic Check reaches the production audit Worker', async ({ page }) => {
+test('Agentic Check reaches and executes the production audit Worker', async ({ page }) => {
   await page.goto(BASE + '/agentic-check.html', { waitUntil: 'domcontentloaded', timeout: 30000 });
   const result = await page.evaluate(async () => {
-    const response = await fetch('https://deepdell-contact.deepdell-api.workers.dev/api/config');
-    return response.json();
+    const api = 'https://deepdell-contact.deepdell-api.workers.dev';
+    const config = await fetch(api + '/api/config').then(r => r.json());
+    const auditResponse = await fetch(api + '/api/audit', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({url: 'https://deepdell.com'})
+    });
+    const audit = await auditResponse.json();
+    return {config, audit};
   });
-  expect(result.ok).toBe(true);
-  expect(result.auditAvailable).toBe(true);
-  expect(result.formProvider).toBe('web3forms');
+  expect(result.config.ok).toBe(true);
+  expect(result.config.auditAvailable).toBe(true);
+  expect(result.config.formProvider).toBe('web3forms');
+  expect(result.config.contactAvailable).toBe(true);
+  expect(typeof result.config.web3formsAccessKey).toBe('string');
+  expect(result.config.web3formsAccessKey.length).toBeGreaterThan(10);
+  expect(result.audit.ok).toBe(true);
+  expect(result.audit.mode).toBe('server');
+  expect(result.audit.results).toHaveLength(25);
 });
 
 test('lead forms are wired to the Web3Forms helper', async ({ page }) => {
