@@ -32,7 +32,7 @@
 .report-sharebar button,.report-sharebar a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;border:1px solid rgba(32,243,251,.28);background:#021c3d;color:#fff;text-decoration:none;border-radius:6px;font:700 11px Inter,Arial,sans-serif;cursor:pointer}
 .report-sharebar .primary-share{background:#20f3fb;color:#011434;border-color:#20f3fb}
 .report-qr{display:none}
-@media print{.report-sharebar,.report-qr{display:none!important}}
+@media print{.report-sharebar{display:none!important}.report-qr{display:block!important}}
 </style></head>
 <body>
 <div id="site-loader" aria-hidden="true"><div class="loader-inner"><div class="loader-orbit"><span class="loader-core"></span></div><span class="loader-label">DEEPDELL / INITIALISING</span></div></div>
@@ -106,7 +106,7 @@ async function captureLead(base,email,results,total){
 }
 function buildShareUrl(base,results){
  const mask=results.map(x=>x.found?'1':'0').join('');
- const u=new URL(location.href);u.hash='report=1&url='+encodeURIComponent(base)+'&signals='+mask;return u.toString();
+ const u=new URL(location.href);u.search='?report=1&url='+encodeURIComponent(base)+'&signals='+mask;u.hash='';return u.toString();
 }
 function openShare(url){
  if(navigator.share){navigator.share({title:'DEEPDELL Agentic Readiness Report',text:'Agentic Readiness Report',url}).catch(()=>{});}
@@ -149,7 +149,7 @@ function showLockedReport(base,results){
  status.classList.add('show');
 }
 function loadSharedReport(){
- const h=new URLSearchParams(location.hash.replace(/^#/,''));
+ const h=new URLSearchParams(location.search);
  if(h.get('report')!=='1')return false;
  const base=h.get('url'),mask=h.get('signals')||'';
  if(!base||mask.length!==checks.length)return false;
