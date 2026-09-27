@@ -7,8 +7,7 @@
   "discovery": {
     "llms": "https://deepdell.com/llms.txt",
     "llmsFull": "https://deepdell.com/llms-full.txt",
-    "agentic": "https://deepdell.com/agentic.json",
-    "ucp": "https://deepdell.com/.well-known/ucp"
+    "agentic": "https://deepdell.com/agentic.json"
   },
   "capabilities": ["Shopify Plus Engineering", "AI Agents", "Agentic Automation", "Business Automation", "Systems Integration", "Data and BI", "Custom Software and SaaS", "Technical SEO and CRO"]
 }
