@@ -73,6 +73,27 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
 
 
 // ─────────────────────────────────────────────────────────────
+// DEEPDELL / WEB3FORMS — FREE LEAD DELIVERY
+// Web3Forms documents the access key as a public client-side identifier.
+// ─────────────────────────────────────────────────────────────
+(function(){
+  const WEB3FORMS_KEY='YOUR_WEB3FORMS_ACCESS_KEY';
+  window.deepdellWeb3FormsConfigured=WEB3FORMS_KEY !== 'YOUR_WEB3FORMS_ACCESS_KEY';
+  window.submitDeepdellForm=async function(payload){
+    if(!window.deepdellWeb3FormsConfigured) throw new Error('Web3Forms access key is not configured.');
+    const data={access_key:WEB3FORMS_KEY,subject:'DEEPDELL Website Lead',from_name:'DEEPDELL Website',...payload,botcheck:''};
+    const response=await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(data)
+    });
+    const json=await response.json().catch(()=>({}));
+    if(!response.ok || json.success===false) throw new Error(json.message||'Web3Forms submission failed.');
+    return json;
+  };
+})();
+
+// ─────────────────────────────────────────────────────────────
 // DEEPDELL / FREE GOOGLE CONSENT MODE — BASIC MODE
 // Google tags do not load until the visitor chooses.
 // No paid CMP is required for this implementation.
