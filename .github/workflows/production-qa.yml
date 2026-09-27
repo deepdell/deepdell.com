@@ -29,4 +29,4 @@ jobs:
           npm install --global @playwright/test@latest
           playwright install chromium --with-deps
       - name: Run production browser QA
-        run: playwright test qa/production.spec.js --project=chromium --workers=1
+        run: playwright test qa/production.spec.js --workers=1
