@@ -8,7 +8,6 @@ Canonical: https://deepdell.com/
 - [Agent manifest](https://deepdell.com/agent.json): public agent capabilities.
 - [Agentic manifest](https://deepdell.com/agentic.json): public discovery signals.
 - [UCP profile](https://deepdell.com/.well-known/ucp): UCP discovery profile.
-- [A2A Agent Card](https://deepdell.com/.well-known/agent-card.json): A2A discovery when an A2A service is deployed.
 
 ## Services
 Shopify Plus Engineering; AI Agents; Agentic Automation; Business Automation; Systems Integration; Data and BI; Custom Software and SaaS; Technical SEO and CRO.
