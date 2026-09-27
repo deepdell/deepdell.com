@@ -39,6 +39,9 @@ Shopify, Shopify Plus, React, Next.js, Node.js, TypeScript, JavaScript, PHP, Mag
 - https://deepdell.com/industries.html
 - https://deepdell.com/contact.html
 - https://deepdell.com/agentic-check.html
+- https://deepdell.com/commerce-calculator.html
+- https://deepdell.com/game.html
+- https://deepdell.com/contact-card.html
 
 ## Machine-readable discovery
 - https://deepdell.com/robots.txt
