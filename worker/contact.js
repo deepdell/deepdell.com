@@ -122,8 +122,10 @@ async function audit(request,body){
   let u;try{u=validPublicUrl(body.url)}catch(e){return fail(e.message,400,request)}
   const base=`${u.protocol}//${u.host}`;
   const home=await fetchPublic(u.href,HOME_TIMEOUT);
-  if(!home.ok||!home.text)return fail('The public website could not be fetched. The URL must be reachable from the public Internet without login, VPN, IP allowlisting, or a blocked server-side request.',422,request);
-  const html=home.text;
+  // Some public sites (marketplaces, WAF-protected stores, bot-managed
+  // platforms) can block server-side homepage fetches while still
+  // exposing public discovery files. Do not abort the discovery audit.
+  const html=home.ok ? home.text : '';
   const canonicalRaw=linkHref(html,'canonical');
   let canonical=false;try{canonical=!!canonicalRaw&&new URL(canonicalRaw,u.href).href.replace(/\/$/,'')===u.href.replace(/\/$/,'')}catch{}
   const lang=(html.match(/<html[^>]+lang=[\"']([^\"']+)/i)||[])[1]||'';
@@ -140,7 +142,7 @@ async function audit(request,body){
   const protocolPoints=0;
   const clamp=n=>Math.max(0,Math.min(20,Math.round(n)));
   const categories={technicalSeo:clamp(seoPoints),machineDiscovery:clamp(machinePoints),llmReadability:clamp(llmPoints),agentIdentity:clamp(identityPoints),agentProtocols:clamp(protocolPoints)};
-  return response({ok:true,base:u.href.replace(/\/$/,''),mode:'server',homepage:{status:home.status,finalUrl:home.finalUrl,title:titleText,description:desc,canonical:canonicalRaw,canonicalPass:canonical,lang,og,structuredData:schema,h1,headings,links,textLength:bodyText.length},results,categories},200,request);
+  return response({ok:true,base:u.href.replace(/\/$/,''),mode:'server',homepage:{available:home.ok&&!!home.text,status:home.status,finalUrl:home.finalUrl,title:titleText,description:desc,canonical:canonicalRaw,canonicalPass:canonical,lang,og,structuredData:schema,h1,headings,links,textLength:bodyText.length,error:home.error||''},results,categories},200,request);
 }
 
 export default { async fetch(request,env){
