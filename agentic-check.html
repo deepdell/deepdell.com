@@ -24,7 +24,16 @@
 @media(max-width:1000px){.footer{grid-template-columns:minmax(0,1fr) 140px!important;column-gap:40px!important}.footer-links{grid-column:1;grid-row:2}.footer-qr{grid-column:2;grid-row:1 / span 2}.footer-bottom{grid-row:3}}@media(max-width:700px){.footer{grid-template-columns:1fr!important;padding:52px 20px 22px!important;row-gap:30px!important}.footer-links{grid-column:1;grid-row:auto;grid-template-columns:1fr 1fr!important}.footer-qr{grid-column:1;grid-row:auto;justify-self:start!important;align-items:flex-start!important}.footer-qr>span{text-align:left!important}.footer-bottom{grid-row:auto;flex-direction:column!important;align-items:flex-start!important;gap:8px!important}.site-header .brand img{width:130px!important}}@media(max-width:430px){.footer-links{grid-template-columns:1fr!important}}
 </style>
 <link rel="stylesheet" href="site-fixes.css">
-</head>
+<style>
+@media print{
+ body{background:#fff!important;color:#111!important}.site-header,.footer,.check-hero,.method,.audit-actions,.scan-hud{display:none!important}.check-wrap{padding:20px!important;max-width:100%!important}.audit-panel{display:block!important}.audit-report-hero,.report-section,.score-box{background:#fff!important;border:1px solid #ccc!important;color:#111!important}.audit-report-hero *,.report-section *,.score-box *{color:#111!important}.readiness-ring:before{background:#fff!important}.conversion-panel{background:#fff!important;color:#111!important}
+}
+.report-sharebar{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;padding-top:18px;border-top:1px solid rgba(137,249,253,.12)}
+.report-sharebar button,.report-sharebar a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;border:1px solid rgba(32,243,251,.28);background:#021c3d;color:#fff;text-decoration:none;border-radius:6px;font:700 11px Inter,Arial,sans-serif;cursor:pointer}
+.report-sharebar .primary-share{background:#20f3fb;color:#011434;border-color:#20f3fb}
+.report-qr{display:none}
+@media print{.report-sharebar,.report-qr{display:none!important}}
+</style></head>
 <body>
 <div id="site-loader" aria-hidden="true"><div class="loader-inner"><div class="loader-orbit"><span class="loader-core"></span></div><span class="loader-label">DEEPDELL / INITIALISING</span></div></div>
 <header class="site-header" id="top"><a class="brand" href="index.html" aria-label="DEEPDELL home"><img class="brand-mark" src="assets/deepdell-guideline-icon.svg" alt="" aria-hidden="true"><span class="brand-wordmark">DEEPDELL</span></a><nav class="nav" aria-label="Main navigation"><a href="services.html">Services</a><a href="shopify-plus.html">Shopify Plus</a><a href="ai.html">AI & Automation</a><a href="data.html">Data & BI</a><a href="industries.html">Industries</a><a href="agentic-check.html">Agentic Check</a><a href="contact.html">Contact</a></nav><div class="header-tools"><a class="header-cta" href="contact.html">Start a project <span aria-hidden="true"></span></a><button class="menu" aria-label="Open menu" aria-expanded="false" type="button"><i></i><i></i></button></div></header>
@@ -91,7 +100,18 @@ async function captureLead(base,email,results,total){
  if(!r.ok||!json.success)throw new Error(json.message||json?.body?.message||'Email delivery failed');
  return true;
 }
-function render(base,results){
+function buildShareUrl(base,total){
+ const u=new URL(location.href); u.search=new URLSearchParams({url:base,score:String(total),signals:String(resultsCache.filter(x=>x.found).length)}).toString(); return u.toString();
+}
+let resultsCache=[];
+function openShare(url){
+ if(navigator.share){navigator.share({title:'DEEPDELL Agentic Readiness Audit',text:'Check this website\'s Agentic Readiness Report',url}).catch(()=>{});}
+ else navigator.clipboard?.writeText(url);
+}
+function printReport(){
+ const old=document.title; document.title='DEEPDELL Agentic Readiness Report'; window.print(); setTimeout(()=>document.title=old,500);
+}
+function render(base,results){resultsCache=results;
  const c=score(results),total=Object.values(c).reduce((a,b)=>a+b,0),groups={};results.forEach(x=>(groups[x.group]??=[]).push(x));
  const found=results.filter(x=>x.found).length,missing=results.length-found;
  const level=total>=80?'STRONG DISCOVERY FOUNDATION':total>=60?'PARTIAL AGENTIC FOUNDATION':total>=40?'EARLY DISCOVERY FOUNDATION':'DISCOVERY GAP';
