@@ -24,25 +24,38 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: .
 
-      - name: Verify live Worker endpoints
+      - name: Diagnose public DNS and Cloudflare routing
+        shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -u
+          echo "DNS A records:"
+          dig +short A deepdell.com || true
+          echo "DNS AAAA records:"
+          dig +short AAAA deepdell.com || true
+          echo "DNS www CNAME:"
+          dig +short CNAME www.deepdell.com || true
+
+          if [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
+            echo "Cloudflare DNS records (proxy status only):"
+            curl -fsS --max-time 20               -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}"               -H "Content-Type: application/json"               "https://api.cloudflare.com/client/v4/zones?name=deepdell.com" |
+              jq -r '.result[] | .id' | while read -r ZONE_ID; do
+                curl -fsS --max-time 20                   -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}"                   -H "Content-Type: application/json"                   "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records?per_page=100" |
+                  jq -r '.result[] | select(.name=="deepdell.com" or .name=="www.deepdell.com") | "(.name) (.type) (.content) proxied=(.proxied)"'
+              done || echo "Cloudflare DNS inspection unavailable with the current token permissions."
+          fi
+
+      - name: Verify live audit Worker endpoint
         shell: bash
         run: |
           set -euo pipefail
           echo "Checking /api/config..."
           CONFIG="$(curl -fsS --max-time 20 https://deepdell.com/api/config)"
           echo "$CONFIG"
-          echo "$CONFIG" | jq -e '.ok == true and .auditAvailable == true and .emailAvailable == true' >/dev/null
-
-          echo "Checking /api/contact honeypot path..."
-          CONTACT="$(curl -fsS --max-time 20 -X POST https://deepdell.com/api/contact \
-            -H 'Content-Type: application/json' \
-            --data '{"name":"","email":"","service":"","message":"","website_field":"healthcheck"}')"
-          echo "$CONTACT"
-          echo "$CONTACT" | jq -e '.ok == true' >/dev/null
+          echo "$CONFIG" | jq -e '.ok == true and .auditAvailable == true and .formProvider == "web3forms"' >/dev/null
 
           echo "Checking /api/audit..."
-          AUDIT="$(curl -fsS --max-time 90 -X POST https://deepdell.com/api/audit \
-            -H 'Content-Type: application/json' \
-            --data '{"url":"https://deepdell.com"}')"
+          AUDIT="$(curl -fsS --max-time 90 -X POST https://deepdell.com/api/audit             -H 'Content-Type: application/json'             --data '{"url":"https://deepdell.com"}')"
           echo "$AUDIT" | jq -e '.ok == true and .mode == "server" and (.results | length) == 25' >/dev/null
-          echo "Live Worker endpoint checks passed."
+          echo "Live audit Worker endpoint checks passed."
