@@ -94,18 +94,15 @@ function score(results){
 async function captureLead(base,email,results,total){
  const c=score(results),found=results.filter(x=>x.found).length;
  const summary=results.map(x=>`${x.name}: ${x.found?'FOUND':'NOT FOUND'}${x.status?' (HTTP '+x.status+')':''}`).join('\\n');
- const res=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({
+ await window.submitDeepdellForm({
    name:'Agentic Readiness Checker',
    email,
    company:'',
    website:base,
    service:'Agentic Readiness Audit',
    message:'DEEPDELL Agentic Readiness Audit | Score: '+total+'/100 | Signals: '+found+'/'+checks.length+'\\n\\n'+summary,
-   audit_url:buildShareUrl(base,results),
-   website_field:''
- })});
- const json=await res.json().catch(()=>({}));
- if(!res.ok||!json.ok)throw new Error(json.error||'Submission failed');
+   audit_url:buildShareUrl(base,results)
+ });
  return true;
 }
 let resultsCache=[];
