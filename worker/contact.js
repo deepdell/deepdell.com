@@ -1,6 +1,4 @@
 const ALLOWED_ORIGINS = new Set(['https://deepdell.com', 'https://www.deepdell.com']);
-const TO = 'bonjour.deepdell@gmail.com';
-const FROM = 'DEEPDELL Website <leads@support.deepdell.com>';
 const MAX_AUDIT_BODY = 12000;
 const MAX_FETCH_BYTES = 300000;
 const MAX_REDIRECTS = 5;
@@ -150,7 +148,7 @@ export default { async fetch(request,env){
   if(request.method==='OPTIONS')return response({ok:true},200,request);
   if(url.pathname==='/api/config'){
     if(!originAllowed(request))return fail('Origin not allowed.',403,request);
-    return response({ok:true,auditAvailable:true,emailAvailable:!!env.RESEND_API_KEY},200,request);
+    return response({ok:true,auditAvailable:true,formProvider:'web3forms',contactAvailable:false},200,request);
   }
   if(url.pathname==='/api/audit'){
     if(request.method==='POST'){
@@ -165,19 +163,6 @@ export default { async fetch(request,env){
     }
     return fail('Method not allowed.',405,request);
   }
-  if(url.pathname!=='/api/contact')return fail('Not found.',404,request);
-  if(request.method!=='POST')return fail('Method not allowed.',405,request);
-  if(!originAllowed(request))return fail('Origin not allowed.',403,request);
-  if(rateLimited(request,'contact',8))return fail('Too many requests. Please wait a minute and try again.',429,request);
-  const length=Number(request.headers.get('Content-Length')||0);if(length>20000)return fail('Request is too large.',413,request);
-  let data;try{data=await request.json()}catch{return fail('Invalid request.',400,request)}
-  if(clean(data.website_field,200))return response({ok:true},200,request);
-  const name=clean(data.name,120),email=clean(data.email,254),company=clean(data.company,160),website=clean(data.website,500),service=clean(data.service,120),phone=clean(data.phone,80),message=clean(data.message,5000),auditUrl=clean(data.audit_url,1000);
-  if(!name||!email||!service||!message)return fail('Please complete all required fields.',400,request);
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return fail('Please enter a valid work email.',400,request);
-  const subject=auditUrl?`New DEEPDELL lead — Agentic audit — ${company||name}`:`New DEEPDELL project enquiry — ${company||name}`;
-  const html=`<!doctype html><html><body style="margin:0;background:#011434;color:#fff;font-family:Arial,Helvetica,sans-serif;padding:32px"><div style="max-width:680px;margin:auto"><div style="font-size:12px;letter-spacing:2px;color:#20f3fb">DEEPDELL / NEW LEAD</div><h1 style="font-size:28px;margin:12px 0 24px">${esc(name)}${company?` <span style="color:#89f9fd">· ${esc(company)}</span>`:''}</h1><table style="width:100%;border-collapse:collapse"><tr><td style="padding:12px 0;color:#89f9fd;width:150px">EMAIL</td><td style="padding:12px 0">${esc(email)}</td></tr><tr><td style="padding:12px 0;color:#89f9fd">SERVICE</td><td style="padding:12px 0">${esc(service)}</td></tr>${website?`<tr><td style="padding:12px 0;color:#89f9fd">WEBSITE</td><td style="padding:12px 0">${esc(website)}</td></tr>`:''}${phone?`<tr><td style="padding:12px 0;color:#89f9fd">PHONE</td><td style="padding:12px 0">${esc(phone)}</td></tr>`:''}${auditUrl?`<tr><td style="padding:12px 0;color:#89f9fd">AUDIT</td><td style="padding:12px 0"><a style="color:#20f3fb" href="${esc(auditUrl)}">${esc(auditUrl)}</a></td></tr>`:''}</table><div style="margin-top:22px;padding:20px;background:#021c3d;border:1px solid #17446b"><div style="font-size:11px;letter-spacing:1px;color:#89f9fd;margin-bottom:10px">PROJECT DETAILS</div><div style="white-space:pre-wrap;line-height:1.7">${esc(message)}</div></div><p style="color:#7189a3;font-size:12px;margin-top:24px">Reply directly to this email to respond to the lead.</p></div></body></html>`;
-  const text=`DEEPDELL NEW LEAD\n\nName: ${name}\nEmail: ${email}\nCompany: ${company||'-'}\nWebsite: ${website||'-'}\nService: ${service}\nPhone: ${phone||'-'}\nAudit URL: ${auditUrl||'-'}\n\nMessage:\n${message}`;
-  if(!env.RESEND_API_KEY)return fail('Email service is not configured.',503,request);
-  try{const r=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({from:FROM,to:[TO],reply_to:email,subject,html,text})});const result=await r.json().catch(()=>({}));if(!r.ok)return fail(result?.message||'Unable to send your message right now.',502,request);return response({ok:true,id:result.id||null},200,request)}catch{return fail('Unable to reach the email service. Please try again.',502,request)}
+  if(url.pathname==='/api/contact')return fail('Contact forms are handled by Web3Forms.',410,request);
+
 }};
