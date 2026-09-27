@@ -183,3 +183,21 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
   .trust{padding:0 18px!important}
   .trust-line span{min-height:78px!important;padding:15px 12px!important;font-size:8.5px!important}
 }
+
+/* FINAL TECHNOLOGY ECOSYSTEM POLISH */
+.tech-ecosystem{padding-top:92px!important;padding-bottom:92px!important}
+.tech-ecosystem .section-heading{max-width:1000px;margin-bottom:34px!important}
+.tech-ecosystem .section-heading h2{font-size:clamp(36px,4.4vw,58px)!important}
+.tech-ecosystem .section-heading p{font-size:14px!important;max-width:520px}
+.tech-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:1px!important;margin-top:34px!important;background:rgba(120,185,225,.14)!important;border:1px solid rgba(120,185,225,.14)!important}
+.tech-item{min-height:152px!important;padding:22px 20px!important;justify-content:flex-end!important;align-items:flex-start!important;background:linear-gradient(145deg,rgba(7,32,65,.96),rgba(2,19,43,.98))!important;border:0!important;transition:transform .25s ease,background .25s ease,box-shadow .25s ease!important}
+.tech-item:after{content:'';position:absolute;left:20px;right:20px;top:76px;height:1px;background:linear-gradient(90deg,rgba(32,243,251,.24),transparent)!important}
+.tech-item img{position:absolute!important;top:21px!important;left:20px!important;width:38px!important;height:38px!important;object-fit:contain!important;opacity:1!important;filter:none!important;transform:none!important}
+.tech-item strong{font-size:12px!important;letter-spacing:.045em!important;color:#f5f9ff!important;text-align:left!important;width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.tech-item small{font-size:8px!important;letter-spacing:.12em!important;color:#69839d!important;width:100%!important;text-align:left!important;margin-top:3px!important}
+.tech-item:hover{transform:translateY(-3px)!important;background:linear-gradient(145deg,rgba(8,46,79,.98),rgba(3,24,51,.99))!important;box-shadow:inset 0 0 0 1px rgba(32,243,251,.18),0 18px 45px rgba(0,0,0,.22)!important}
+.tech-item:hover img{filter:drop-shadow(0 0 10px rgba(32,243,251,.28))!important;transform:translateY(-1px)!important}
+.tech-item.shopify-official img{width:42px!important;height:38px!important;max-width:42px!important;margin:0!important}
+.tech-note{font-size:10px!important;color:#5f7892!important;margin-top:18px!important}
+@media(max-width:1050px){.tech-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+@media(max-width:700px){.tech-ecosystem{padding-top:70px!important;padding-bottom:70px!important}.tech-ecosystem .section-heading{display:block!important;margin-bottom:28px!important}.tech-ecosystem .section-heading h2{font-size:34px!important;margin-bottom:16px!important}.tech-ecosystem .section-heading p{font-size:12px!important;line-height:1.7!important}.tech-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:1px!important;margin-top:28px!important}.tech-item{min-height:132px!important;padding:19px 16px!important}.tech-item img{top:18px!important;left:16px!important;width:34px!important;height:34px!important}.tech-item:after{left:16px;right:16px;top:65px}.tech-item strong{font-size:11px!important}.tech-item small{font-size:7px!important}.tech-item.shopify-official img{width:38px!important;height:34px!important}}
