@@ -67,6 +67,7 @@ let pendingAudit = null;
 const form=document.getElementById('scan-form'),input=document.getElementById('url'),emailInput=document.getElementById('email'),consent=document.getElementById('consent'),status=document.getElementById('status'),button=document.getElementById('scan-button'),server=document.getElementById('server-status');
 const q=new URLSearchParams(location.search);if(q.get('url'))input.value=q.get('url');
 const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const AUDIT_API='https://deepdell-contact.deepdell-api.workers.dev';
 const checks=[
 ['Core Discovery','robots.txt','/robots.txt',true],['Core Discovery','sitemap.xml','/sitemap.xml',true],['Core Discovery','sitemap index','/sitemap_index.xml',false],['Core Discovery','security.txt','/security.txt',false],
 ['AI Discovery','llms.txt','/llms.txt',true],['AI Discovery','llms-full.txt','/llms-full.txt',false],['AI Discovery','llms.md','/llms.md',false],['AI Discovery','llms-full.md','/llms-full.md',false],
@@ -75,7 +76,7 @@ const checks=[
 ['Additional Discovery','humans.txt','/humans.txt',false],['Additional Discovery','sitemap.txt','/sitemap.txt',false],['Additional Discovery','well-known security','/.well-known/security.txt',false],['Additional Discovery','favicon.svg','/assets/favicon.svg',false]
 ];
 async function auditWebsite(base){
- const res=await fetch('/api/audit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({url:base})});
+ const res=await fetch(AUDIT_API+'/api/audit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({url:base})});
  const json=await res.json().catch(()=>({}));
  if(!res.ok||!json.ok)throw new Error(json.error||'The audit service could not complete the check.');
  return {base:json.base||base,results:Array.isArray(json.results)?json.results:[],categories:json.categories||{}};
