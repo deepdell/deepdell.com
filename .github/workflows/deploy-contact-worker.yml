@@ -16,6 +16,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Ensure workers.dev subdomain
+        shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          ACCOUNT_ID="bb11faaa28bfb1a4ece6caeb23af7c6d"
+          SUBDOMAIN_RESPONSE="$(curl -sS --max-time 20             -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}"             -H "Content-Type: application/json"             "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/workers/subdomain")"
+          EXISTING="$(echo "$SUBDOMAIN_RESPONSE" | jq -r '.result.subdomain // empty')"
+          if [ -n "$EXISTING" ]; then
+            echo "workers.dev subdomain already registered: $EXISTING"
+          else
+            echo "Registering workers.dev subdomain: deepdell-api"
+            curl -fsS --max-time 20 -X PUT               -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}"               -H "Content-Type: application/json"               "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/workers/subdomain"               --data '{"subdomain":"deepdell-api"}' | jq -e '.success == true' >/dev/null
+            echo "workers.dev subdomain registered: deepdell-api"
+          fi
+
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v4
         env:
