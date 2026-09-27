@@ -73,21 +73,47 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
 
 
 // ─────────────────────────────────────────────────────────────
-// DEEPDELL / WEB3FORMS — FREE LEAD DELIVERY
-// Lead delivery is proxied through the Cloudflare Worker so the
-// Web3Forms access key is stored as a Worker secret, not in Git.
+// DEEPDELL / WEB3FORMS — FREE CLIENT-SIDE DELIVERY
+// Web3Forms requires its free API to be called from the browser.
+// The access key is a public Web3Forms identifier, not a secret.
+// We keep the key in the Worker environment and expose only that
+// public identifier through /api/config, then submit directly to
+// Web3Forms from the visitor's browser.
 // ─────────────────────────────────────────────────────────────
 (function(){
   const API='https://deepdell-contact.deepdell-api.workers.dev';
+  let accessKeyPromise=null;
+
+  async function getAccessKey(){
+    if(!accessKeyPromise){
+      accessKeyPromise=fetch(API+'/api/config',{headers:{'Accept':'application/json'},cache:'no-store'})
+        .then(async response=>{
+          const json=await response.json().catch(()=>({}));
+          if(!response.ok || !json.ok || !json.web3formsAccessKey){
+            throw new Error('Contact delivery is not configured.');
+          }
+          return json.web3formsAccessKey;
+        })
+        .catch(error=>{
+          accessKeyPromise=null;
+          throw error;
+        });
+    }
+    return accessKeyPromise;
+  }
+
   window.deepdellWeb3FormsConfigured=true;
   window.submitDeepdellForm=async function(payload){
-    const response=await fetch(API+'/api/contact',{
+    const accessKey=await getAccessKey();
+    const response=await fetch('https://api.web3forms.com/submit',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify({...payload})
+      body:JSON.stringify({access_key:accessKey,subject:'DEEPDELL Website Lead',from_name:'DEEPDELL Website',botcheck:'',...payload})
     });
     const json=await response.json().catch(()=>({}));
-    if(!response.ok || json.ok!==true) throw new Error(json.error||'Contact submission failed.');
+    if(!response.ok || json.success===false){
+      throw new Error(json.message || json.body?.message || 'Web3Forms submission failed.');
+    }
     return json;
   };
 })();
