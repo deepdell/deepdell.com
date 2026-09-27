@@ -148,7 +148,7 @@ export default { async fetch(request,env){
   if(request.method==='OPTIONS')return response({ok:true},200,request);
   if(url.pathname==='/api/config'){
     if(!originAllowed(request))return fail('Origin not allowed.',403,request);
-    return response({ok:true,auditAvailable:true,formProvider:'web3forms',contactAvailable:false},200,request);
+    return response({ok:true,auditAvailable:true,formProvider:'web3forms',contactAvailable:!!env.WEB3FORMS_ACCESS_KEY},200,request);
   }
   if(url.pathname==='/api/audit'){
     if(request.method==='POST'){
@@ -163,6 +163,26 @@ export default { async fetch(request,env){
     }
     return fail('Method not allowed.',405,request);
   }
-  if(url.pathname==='/api/contact')return fail('Contact forms are handled by Web3Forms.',410,request);
+  if(url.pathname==='/api/contact'){
+    if(request.method!=='POST')return fail('Method not allowed.',405,request);
+    if(!originAllowed(request))return fail('Origin not allowed.',403,request);
+    if(rateLimited(request,'contact',10))return fail('Too many submissions. Please wait a minute and try again.',429,request);
+    if(!env.WEB3FORMS_ACCESS_KEY)return fail('Contact delivery is not configured.',503,request);
+    let body;try{body=await request.json()}catch{return fail('Invalid request.',400,request)}
+    const email=clean(body.email,254);
+    const name=clean(body.name,160);
+    const message=clean(body.message,6000);
+    const website=clean(body.website,500);
+    const company=clean(body.company,200);
+    const service=clean(body.service,200);
+    if(!email||!email.includes('@'))return fail('A valid email address is required.',400,request);
+    if(!name||!message)return fail('Name and message are required.',400,request);
+    if(clean(body.website_field,200))return fail('Submission rejected.',400,request);
+    const formData={access_key:env.WEB3FORMS_ACCESS_KEY,subject:'DEEPDELL Website Lead',from_name:'DEEPDELL Website',name,email,company,service,website,message,botcheck:''};
+    const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(formData)});
+    const json=await r.json().catch(()=>({}));
+    if(!r.ok||json.success===false)return fail(json.message||'Web3Forms submission failed.',502,request);
+    return response({ok:true,provider:'web3forms'},200,request);
+  }
 
 }};
