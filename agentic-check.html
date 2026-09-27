@@ -126,6 +126,12 @@ function setCopyState(){
 function printReport(){
  const old=document.title;document.title='DEEPDELL Agentic Readiness Report';window.print();setTimeout(()=>document.title=old,700);
 }
+// These report controls are rendered with inline handlers inside the audit HTML.
+// Expose the handlers explicitly so the controls work outside this IIFE scope.
+window.buildShareUrl=buildShareUrl;
+window.openShare=openShare;
+window.copyReportLink=copyReportLink;
+window.printReport=printReport;
 function render(base,results){resultsCache=results;
  const c=score(results),total=Object.values(c).reduce((a,b)=>a+b,0),groups={};results.forEach(x=>(groups[x.group]??=[]).push(x));
  const found=results.filter(x=>x.found).length,missing=results.length-found;
