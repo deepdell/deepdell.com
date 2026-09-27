@@ -59,21 +59,16 @@ const checks=[
 ['Agent Identity','UCP profile','/.well-known/ucp',true],['Agent Identity','A2A Agent Card','/.well-known/agent-card.json',true],['Agent Identity','AI plugin','/.well-known/ai-plugin.json',false],['Agent Identity','OpenID configuration','/.well-known/openid-configuration',false],['Agent Identity','OAuth authorization server','/.well-known/oauth-authorization-server',false],
 ['Protocols & Signals','UCP MCP','/ucp/mcp',false],['Protocols & Signals','MCP','/mcp',false],['Protocols & Signals','MCP SSE','/sse',false],['Protocols & Signals','API MCP','/api/mcp',false],['Protocols & Signals','security.txt','/security.txt',false],['Protocols & Signals','sitemap.txt','/sitemap.txt',false],['Protocols & Signals','agentic.md','/agentic.md',false],['Protocols & Signals','agentic.json','/agentic.json',false]
 ];
-async function fetchWithTimeout(url,options={},ms=7000){
- const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),ms);
- try{return await fetch(url,{...options,signal:controller.signal})}finally{clearTimeout(timer)}
-}
 async function probe(url){
+ const timeout=ms=>new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),ms));
  try{
-  const r=await fetchWithTimeout(url,{mode:'cors',redirect:'follow',cache:'no-store'},6500);
-  return {ok:r.ok,status:r.status,source:'DIRECT'}
- }catch{}
- try{
-  const reader='https://r.jina.ai/'+url;
-  const r=await fetchWithTimeout(reader,{mode:'cors',cache:'no-store'},6500);
+  const r=await Promise.race([
+   fetch('https://r.jina.ai/'+url,{mode:'cors',cache:'no-store'}),
+   timeout(4500)
+  ]);
   const t=await r.text();
   const missing=/(^|\n)404\s*(Not Found|Page Not Found)?($|\n)/i.test(t)||/requested page (could not be found|does not exist)/i.test(t);
-  return {ok:r.ok&&!missing,status:r.ok?(missing?404:200):r.status,source:'READER'}
+  return {ok:r.ok&&!missing,status:r.ok?(missing?404:200):r.status,source:'PUBLIC READER'};
  }catch{return {ok:false,status:0,source:'UNREACHABLE'}}
 }
 
@@ -176,7 +171,7 @@ form.addEventListener('submit',async e=>{
  try{const u=new URL(value);if(!/^https?:$/.test(u.protocol))throw new Error('Use a public http:// or https:// URL.');value=u.origin+'/'}catch{server.textContent='BASIC PUBLIC PAGE CHECK / INVALID URL';server.className='server-status error';return}
  button.disabled=true;button.innerHTML='CHECKING…';server.textContent='BASIC PUBLIC PAGE CHECK / SCANNING';server.className='server-status';status.classList.remove('show');document.getElementById('email-gate').style.display='none';
  try{
-  const hud=document.getElementById('scan-hud'),fill=document.getElementById('scan-fill'),countEl=document.getElementById('signal-count');hud.classList.add('active');fill.style.width='0%';countEl.textContent='0';let completed=0;const results=new Array(checks.length);let cursor=0;const worker=async()=>{while(cursor<checks.length){const i=cursor++;const [group,name,path,standard]=checks[i];server.textContent='SCANNING / '+name.toUpperCase();const r=await probe(value.replace(/\/$/,'')+path);results[i]={group,name,path,standard,found:r.ok,status:r.status,source:r.source};completed++;fill.style.width=(completed/checks.length*100)+'%';countEl.textContent=completed;}};await Promise.all([worker(),worker(),worker(),worker(),worker()]);
+  const hud=document.getElementById('scan-hud'),fill=document.getElementById('scan-fill'),countEl=document.getElementById('signal-count');hud.classList.add('active');fill.style.width='0%';countEl.textContent='0';server.textContent='DISCOVERY ENGINE / STARTING';let completed=0;const results=new Array(checks.length);const base=value.replace(/\/$/,'');const runCheck=async(i)=>{const [group,name,path,standard]=checks[i];try{const r=await probe(base+path);return {group,name,path,standard,found:r.ok,status:r.status,source:r.source}}catch{return {group,name,path,standard,found:false,status:0,source:'UNREACHABLE'}}};await Promise.all(checks.map(async(_,i)=>{results[i]=await runCheck(i);completed++;fill.style.width=(completed/checks.length*100)+'%';countEl.textContent=completed;server.textContent=completed<checks.length?'SCANNING / '+checks[i][1].toUpperCase():'DISCOVERY ENGINE / COMPLETE';}));
   pendingAudit={base:value,results,total:Object.values(score(results)).reduce((a,b)=>a+b,0)};window.deepdellEvent('agentic_check_completed',{audit_score:pendingAudit.total,signals_found:results.filter(x=>x.found).length,signals_total:results.length});
   showLockedReport(value,results); document.getElementById('email-gate').style.display='block'; server.textContent='AUDIT COMPLETE / EMAIL REQUIRED TO VIEW REPORT';
  }catch(err){status.innerHTML='<div class="score-box"><h3>AUDIT COULD NOT COMPLETE</h3><p style="margin:0;color:#9db3ca;line-height:1.7;font-size:13px">'+esc(err.message||'The basic check could not complete.')+'</p></div>';status.classList.add('show');server.textContent='BASIC PUBLIC PAGE CHECK / ERROR';server.className='server-status error'}
