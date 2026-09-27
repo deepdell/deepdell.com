@@ -7,6 +7,19 @@ const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.conte
 
 /* Keep the Agentic Readiness Checker visible in the primary navigation on every page. */
 document.querySelectorAll('.nav').forEach(nav=>{if(!nav.querySelector('a[href="agentic-check.html"]')){const a=document.createElement('a');a.href='agentic-check.html';a.textContent='Agentic Check';nav.appendChild(a)}});
+/* Group interactive tools into one DEEPDELL Lab submenu. */
+document.querySelectorAll('.nav').forEach(nav=>{
+ const agent=nav.querySelector('a[href="agentic-check.html"]');
+ if(!agent||nav.querySelector('.nav-group'))return;
+ const group=document.createElement('div');group.className='nav-group';
+ const toggle=document.createElement('button');toggle.type='button';toggle.className='nav-group-toggle';toggle.setAttribute('aria-expanded','false');toggle.textContent='DEEPDELL Lab';
+ const submenu=document.createElement('div');submenu.className='nav-submenu';submenu.setAttribute('aria-label','DEEPDELL Lab');
+ const items=[['agentic-check.html','Agentic Check'],['commerce-calculator.html','E-Commerce Calculator'],['game.html','Commerce Reset Game']];
+ items.forEach(([href,label])=>{const a=document.createElement('a');a.href=href;a.textContent=label;submenu.appendChild(a)});
+ group.append(toggle,submenu);agent.replaceWith(group);
+ toggle.addEventListener('click',e=>{e.stopPropagation();const open=group.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open))});
+ submenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{group.classList.remove('open');toggle.setAttribute('aria-expanded','false');header?.classList.remove('menu-open')}));
+});
 /* Prefer the self-hosted icon assets. CDN icons are retained only as a compatibility fallback. */
 document.querySelectorAll('img[src*="cdn.simpleicons.org/"]').forEach(img=>{const m=(img.getAttribute('src')||'').match(/cdn\.simpleicons\.org\/([^/?#]+)/);if(!m)return;const fallback=`https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/${m[1]}.svg`;img.addEventListener('error',()=>{if(img.src!==fallback)img.src=fallback},{once:true});img.src=fallback});
 const finish=()=>{if(!loader||loader.dataset.done)return;loader.dataset.done='1';loader.classList.add('loader-done');setTimeout(()=>loader.remove(),500)};addEventListener('load',()=>setTimeout(finish,120),{once:true});setTimeout(finish,1800);
