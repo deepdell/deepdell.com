@@ -1,0 +1,32 @@
+name: DEEPDELL Production QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '*.html'
+      - 'script.js'
+      - 'styles.css'
+      - 'responsive.css'
+      - 'brand.css'
+      - 'ux.css'
+      - 'site-fixes.css'
+      - 'qa/**'
+      - '.github/workflows/production-qa.yml'
+  workflow_dispatch:
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - name: Install Playwright
+        run: |
+          npm install --global @playwright/test@latest
+          playwright install chromium --with-deps
+      - name: Run production browser QA
+        run: playwright test qa/production.spec.js --project=chromium --workers=1
