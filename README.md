@@ -1,6 +1,6 @@
 # DEEPDELL
 
-One-page DEEPDELL brand website built as a lightweight static site for GitHub Pages.
+DEEPDELL multi-page brand website built as a lightweight static site for GitHub Pages, with commerce, AI, data, agentic-readiness and interactive utility pages.
 
 ## Deployment
 
