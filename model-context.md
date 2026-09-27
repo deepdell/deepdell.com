@@ -15,7 +15,6 @@ https://deepdell.com/llms-full.txt
 https://deepdell.com/agent.json
 https://deepdell.com/agentic.json
 https://deepdell.com/.well-known/ucp
-https://deepdell.com/.well-known/agent-card.json
 
 ## Safety
 Public discovery resources contain no private credentials, customer records or authentication secrets.
