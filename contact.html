@@ -84,10 +84,9 @@
 <div class="dd-field"><label for="email">Business email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@company.com"></div>
 <div class="dd-field"><label for="organization">Company</label><input id="organization" name="organization" autocomplete="organization" placeholder="Company name"></div>
 <div class="dd-field full"><label for="message">Project message</label><textarea id="message" name="message" required placeholder="Tell us about your project, website, requirements or audit results."></textarea></div>
-<label class="dd-consent"><input id="marketing_consent" name="marketing_consent" type="checkbox"><span>Keep me updated with occasional DEEPDELL insights and updates. Optional.</span></label>
 <div class="dd-submit full"><button class="btn primary large" type="submit">Send enquiry <span class="cta-arrow" aria-hidden="true"></span></button><span id="deepdell-contact-status" class="dd-status" role="status" aria-live="polite"></span></div>
 </form>
-<p class="dd-legal">By submitting, you agree that DEEPDELL may use the information to respond to your enquiry. Marketing updates are optional.</p>
+<p class="dd-legal">By submitting, you agree that DEEPDELL may use the information to respond to your enquiry. See our <a href="privacy.html">privacy information</a>.</p>
 </div>
 </section>
 </main>
@@ -98,7 +97,8 @@ const form=document.getElementById('deepdell-contact-form'),status=document.getE
 if(!form)return;
 form.addEventListener('submit',async e=>{
  e.preventDefault(); if(!form.reportValidity())return;
- const payload={name:String(d.get('name')||''),email:String(d.get('email')||''),company:String(d.get('company')||''),website:String(d.get('website')||''),service:String(d.get('service')||''),phone:String(d.get('phone')||''),message:String(d.get('message')||''),website_field:String(d.get('website_field')||'')};
+ const d=new FormData(form);
+ const payload={name:[d.get('first_name'),d.get('last_name')].filter(Boolean).join(' ').trim(),email:String(d.get('email')||''),company:String(d.get('organization')||''),website:'',service:'Website Project Enquiry',phone:'',message:String(d.get('message')||''),website_field:''};
  const btn=form.querySelector('button');btn.disabled=true;status.textContent='Sending…';
  try{
    const res=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
