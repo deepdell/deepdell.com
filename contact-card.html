@@ -3,6 +3,11 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#011434"><meta name="description" content="Save DEEPDELL contact details.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website"><meta property="og:site_name" content="DEEPDELL"><meta property="og:title" content="DEEPDELL Digital Contact Card"><meta property="og:description" content="Save DEEPDELL contact details and share the DEEPDELL digital contact card."><meta property="og:url" content="https://deepdell.com/contact-card.html">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="DEEPDELL Digital Contact Card"><meta name="twitter:description" content="Save DEEPDELL contact details and share the DEEPDELL digital contact card.">
+<link rel="canonical" href="https://deepdell.com/contact-card.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ContactPage","name":"DEEPDELL Digital Contact Card","url":"https://deepdell.com/contact-card.html","mainEntity":{"@type":"Organization","name":"DEEPDELL","url":"https://deepdell.com/","email":"bonjour.deepdell@gmail.com"}}</script>
 <title>DEEPDELL Digital Contact Card</title>
 <link rel="icon" href="assets/favicon.svg"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="brand.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
@@ -26,4 +31,13 @@
 <button class="card-action primary" id="share-card" type="button">SHARE CARD <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span></button>
 </div><div class="micro">DEEPDELL / DIGITAL ENGINEERING / 2026</div>
 </section></main>
+<script>
+(function(){
+  const card=document.querySelector('.digital-card'),save=document.getElementById('save-image'),share=document.getElementById('share-card');
+  async function imageFile(){if(!window.html2canvas)throw new Error('Image export unavailable');const canvas=await html2canvas(card,{backgroundColor:'#011434',scale:2,useCORS:true});return new Promise(resolve=>canvas.toBlob(resolve,'image/png'))}
+  if(save)save.addEventListener('click',async()=>{save.disabled=true;const label=save.innerHTML;save.textContent='CREATING IMAGE…';try{const blob=await imageFile();const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='DEEPDELL-Contact-Card.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}catch(e){window.location.href='contact.vcf'}finally{save.disabled=false;save.innerHTML=label}});
+  if(share)share.addEventListener('click',async()=>{share.disabled=true;const label=share.innerHTML;share.textContent='PREPARING…';try{const blob=await imageFile(),file=new File([blob],'DEEPDELL-Contact-Card.png',{type:'image/png'});if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[file]})))await navigator.share({title:'DEEPDELL Digital Contact Card',text:'Deep technology. Clear impact.',files:[file]});else if(navigator.share)await navigator.share({title:'DEEPDELL Digital Contact Card',text:'Deep technology. Clear impact.',url:'https://deepdell.com/contact-card.html'});else window.location.href='contact.vcf'}catch(e){}finally{share.disabled=false;share.innerHTML=label}});
+})();
+</script>
+<footer class="footer"><div class="footer-brand"><a href="index.html" aria-label="DEEPDELL home"><img class="footer-logo-mark" src="assets/deepdell-guideline-icon.svg" alt="" aria-hidden="true"><span class="footer-logo-word">DEEPDELL</span></a><p>Deep technology. Clear impact. Commerce engineering, AI, automation and connected digital systems.</p><div class="footer-email"><span>CONTACT</span><a href="mailto:bonjour.deepdell@gmail.com">bonjour.deepdell@gmail.com</a></div></div><div class="footer-links"><div><strong>CAPABILITIES</strong><a href="shopify-plus.html">Shopify Plus</a><a href="ai.html">AI & Automation</a><a href="data.html">Data & BI</a><a href="services.html">Digital Engineering</a></div><div><strong>CONNECT</strong><a href="agentic-check.html">Agentic Readiness Checker</a><a href="contact.html">Start a project</a><a href="contact-card.html">Digital Contact Card</a></div></div><a class="footer-qr" href="contact.vcf" aria-label="Save DEEPDELL contact"><div class="footer-qr-frame"><img src="https://quickchart.io/qr?text=https%3A%2F%2Fdeepdell.com%2Fcontact.vcf&size=180&margin=2" alt="QR code to save DEEPDELL contact"></div><span>SCAN / SAVE CONTACT <span class="ui-arrow ui-arrow-up" aria-hidden="true"></span></span></a><div class="footer-bottom"><span>© 2026 DEEPDELL. All rights reserved.</span><span>Deep Technology. Clear Impact.</span></div></footer>
 </body></html>
