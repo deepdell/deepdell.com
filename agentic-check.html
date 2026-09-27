@@ -102,25 +102,18 @@ function score(results){
 async function captureLead(base,email,results,total){
  const c=score(results),found=results.filter(x=>x.found).length;
  const summary=results.map(x=>`${x.name}: ${x.found?'FOUND':'NOT FOUND'}${x.status?' (HTTP '+x.status+')':''}`).join('\\n');
- const data=new FormData();
- data.append('access_key','a8de0a40-021d-46dd-91de-1deda5706063');
- data.append('subject','DEEPDELL Agentic Readiness Audit — '+base);
- data.append('from_name','DEEPDELL Agentic Checker');
- data.append('email',email);
- data.append('replyto',email);
- data.append('botcheck','');
- data.append('website_url',base);
- data.append('audit_score',String(total)+'/100');
- data.append('found_signals',String(found)+'/'+String(checks.length));
- data.append('technical_seo',String(c.technicalSeo)+'/20');
- data.append('machine_discovery',String(c.machineDiscovery)+'/20');
- data.append('llm_readability',String(c.llmReadability)+'/20');
- data.append('agent_identity',String(c.agentIdentity)+'/20');
- data.append('agent_protocols',String(c.agentProtocols)+'/20');
- data.append('audit_results',summary);data.append('report_url',buildShareUrl(base,results));data.append('message','DEEPDELL Agentic Readiness Audit | Website: '+base+' | Score: '+total+'/100 | Signals: '+found+'/'+checks.length+' | Report: '+buildShareUrl(base,results));
- const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{Accept:'application/json'},body:data});
- const raw=await r.text();let json={};try{json=JSON.parse(raw)}catch{}
- if(!r.ok||json.success!==true)throw new Error(json.message||'Web3Forms submission failed');
+ const res=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({
+   name:'Agentic Readiness Checker',
+   email,
+   company:'',
+   website:base,
+   service:'Agentic Readiness Audit',
+   message:'DEEPDELL Agentic Readiness Audit | Score: '+total+'/100 | Signals: '+found+'/'+checks.length+'\\n\\n'+summary,
+   audit_url:buildShareUrl(base,results),
+   website_field:''
+ })});
+ const json=await res.json().catch(()=>({}));
+ if(!res.ok||!json.ok)throw new Error(json.error||'Submission failed');
  return true;
 }
 let resultsCache=[];
