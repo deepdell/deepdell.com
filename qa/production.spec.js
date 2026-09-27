@@ -104,6 +104,21 @@ test('Agentic Check reaches and executes the production audit Worker', async ({ 
   expect(result.audit.results).toHaveLength(25);
 });
 
+test('Agentic audit returns discovery results when a public homepage blocks server-side fetching', async ({ page }) => {
+  await page.goto(BASE + '/agentic-check.html', { waitUntil: 'domcontentloaded', timeout: 30000 });
+  const audit = await page.evaluate(async () => {
+    const response = await fetch('https://deepdell-contact.deepdell-api.workers.dev/api/audit', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({url: 'https://www.daraz.pk/'})
+    });
+    return response.json();
+  });
+  expect(audit.ok).toBe(true);
+  expect(audit.results).toHaveLength(25);
+  expect(audit.homepage).toBeTruthy();
+});
+
 test('lead forms are wired to the Web3Forms helper', async ({ page }) => {
   for (const path of ['/contact.html', '/game.html', '/commerce-calculator.html', '/agentic-check.html']) {
     await page.goto(BASE + path, { waitUntil: 'domcontentloaded', timeout: 30000 });
