@@ -108,6 +108,7 @@ function openShare(url){
  if(navigator.share){navigator.share({title:'DEEPDELL Agentic Readiness Audit',text:'Check this website\'s Agentic Readiness Report',url}).catch(()=>{});}
  else navigator.clipboard?.writeText(url);
 }
+function copyReportLink(url){navigator.clipboard?.writeText(url).then(()=>{const b=document.querySelector('.report-sharebar button:nth-child(3)');if(b){const t=b.textContent;b.textContent='LINK COPIED';setTimeout(()=>b.textContent=t,1600)}})}
 function printReport(){
  const old=document.title; document.title='DEEPDELL Agentic Readiness Report'; window.print(); setTimeout(()=>document.title=old,500);
 }
