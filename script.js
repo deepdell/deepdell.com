@@ -81,30 +81,10 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
   const GA_ID='G-K592HB9G99';
   const KEY='deepdell-consent-v1';
 
+  // Google tag is installed statically in each page <head>.
+  // This file only applies the visitor's Consent Mode choice.
   function loadGA(){
-    if(window.__deepdellGA) return;
-    window.__deepdellGA=true;
-    window.dataLayer=window.dataLayer||[];
-    function gtag(){dataLayer.push(arguments);}
-    window.gtag=gtag;
-
-    // Consent Mode defaults are sent before the Google tag loads.
-    // The tag can therefore be detected by Tag Assistant while analytics
-    // storage remains denied until the visitor explicitly accepts.
-    gtag('consent','default',{
-      analytics_storage:'denied',
-      ad_storage:'denied',
-      ad_user_data:'denied',
-      ad_personalization:'denied',
-      wait_for_update:500
-    });
-    gtag('js',new Date());
-    gtag('config',GA_ID,{anonymize_ip:true});
-
-    const s=document.createElement('script');
-    s.async=true;
-    s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;
-    document.head.appendChild(s);
+    return typeof window.gtag==='function';
   }
 
   function applyConsent(value){
