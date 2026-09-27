@@ -727,3 +727,110 @@ img,svg,video{max-width:100%;height:auto}
     font-size:8px!important;
   }
 }
+
+/* =========================================================
+   MOBILE HERO — editorial composition
+   Keep the orbital system as a supporting visual rather than
+   letting it consume the viewport.
+   ========================================================= */
+@media(max-width:700px){
+  .hero-art{
+    height:280px!important;
+    min-height:280px!important;
+    margin:4px 0 0!important;
+    overflow:visible!important;
+  }
+  .hero-art .orb{
+    width:235px!important;
+    height:235px!important;
+    min-width:235px!important;
+    min-height:235px!important;
+    max-width:235px!important;
+    max-height:235px!important;
+  }
+  .hero-art .orb-core{
+    width:48px!important;
+    height:48px!important;
+  }
+  .hero-art .r1{width:94px!important;height:72px!important}
+  .hero-art .r2{width:138px!important;height:104px!important}
+  .hero-art .r3{width:180px!important;height:138px!important}
+  .hero-art .r4{width:224px!important;height:172px!important}
+  .hero-art .dot.d1{width:12px!important;height:12px!important}
+  .hero-art .dot.d2{width:9px!important;height:9px!important}
+  .hero-art .dot.d3{width:17px!important;height:17px!important}
+  .hero-art .dot.d4{width:10px!important;height:10px!important}
+
+  .floating-card{
+    max-width:128px!important;
+    min-width:112px!important;
+    padding:9px 11px!important;
+    background:rgba(3,16,31,.94)!important;
+    backdrop-filter:blur(12px)!important;
+  }
+  .floating-card span{font-size:8px!important}
+  .floating-card strong{font-size:12px!important}
+  .floating-card small{font-size:8px!important}
+  .card-a{left:0!important;top:6%!important}
+  .card-b{right:0!important;bottom:4%!important}
+
+  /* Compact, balanced capability strip */
+  .trust{
+    margin-top:0!important;
+  }
+  .trust-line{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  }
+  .trust-line span{
+    min-height:64px!important;
+    padding:11px 9px!important;
+    justify-content:center!important;
+    text-align:center!important;
+    font-size:8px!important;
+    line-height:1.45!important;
+    letter-spacing:.11em!important;
+  }
+  .trust-line span:nth-child(2n){border-right:1px solid var(--dd-line)!important}
+  .trust-line span:nth-child(3n){border-right:0!important}
+  .trust-line span:nth-last-child(-n+3){border-bottom:0!important}
+}
+@media(max-width:480px){
+  .hero-art{
+    height:255px!important;
+    min-height:255px!important;
+  }
+  .hero-art .orb{
+    width:215px!important;
+    height:215px!important;
+    min-width:215px!important;
+    min-height:215px!important;
+    max-width:215px!important;
+    max-height:215px!important;
+  }
+  .hero-art .r1{width:86px!important;height:65px!important}
+  .hero-art .r2{width:126px!important;height:96px!important}
+  .hero-art .r3{width:165px!important;height:126px!important}
+  .hero-art .r4{width:205px!important;height:158px!important}
+  .hero-art .orb-core{width:44px!important;height:44px!important}
+  .floating-card{max-width:118px!important;min-width:104px!important;padding:8px 9px!important}
+  .card-a{left:-1px!important;top:4%!important}
+  .card-b{right:-1px!important;bottom:2%!important}
+  .trust-line span{min-height:60px!important;padding:9px 6px!important;font-size:7.5px!important}
+}
+@media(max-width:360px){
+  .hero-art{height:235px!important;min-height:235px!important}
+  .hero-art .orb{
+    width:195px!important;height:195px!important;
+    min-width:195px!important;min-height:195px!important;
+    max-width:195px!important;max-height:195px!important;
+  }
+  .hero-art .r1{width:78px!important;height:59px!important}
+  .hero-art .r2{width:114px!important;height:87px!important}
+  .hero-art .r3{width:149px!important;height:114px!important}
+  .hero-art .r4{width:186px!important;height:143px!important}
+  .hero-art .orb-core{width:40px!important;height:40px!important}
+  .floating-card{max-width:108px!important;min-width:96px!important}
+  .floating-card strong{font-size:11px!important}
+  .floating-card small{font-size:7px!important}
+  .trust-line span{min-height:56px!important;font-size:7px!important}
+}
