@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#011434">
+<meta name="description" content="DEEPDELL Commerce Calculator — benchmark your e-commerce economics and see the opportunity behind your numbers.">
+<link rel="icon" href="assets/favicon.svg"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="responsive.css"><link rel="stylesheet" href="brand.css"><link rel="stylesheet" href="site-fixes.css">
+<title>Commerce Calculator | DEEPDELL</title>
+<style>
+.calc-wrap{max-width:1180px;margin:0 auto;padding:140px 24px 90px}.calc-hero{max-width:900px;margin-bottom:38px}.calc-kicker{color:#20f3fb;font:800 10px 'DM Mono',monospace;letter-spacing:.18em}.calc-hero h1{font-size:clamp(48px,7.4vw,88px);line-height:.92;letter-spacing:-.045em;margin:15px 0 20px}.calc-hero h1 span{color:#20f3fb}.calc-hero p{max-width:760px;color:#9db3ca;line-height:1.8;font-size:16px}.calc-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);gap:14px}.panel{border:1px solid rgba(32,243,251,.18);background:#021c3d;padding:24px}.panel h2{margin:0 0 8px;font-size:22px}.panel-intro{color:#7f98b0;font-size:12px;line-height:1.65;margin:0 0 22px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field label{display:block;color:#9db3ca;font:800 9px 'DM Mono',monospace;letter-spacing:.1em;margin-bottom:7px}.field input{width:100%;box-sizing:border-box;min-height:48px;border:1px solid rgba(137,249,253,.18);background:#011a36;color:#fff;padding:0 13px;border-radius:4px;font:16px Inter,Arial,sans-serif}.field input:focus{outline:2px solid rgba(32,243,251,.35);border-color:#20f3fb}.field small{display:block;color:#5f7892;font-size:10px;line-height:1.5;margin-top:5px}.calc-actions{display:flex;gap:8px;margin-top:18px}.btnx{min-height:46px;padding:0 18px;border:1px solid rgba(32,243,251,.28);background:#011a36;color:#fff;border-radius:5px;font:800 10px Inter,Arial,sans-serif;cursor:pointer}.btnx.primary{background:#20f3fb;color:#011434;border-color:#20f3fb}.btnx:disabled{opacity:.55;cursor:not-allowed}.result-panel{background:#011a36}.score-label{color:#607a94;font:800 9px 'DM Mono',monospace;letter-spacing:.14em}.score{font:800 clamp(56px,8vw,92px)/.9 'DM Mono',monospace;color:#20f3fb;margin:12px 0 8px}.score-sub{color:#9db3ca;line-height:1.6;font-size:12px}.meter{height:8px;background:#061f3c;margin:20px 0 18px;overflow:hidden}.meter span{display:block;height:100%;width:0;background:#20f3fb;transition:width .5s ease}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px}.metric{padding:13px;border:1px solid rgba(137,249,253,.12);background:#021c3d}.metric small{display:block;color:#607a94;font:9px 'DM Mono',monospace;letter-spacing:.08em;margin-bottom:5px}.metric strong{display:block;color:#fff;font:800 17px 'DM Mono',monospace}.metric em{display:block;color:#7f98b0;font-style:normal;font-size:10px;margin-top:4px}.insight{margin-top:14px;padding:16px;border-left:2px solid #20f3fb;background:#021c3d;color:#9db3ca;font-size:12px;line-height:1.7}.lead{margin-top:14px;padding:22px;border:1px solid rgba(32,243,251,.18);background:#021c3d}.lead[hidden]{display:none}.lead h3{margin:0 0 7px;font-size:21px}.lead p{color:#8da5bc;line-height:1.65;font-size:12px;margin:0 0 16px}.lead-form{display:grid;grid-template-columns:1fr 1fr auto;gap:8px}.lead-form input{min-width:0;min-height:46px;border:1px solid rgba(137,249,253,.2);background:#011a36;color:#fff;padding:0 13px;border-radius:4px;font:14px Inter,Arial,sans-serif}.lead-form input::placeholder{color:#5f7892}.lead-status{grid-column:1/-1;color:#20f3fb;font:10px 'DM Mono',monospace;min-height:16px}.fine{margin-top:10px;color:#506a84;font:9px 'DM Mono',monospace;line-height:1.6}.benchmark{margin-top:14px;color:#607a94;font:9px 'DM Mono',monospace;line-height:1.7}.footnote{display:flex;justify-content:space-between;gap:16px;margin-top:12px;color:#607a94;font:9px 'DM Mono',monospace;letter-spacing:.08em}
+@media(max-width:850px){.calc-grid{grid-template-columns:1fr}.calc-wrap{padding:110px 18px 60px}}
+@media(max-width:620px){.fields,.metrics{grid-template-columns:1fr}.lead-form{grid-template-columns:1fr}.calc-actions{flex-direction:column}.btnx{width:100%}.footnote{flex-direction:column}}
+</style>
+</head>
+<body>
+<div id="site-loader" aria-hidden="true"><div class="loader-inner"><div class="loader-orbit"><span class="loader-core"></span></div><span class="loader-label">DEEPDELL / INITIALISING</span></div></div>
+<header class="site-header" id="top">
+<a class="brand" href="index.html" aria-label="DEEPDELL home"><img src="assets/deepdell-guideline-icon.svg" alt="" aria-hidden="true"><span class="brand-wordmark">DEEPDELL</span></a>
+<nav class="nav" aria-label="Main navigation"><a href="services.html">Services</a><a href="shopify-plus.html">Shopify Plus</a><a href="ai.html">AI & Automation</a><a href="data.html">Data & BI</a><a href="industries.html">Industries</a><a href="agentic-check.html">Agentic Check</a><a href="contact.html">Contact</a></nav>
+<div class="header-tools"><a class="header-cta" href="game.html">Reset your thinking <span aria-hidden="true">↗</span></a><button class="menu" aria-label="Open menu" aria-expanded="false" type="button"><i></i><i></i></button></div>
+</header>
+<main class="calc-wrap">
+<section class="calc-hero"><div class="calc-kicker">DEEPDELL LAB / COMMERCE CALCULATOR</div><h1>What is your commerce <span>really capable of?</span></h1><p>Put in a few numbers from your store. We’ll calculate the revenue your current traffic and conversion economics produce, compare the result with a planning benchmark, and turn the gap into a simple Commerce Health Score.</p></section>
+<section class="calc-grid" aria-label="E-commerce calculator">
+<div class="panel">
+<h2>Enter your current numbers</h2><p class="panel-intro">Use your last 30 days if possible. These are planning inputs, not a financial forecast.</p>
+<div class="fields">
+<div class="field"><label for="traffic">MONTHLY SESSIONS</label><input id="traffic" type="number" min="0" step="100" inputmode="numeric" placeholder="50000"><small>Total website sessions per month.</small></div>
+<div class="field"><label for="cvr">CONVERSION RATE (%)</label><input id="cvr" type="number" min="0" max="100" step=".1" inputmode="decimal" placeholder="2.0"><small>Orders ÷ sessions.</small></div>
+<div class="field"><label for="aov">AVERAGE ORDER VALUE</label><input id="aov" type="number" min="0" step="1" inputmode="decimal" placeholder="120"><small>Average revenue per order.</small></div>
+<div class="field"><label for="margin">GROSS MARGIN (%)</label><input id="margin" type="number" min="0" max="100" step=".1" inputmode="decimal" placeholder="45"><small>Revenue remaining after product cost.</small></div>
+<div class="field"><label for="repeat">REPEAT PURCHASE RATE (%)</label><input id="repeat" type="number" min="0" max="100" step=".1" inputmode="decimal" placeholder="25"><small>Approximate share of customers who purchase again.</small></div>
+<div class="field"><label for="growth">TARGET TRAFFIC GROWTH (%)</label><input id="growth" type="number" min="0" max="1000" step="1" inputmode="decimal" placeholder="20"><small>Your next-period traffic ambition.</small></div>
+</div>
+<div class="calc-actions"><button class="btnx primary" id="calculate" type="button">CALCULATE MY SCORE ↗</button><button class="btnx" id="clear" type="button">CLEAR</button></div>
+<div class="benchmark">PLANNING BENCHMARKS USED IN THIS TOOL: 2.5% conversion, 50% gross margin, 30% repeat purchase. These are generic planning reference points, not universal industry standards.</div>
+</div>
+<div class="panel result-panel">
+<div class="score-label">COMMERCE HEALTH SCORE</div><div class="score" id="score">—</div><div class="score-sub" id="scoreSub">Enter your store numbers to see your current economics and the size of the opportunity.</div>
+<div class="meter" aria-hidden="true"><span id="meter"></span></div>
+<div class="metrics">
+<div class="metric"><small>CURRENT MONTHLY REVENUE</small><strong id="revenue">—</strong><em id="orders">—</em></div>
+<div class="metric"><small>PROJECTED REVENUE</small><strong id="projected">—</strong><em>With your target traffic growth</em></div>
+<div class="metric"><small>REVENUE GAP</small><strong id="gap">—</strong><em>To the planning benchmark</em></div>
+<div class="metric"><small>GROSS PROFIT</small><strong id="profit">—</strong><em>Based on your margin input</em></div>
+</div>
+<div class="insight" id="insight">Your result will highlight which part of the commerce equation is creating the biggest opportunity.</div>
+</div>
+</section>
+<div class="lead" id="lead" hidden>
+<h3>Want to take the numbers further?</h3>
+<p>If the calculator has exposed a gap you want to close, leave your details. We'll reach out if you're now considering moving forward with DEEPDELL.</p>
+<form class="lead-form" id="leadForm" novalidate>
+<input id="leadName" name="name" autocomplete="name" placeholder="Your name" required>
+<input id="leadEmail" name="email" type="email" autocomplete="email" placeholder="Business email" required>
+<button class="btnx primary" type="submit">LET'S TALK ↗</button>
+<div class="lead-status" id="leadStatus" role="status" aria-live="polite"></div>
+</form>
+<div class="fine">By submitting, you agree DEEPDELL may use the information to respond to your enquiry. No marketing subscription is created by this form.</div>
+</div>
+<div class="footnote"><span>COMMERCE HEALTH / REVENUE / MARGIN / RETENTION</span><span>NO ACCOUNT · RESULTS STAY IN YOUR BROWSER</span></div>
+</main>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const fields=['traffic','cvr','aov','margin','repeat','growth'];
+const benchmarks={cvr:2.5,margin:50,repeat:30};
+let lastScore=null,lastData=null;
+function n(id){const v=parseFloat($(id).value);return Number.isFinite(v)?Math.max(0,v):0}
+function money(v){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(v)}
+function clamp(v,a,b){return Math.min(b,Math.max(a,v))}
+function calculate(){
+const traffic=n('traffic'),cvr=clamp(n('cvr'),0,100),aov=n('aov'),margin=clamp(n('margin'),0,100),repeat=clamp(n('repeat'),0,100),growth=clamp(n('growth'),0,1000);
+if(!traffic||!cvr||!aov){$('scoreSub').textContent='Add monthly sessions, conversion rate and average order value to calculate.';return}
+const orders=traffic*(cvr/100),revenue=orders*aov,projected=revenue*(1+growth/100);
+const benchmarkRevenue=traffic*(benchmarks.cvr/100)*aov;
+const gap=Math.max(0,benchmarkRevenue-revenue),profit=revenue*(margin/100);
+const cvrScore=clamp(cvr/benchmarks.cvr*100,0,100),marginScore=clamp(margin/benchmarks.margin*100,0,100),repeatScore=clamp(repeat/benchmarks.repeat*100,0,100);
+const score=Math.round(cvrScore*.45+marginScore*.30+repeatScore*.25);
+lastScore=score;lastData={traffic,cvr,aov,margin,repeat,growth,revenue,projected,gap,profit,orders};
+$('score').textContent=String(score).padStart(3,'0');$('meter').style.width=score+'%';$('revenue').textContent=money(revenue);$('orders').textContent=Math.round(orders).toLocaleString()+' estimated orders / month';$('projected').textContent=money(projected);$('gap').textContent=money(gap);$('profit').textContent=money(profit);
+$('scoreSub').textContent=score>=80?'Your current inputs are close to the planning reference range. The next question is where incremental growth creates the most value.':score>=60?'There is measurable room between your current economics and the planning reference range.':'The model shows a meaningful gap between current economics and the planning reference range.';
+const weakest=[['conversion',cvrScore],['gross margin',marginScore],['repeat purchase',repeatScore]].sort((a,b)=>a[1]-b[1])[0];
+$('insight').textContent='Biggest modeled opportunity: '+weakest[0]+'. At the planning reference, your current traffic could produce about '+money(benchmarkRevenue)+' monthly revenue, compared with '+money(revenue)+' from your current conversion and AOV inputs.';
+$('lead').hidden=false;
+}
+function clearAll(){fields.forEach(id=>$(id).value='');lastScore=null;lastData=null;$('score').textContent='—';$('meter').style.width='0';['revenue','projected','gap','profit'].forEach(id=>$(id).textContent='—');$('orders').textContent='—';$('scoreSub').textContent='Enter your store numbers to see your current economics and the size of the opportunity.';$('insight').textContent='Your result will highlight which part of the commerce equation is creating the biggest opportunity.';$('lead').hidden=true;$('leadStatus').textContent=''}
+$('calculate').addEventListener('click',calculate);$('clear').addEventListener('click',clearAll);
+$('leadForm').addEventListener('submit',async e=>{
+e.preventDefault();const form=e.currentTarget,status=$('leadStatus');if(!form.reportValidity())return;if(lastScore===null||!lastData){status.textContent='Calculate your Commerce Health Score first.';return}
+const d=new FormData(form);d.append('access_key','a8de0a40-021d-46dd-91de-1deda5706063');d.append('subject','DEEPDELL Commerce Calculator Lead');d.append('from_name','DEEPDELL Commerce Calculator');d.append('replyto',String(d.get('email')||'').trim());d.append('commerce_health_score',String(lastScore));d.append('source','Commerce Calculator');d.append('traffic',String(lastData.traffic));d.append('conversion_rate',String(lastData.cvr));d.append('aov',String(lastData.aov));d.append('gross_margin',String(lastData.margin));d.append('repeat_purchase_rate',String(lastData.repeat));d.append('target_traffic_growth',String(lastData.growth));d.append('current_monthly_revenue',String(lastData.revenue));
+const btn=form.querySelector('button');btn.disabled=true;status.textContent='Sending…';
+try{const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{Accept:'application/json'},body:d});const json=await res.json();if(!res.ok||!json.success)throw new Error(json.message||'Submission failed');form.reset();status.textContent="Thanks. We've received your details and will reach out if you're ready to move forward with DEEPDELL."}catch(err){status.textContent='We could not submit your details. Please try again.'}finally{btn.disabled=false}
+});
+})();
+</script>
+<script src="script.js"></script>
+</body></html>
