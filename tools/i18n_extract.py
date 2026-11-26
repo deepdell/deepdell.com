@@ -87,10 +87,10 @@ uniq = lambda xs: list(dict.fromkeys(xs))
 JUNK = {'POST','Content-Type','application/json','Accept','en-US','scoreSub','leadStatus','leadForm','image/png','resetBtn','Escape',
         'IntersectionObserver','0px 0px -30px','section-pad agentic-home','Organization','knowsAbout','WebSite','WebPage','isPartOf',
         'application/ld+json','mailto:','DOMContentLoaded','G-K592HB9G99','O2AUj4tmiR8cKN9efAkM5Q','script[data-deepdell-ga]',
-        'script[data-deepdell-ahrefs]','(prefers-reduced-motion: reduce)','(pointer: coarse)','server-status error','DEEPDELL Website Lead',
+        'script[data-deepdell-ahrefs]','(prefers-reduced-motion: reduce)','(pointer: coarse)','(hover: hover) and (pointer: fine)','server-status error','DEEPDELL Website Lead',
         'DEEPDELL Website','Web3Forms submission failed.','Contact delivery is not configured.','Magento','sitemap index','well-known security'}
 dynamic = [d.lstrip('">').strip() for d in dynamic if d not in JUNK and not d.startswith('i18n runtime')]
-EXTRA = ['JAN', 'MAR', 'MAY', 'JUL', 'SEP', 'NOV', 'ACT', 'Agentic checker preview', 'https://yourwebsite.com or yourwebsite.com']
+EXTRA = ['AI', 'API', 'JAN', 'MAR', 'MAY', 'JUL', 'SEP', 'NOV', 'ACT', 'Agentic checker preview', 'https://yourwebsite.com or yourwebsite.com']
 static = uniq(static + EXTRA); dynamic = [d for d in uniq(dynamic) if d not in set(static)]
 json.dump({'static': static, 'dynamic': dynamic}, open(os.path.join(ROOT, 'i18n', 'en.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print(f"static: {len(static)} strings, {sum(map(len, static))} chars; dynamic: {len(dynamic)} strings, {sum(map(len, dynamic))} chars")

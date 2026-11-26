@@ -85,7 +85,7 @@ const finish=()=>{if(!loader||loader.dataset.done)return;loader.dataset.done='1'
 menu?.addEventListener('click',()=>{const open=header?.classList.toggle('menu-open');menu.setAttribute('aria-expanded',String(!!open))});document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>header?.classList.remove('menu-open')));
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,coarse=matchMedia('(pointer: coarse)').matches;let ticking=false;
 const scroll=()=>{const y=scrollY,max=document.documentElement.scrollHeight-innerHeight;if(progress)progress.style.width=`${max>0?Math.min(100,y/max*100):0}%`;header?.classList.toggle('scrolled',y>20);if(!reduce){document.querySelectorAll('.hero-art,.shopify-visual,.dashboard,.architecture,.contact-panel,.page-hero>div').forEach(el=>{const r=el.getBoundingClientRect(),d=(r.top+r.height/2-innerHeight/2)/innerHeight;el.style.setProperty('--scroll-tilt',`${Math.max(-5,Math.min(5,-d*7))}deg`);el.style.setProperty('--scroll-depth',`${Math.max(-32,Math.min(32,-d*24))}px`)});const a=document.querySelector('.hero-art');if(a)a.style.setProperty('--scroll-y',`${Math.max(-38,Math.min(18,y*.035))}px`)}ticking=false};addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(scroll)}},{passive:true});scroll();
-const targets=document.querySelectorAll('.service,.ai-grid article,.why-grid article,.steps article,.reveal,.arch-card,.vertical,.engagement,.digital-card,.protocol,.agent-step,.ops-copy,.live-console,.page-card,.agentic-home');if('IntersectionObserver'in window&&!reduce){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px -30px'});targets.forEach(el=>{el.classList.add('reveal-item');io.observe(el)})}else targets.forEach(el=>el.classList.add('visible'));
+const targets=document.querySelectorAll('.service,.ai-grid article,.why-grid article,.steps article,.reveal,.arch-card,.vertical,.engagement,.digital-card,.protocol,.agent-step,.ops-copy,.live-console,.page-card,.agentic-home');if('IntersectionObserver'in window&&!reduce){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const t=e.target,i=+(getComputedStyle(t).getPropertyValue('--i'))||0;if(i){t.style.transitionDelay=i*70+'ms';setTimeout(()=>{t.style.transitionDelay=''},900+i*70)}t.classList.add('visible');io.unobserve(t)}}),{threshold:.08,rootMargin:'0px 0px -30px'});targets.forEach(el=>{el.classList.add('reveal-item');io.observe(el)})}else targets.forEach(el=>el.classList.add('visible'));
 const art=document.querySelector('.hero-art');if(art&&!reduce&&!coarse){const dots=[...art.querySelectorAll('.dot')];art.addEventListener('pointerenter',()=>art.classList.add('is-hovering'));art.addEventListener('pointermove',e=>{const r=art.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;art.style.setProperty('--mx',`${x*16}px`);art.style.setProperty('--my',`${y*12}px`);art.style.setProperty('--rx',`${-y*4}deg`);art.style.setProperty('--ry',`${x*5}deg`);dots.forEach((d,i)=>{const dx=((i*29)%100)/100-.5,dy=((i*47)%100)/100-.5,p=Math.max(0,1-Math.hypot(x-dx,y-dy)*2.8);d.style.transform=`translate(${(x-dx)*-18*p}px,${(y-dy)*-18*p}px) scale(${1+p*.35})`;d.style.boxShadow=p?`0 0 ${14+p*18}px rgba(32,243,251,.75)`:''})});art.addEventListener('pointerleave',()=>{art.classList.remove('is-hovering');['--mx','--my','--rx','--ry'].forEach(v=>art.style.setProperty(v,v.includes('r')?'0deg':'0px'));dots.forEach(d=>{d.style.transform='';d.style.boxShadow=''})});art.addEventListener('pointerdown',()=>{art.classList.remove('hit');void art.offsetWidth;art.classList.add('hit')})}
 if(!reduce&&!coarse){document.querySelectorAll('.service,.page-card,.ai-grid article,.why-grid article,.steps article,.arch-card,.engagement,.digital-card,.protocol,.live-console,.agentic-card,.tech-item').forEach(card=>{card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.setProperty('--card-rx',`${-y*5}deg`);card.style.setProperty('--card-ry',`${x*6}deg`);card.style.setProperty('--spot-x',`${(x+.5)*100}%`);card.style.setProperty('--spot-y',`${(y+.5)*100}%`)});card.addEventListener('pointerleave',()=>{card.style.setProperty('--card-rx','0deg');card.style.setProperty('--card-ry','0deg')})});document.querySelectorAll('.btn').forEach(el=>{el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transform=`translate(${x*3}px,${y*3}px) translateY(-2px)`});el.addEventListener('pointerleave',()=>el.style.transform='')})}
 const intro=document.querySelector('.intro');if(intro&&!document.querySelector('.agentic-home')){const s=document.createElement('section');s.className='section-pad agentic-home';s.innerHTML=`<div class="section-kicker">02 / AGENTIC READINESS</div><div class="agentic-home-grid"><div class="agentic-home-copy"><div class="agentic-badge"><span></span>AI-READY CHECKER</div><h2>Check if your e-commerce site is <span>agentic-ready.</span></h2><p>See what autonomous shopping agents and AI systems can discover from your public website — and where the machine-readable layer needs improvement.</p><form class="agentic-mini-form" id="home-agentic-form"><input id="home-agentic-url" type="url" inputmode="url" autocomplete="url" placeholder="https://yourwebsite.com" aria-label="Website URL" required><button class="btn primary" type="submit">START AUDIT <span>↗</span></button></form><p class="agentic-form-note">Your audit is public-signal based. No password, admin access or private data is requested.</p><a class="text-link" href="agentic-check.html">Open full Agentic Readiness Checker <span>↗</span></a></div><div class="agentic-preview" aria-label="Agentic checker preview"><div class="preview-window"><div class="preview-bar"><span></span><span></span><span></span><b>AGENTIC READINESS</b></div><div class="preview-body"><div class="preview-url">https://yourwebsite.com</div><div class="preview-line strong">PUBLIC DISCOVERY SCAN</div><div class="preview-checks"><i>✓</i><span>robots.txt</span><b>FOUND</b><i>✓</i><span>sitemap.xml</span><b>FOUND</b><i>✓</i><span>llms.txt</span><b>FOUND</b><i>✓</i><span>machine-readable.md</span><b>FOUND</b><i>✓</i><span>agent.json</span><b>FOUND</b><i>✓</i><span>ai-agent.md</span><b>FOUND</b></div><div class="preview-score"><strong>25</strong><span>PUBLIC SIGNALS<br>CHECKED</span></div></div></div></div></div><div class="agentic-how"><div><strong>01</strong><span>Enter URL</span><small>Public website address</small></div><b>→</b><div><strong>02</strong><span>Discover</span><small>Public machine-readable signals</small></div><b>→</b><div><strong>03</strong><span>Report</span><small>Availability & gaps</small></div><b>→</b><div><strong>04</strong><span>Improve</span><small>DEEPDELL engineering</small></div></div>`;intro.after(s);s.querySelector('#home-agentic-form')?.addEventListener('submit',e=>{e.preventDefault();const u=s.querySelector('#home-agentic-url').value.trim();if(!u)return;location.href='agentic-check.html?url='+encodeURIComponent(u)})}
@@ -243,4 +243,74 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});
   else init();
+})();
+
+
+/* ==== motion layer ==== */
+(function(){
+  const doc=document,root=doc.documentElement;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine=matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const $$=(s,r)=>[...(r||doc).querySelectorAll(s)];
+  const raf=fn=>{let q=0,a;return(...x)=>{a=x;if(!q){q=1;requestAnimationFrame(()=>{q=0;fn(...a)})}}};
+
+  /* stagger index for grid children, used by the reveal observer */
+  $$('.service-grid,.ai-grid,.why-grid,.steps,.tech-grid,.tool-cloud,.vertical-grid,.cap-list,.engagement-grid,.protocol-grid').forEach(g=>{[...g.children].forEach((c,i)=>c.style.setProperty('--i',i%7))});
+
+  /* animated counters for the dashboard metrics */
+  function counter(el){
+    const m=el.textContent.match(/^([^\d-]*)(\d[\d.,]*)(.*)$/);if(!m)return null;
+    const dec=(m[2].split('.')[1]||'').length,grp=m[2].includes(','),end=parseFloat(m[2].replace(/,/g,''));
+    const nf=new Intl.NumberFormat('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec,useGrouping:grp});
+    const final=el.textContent;
+    return{reset(){el.textContent=m[1]+nf.format(0)+m[3]},run(){const t0=performance.now(),D=1500;const step=n=>{const p=Math.min(1,(n-t0)/D),e=p===1?1:1-Math.pow(2,-10*p);el.textContent=m[1]+nf.format(end*e)+m[3];if(p<1)requestAnimationFrame(step);else el.textContent=final};requestAnimationFrame(step)}};
+  }
+  if(!reduce&&'IntersectionObserver'in window){
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);const c=e.target._fxc;if(c)c.run();if(e.target.classList.contains('bars'))e.target.classList.add('in-view')}),{threshold:.35});
+    $$('.metric-row strong').forEach(el=>{const c=counter(el);if(c){c.reset();el._fxc=c;io.observe(el)}});
+    $$('.bars').forEach(b=>io.observe(b));
+  }else $$('.bars').forEach(b=>b.classList.add('in-view'));
+
+  if(reduce)return;
+
+  /* ambient aurora behind the page */
+  const au=doc.createElement('div');au.className='fx-aurora';au.setAttribute('aria-hidden','true');au.innerHTML='<i></i><i></i><i></i>';doc.body.prepend(au);
+
+  /* button shine */
+  $$('.btn.primary,.header-cta').forEach(b=>{const s=doc.createElement('i');s.className='fx-shine';s.setAttribute('aria-hidden','true');b.appendChild(s)});
+
+  if(!fine)return;
+
+  /* cursor glow, card spotlight and magnetic buttons (mouse devices only) */
+  const cur=doc.createElement('div');cur.className='fx-cursor';cur.setAttribute('aria-hidden','true');doc.body.appendChild(cur);
+  const cards=$$('.service,.ai-grid article,.why-grid article,.steps article,.vertical,.arch-card,.engagement,.protocol,.tech-item,.page-card,.digital-card,.agentic-card,.live-console');
+  cards.forEach(c=>{if(getComputedStyle(c).position==='static')c.style.position='relative';c.classList.add('fx-card');const g=doc.createElement('i');g.className='fx-glow';g.setAttribute('aria-hidden','true');c.appendChild(g)});
+  const mags=$$('.btn.primary,.header-cta');
+  const move=raf((x,y,t)=>{cur.style.setProperty('--cx',x+'px');cur.style.setProperty('--cy',y+'px');cur.classList.add('on');
+    const card=t.closest&&t.closest('.fx-card');if(card){const r=card.getBoundingClientRect();card.style.setProperty('--gx',(x-r.left)+'px');card.style.setProperty('--gy',(y-r.top)+'px')}
+    mags.forEach(b=>{const r=b.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=x-cx,dy=y-cy,d=Math.hypot(dx,dy),R=Math.max(r.width,r.height)/2+46;
+      if(d<R){b.style.setProperty('--tx',Math.max(-7,Math.min(7,dx*.16))+'px');b.style.setProperty('--ty',Math.max(-5,Math.min(5,dy*.2))+'px')}else{b.style.setProperty('--tx','0px');b.style.setProperty('--ty','0px')}})});
+  addEventListener('pointermove',e=>move(e.clientX,e.clientY,e.target),{passive:true});
+  doc.addEventListener('pointerleave',()=>cur.classList.remove('on'));
+
+  /* drifting network canvas behind page heroes */
+  $$('.hero,.page-hero').forEach(host=>{
+    const cv=doc.createElement('canvas');cv.className='fx-net';cv.setAttribute('aria-hidden','true');host.appendChild(cv);
+    const ctx=cv.getContext('2d');let w=0,h=0,nodes=[],run=false,id=0,mx=-1e3,my=-1e3;
+    const size=()=>{const r=host.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,1.5);w=r.width;h=r.height;cv.width=w*d;cv.height=h*d;ctx.setTransform(d,0,0,d,0,0);
+      const n=Math.max(20,Math.min(60,Math.round(w*h/22000)));nodes=Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.4+.7}))};
+    const draw=()=>{ctx.clearRect(0,0,w,h);
+      for(const a of nodes){a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>w)a.vx*=-1;if(a.y<0||a.y>h)a.vy*=-1;const dx=mx-a.x,dy=my-a.y,d=Math.hypot(dx,dy);if(d<160&&d>1){a.x+=dx/d*.35;a.y+=dy/d*.35}}
+      for(let i=0;i<nodes.length;i++){const a=nodes[i];
+        for(let j=i+1;j<nodes.length;j++){const b=nodes[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<135){ctx.strokeStyle='rgba(32,243,251,'+(.2*(1-d/135)).toFixed(3)+')';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}}
+        const dm=Math.hypot(a.x-mx,a.y-my);if(dm<170){ctx.strokeStyle='rgba(137,249,253,'+(.5*(1-dm/170)).toFixed(3)+')';ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(mx,my);ctx.stroke()}
+        ctx.fillStyle='rgba(137,249,253,.75)';ctx.beginPath();ctx.arc(a.x,a.y,a.r,0,6.283);ctx.fill()}};
+    const loop=()=>{draw();id=run?requestAnimationFrame(loop):0};
+    const start=()=>{if(!run&&!doc.hidden){run=true;id=requestAnimationFrame(loop)}},stop=()=>{run=false;cancelAnimationFrame(id)};
+    size();new ResizeObserver(raf(size)).observe(host);
+    new IntersectionObserver(es=>es[0].isIntersecting?start():stop()).observe(host);
+    doc.addEventListener('visibilitychange',()=>doc.hidden?stop():start());
+    host.addEventListener('pointermove',e=>{const r=host.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top},{passive:true});
+    host.addEventListener('pointerleave',()=>{mx=-1e3;my=-1e3});
+  });
 })();
