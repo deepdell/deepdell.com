@@ -40,7 +40,7 @@ jobs:
           WEB3FORMS_ACCESS_KEY: ${{ secrets.WEB3FORMS_ACCESS_KEY }}
         run: |
           set -euo pipefail
-          printf '%s' "$WEB3FORMS_ACCESS_KEY" | npx --yes wrangler@4 secret put WEB3FORMS_ACCESS_KEY --name deepdell-contact
+          printf '%s' "$WEB3FORMS_ACCESS_KEY" | npx --yes wrangler@4.168.0 secret put WEB3FORMS_ACCESS_KEY --name deepdell-contact
 
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v4
@@ -68,7 +68,7 @@ jobs:
             curl -fsS --max-time 20               -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}"               -H "Content-Type: application/json"               "https://api.cloudflare.com/client/v4/zones?name=deepdell.com" |
               jq -r '.result[] | .id' | while read -r ZONE_ID; do
                 curl -fsS --max-time 20                   -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}"                   -H "Content-Type: application/json"                   "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records?per_page=100" |
-                  jq -r '.result[] | select(.name=="deepdell.com" or .name=="www.deepdell.com") | "(.name) (.type) (.content) proxied=(.proxied)"'
+                  jq -r '.result[] | select(.name=="deepdell.com" or .name=="www.deepdell.com") | "\(.name) \(.type) \(.content) proxied=\(.proxied)"'
               done || echo "Cloudflare DNS inspection unavailable with the current token permissions."
           fi
 
@@ -80,7 +80,7 @@ jobs:
           echo "Checking Worker endpoint..."
           CONFIG=""
           for attempt in 1 2 3 4 5 6; do
-            if CONFIG="$(curl -4 -fsS --http1.1 --max-time 20 "${API}/api/config")"; then
+            if CONFIG="$(curl -4 -fsS --http1.1 --max-time 20 -H 'Origin: https://deepdell.com' "${API}/api/config")"; then
               break
             fi
             echo "Worker endpoint not ready yet (attempt $attempt/6); waiting 15s..."
@@ -93,6 +93,7 @@ jobs:
           echo "Checking /api/audit..."
           AUDIT="$(curl -4 -fsS --http1.1 --max-time 90 -X POST "${API}/api/audit" \
             -H 'Content-Type: application/json' \
+            -H 'Origin: https://deepdell.com' \
             --data '{"url":"https://deepdell.com"}')"
           echo "$AUDIT" | jq -e '.ok == true and .mode == "server" and (.results | length) == 25' >/dev/null
           echo "Live audit Worker endpoint checks passed."

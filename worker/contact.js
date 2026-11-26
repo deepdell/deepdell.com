@@ -14,9 +14,10 @@ function requestOrigin(request) {
   const origin = request.headers.get('Origin');
   return ALLOWED_ORIGINS.has(origin) ? origin : 'https://deepdell.com';
 }
+// Browsers always send Origin on these cross-origin calls; requests without one
+// (scripts, curl, other servers) are refused so the API is not an open fetch proxy.
 function originAllowed(request) {
-  const origin = request.headers.get('Origin');
-  return !origin || ALLOWED_ORIGINS.has(origin);
+  return ALLOWED_ORIGINS.has(request.headers.get('Origin'));
 }
 function response(body, status = 200, request) {
   return new Response(JSON.stringify(body), {
@@ -57,6 +58,16 @@ function validPublicUrl(raw) {
   return u;
 }
 
+// Prefer Cloudflare's Rate Limiting binding (shared across isolates, see wrangler.toml).
+// The in-memory map below is only a per-isolate fallback when no binding is configured.
+async function limited(request, env, binding, keyPrefix, limit) {
+  const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+  const limiter = env && env[binding];
+  if (limiter && typeof limiter.limit === 'function') {
+    try { const { success } = await limiter.limit({ key: `${keyPrefix}:${ip}` }); return !success; } catch {}
+  }
+  return rateLimited(request, keyPrefix, limit);
+}
 const rateMap = new Map();
 function rateLimited(request, keyPrefix, limit) {
   const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
@@ -116,9 +127,9 @@ function count(html,tag){return(html.match(new RegExp(`<${tag}(?:\s|>)`,'gi'))||
 function hasLd(html){return/<script[^>]+type=[\"']application\/ld\+json[\"'][^>]*>/i.test(html);}
 function validJson(text){try{JSON.parse(text);return true}catch{return false}}
 
-async function audit(request,body){
+async function audit(request,body,env){
   if(!originAllowed(request))return fail('Origin not allowed.',403,request);
-  if(rateLimited(request,'audit',6))return fail('Too many audit requests. Please wait a minute and try again.',429,request);
+  if(await limited(request,env,'AUDIT_LIMITER','audit',6))return fail('Too many audit requests. Please wait a minute and try again.',429,request);
   let u;try{u=validPublicUrl(body.url)}catch(e){return fail(e.message,400,request)}
   const base=`${u.protocol}//${u.host}`;
   const home=await fetchPublic(u.href,HOME_TIMEOUT);
@@ -156,19 +167,19 @@ export default { async fetch(request,env){
     if(request.method==='POST'){
       const length=Number(request.headers.get('Content-Length')||0);if(length>MAX_AUDIT_BODY)return fail('Request is too large.',413,request);
       let body;try{body=await request.json()}catch{return fail('Invalid request.',400,request)}
-      return audit(request,body);
+      return audit(request,body,env);
     }
     if(request.method==='GET'){
       const raw=url.searchParams.get('url')||'';
       if(raw.length>4000)return fail('Audit URL is too long.',413,request);
-      return audit(request,{url:raw});
+      return audit(request,{url:raw},env);
     }
     return fail('Method not allowed.',405,request);
   }
   if(url.pathname==='/api/contact'){
     if(request.method!=='POST')return fail('Method not allowed.',405,request);
     if(!originAllowed(request))return fail('Origin not allowed.',403,request);
-    if(rateLimited(request,'contact',10))return fail('Too many submissions. Please wait a minute and try again.',429,request);
+    if(await limited(request,env,'CONTACT_LIMITER','contact',10))return fail('Too many submissions. Please wait a minute and try again.',429,request);
     if(!env.WEB3FORMS_ACCESS_KEY)return fail('Contact delivery is not configured.',503,request);
     let body;try{body=await request.json()}catch{return fail('Invalid request.',400,request)}
     const email=clean(body.email,254);
@@ -186,5 +197,5 @@ export default { async fetch(request,env){
     if(!r.ok||json.success===false)return fail(json.message||'Web3Forms submission failed.',502,request);
     return response({ok:true,provider:'web3forms'},200,request);
   }
-
+  return fail('Not found.',404,request);
 }};

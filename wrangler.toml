@@ -11,3 +11,14 @@ zone_name = "deepdell.com"
 [[routes]]
 pattern = "www.deepdell.com/api/*"
 zone_name = "deepdell.com"
+
+# Cloudflare Workers Rate Limiting (shared across isolates). period must be 10 or 60 seconds.
+[[ratelimits]]
+name = "AUDIT_LIMITER"
+namespace_id = "1001"
+simple = { limit = 6, period = 60 }
+
+[[ratelimits]]
+name = "CONTACT_LIMITER"
+namespace_id = "1002"
+simple = { limit = 10, period = 60 }

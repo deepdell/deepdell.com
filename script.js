@@ -102,8 +102,27 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
     return accessKeyPromise;
   }
 
+  // Lightweight spam protection: a hidden honeypot field in every form plus a minimum
+  // time-on-page. Bots that fill every field or submit instantly get a silent fake success.
+  const pageStart=Date.now();
+  function addHoneypots(){
+    document.querySelectorAll('form').forEach(form=>{
+      if(form.querySelector('input[name="botcheck"]')) return;
+      const trap=document.createElement('input');
+      trap.type='text';trap.name='botcheck';trap.tabIndex=-1;trap.autocomplete='off';trap.setAttribute('aria-hidden','true');
+      trap.style.cssText='position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;opacity:0!important';
+      form.appendChild(trap);
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',addHoneypots,{once:true}); else addHoneypots();
+  function looksAutomated(){
+    const filled=[...document.querySelectorAll('input[name="botcheck"]')].some(i=>i.value.trim()!=='');
+    return filled || Date.now()-pageStart<3000;
+  }
+
   window.deepdellWeb3FormsConfigured=true;
   window.submitDeepdellForm=async function(payload){
+    if(looksAutomated()) return {success:true,message:'Submitted.'};
     const accessKey=await getAccessKey();
     const response=await fetch('https://api.web3forms.com/submit',{
       method:'POST',
@@ -120,7 +139,7 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
 
 // ─────────────────────────────────────────────────────────────
 // DEEPDELL / FREE GOOGLE CONSENT MODE — BASIC MODE
-// Google tags do not load until the visitor chooses.
+// Google and Ahrefs scripts are not requested until the visitor allows analytics.
 // No paid CMP is required for this implementation.
 // ─────────────────────────────────────────────────────────────
 (function(){
@@ -128,10 +147,15 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
   const AHREFS_KEY='O2AUj4tmiR8cKN9efAkM5Q';
   const KEY='deepdell-consent-v1';
 
-  // Google tag is installed statically in each page <head>.
-  // This file only applies the visitor's Consent Mode choice.
+  // Each page <head> only defines gtag() and the default-denied consent state.
+  // gtag.js itself is requested from Google only after the visitor allows analytics.
   function loadGA(){
-    return typeof window.gtag==='function';
+    if(typeof window.gtag!=='function') return false;
+    if(document.querySelector('script[data-deepdell-ga]')) return true;
+    window.gtag('js',new Date());
+    window.gtag('config',GA_ID);
+    const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;s.dataset.deepdellGa='1';document.head.appendChild(s);
+    return true;
   }
 
   function loadAhrefs(){
@@ -153,9 +177,8 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
     try{localStorage.setItem(KEY,value)}catch(e){}
     const banner=document.getElementById('deepdell-consent');
     if(banner) banner.remove();
-    loadGA();
-    if(value==='accepted') loadAhrefs();
     applyConsent(value);
+    if(value==='accepted'){ loadGA(); loadAhrefs(); }
   }
 
   function showBanner(){
@@ -185,12 +208,10 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
   function init(){
     let choice=null;
     try{choice=localStorage.getItem(KEY)}catch(e){}
-    // Google loads with Consent Mode default-denied; storage stays denied until choice.
-    loadGA();
-    if(choice==='accepted') applyConsent('accepted');
+    // Nothing is requested from Google or Ahrefs until analytics is allowed.
+    if(choice==='accepted'){ applyConsent('accepted'); loadGA(); loadAhrefs(); }
     else if(choice==='declined') applyConsent('declined');
     else showBanner();
-    if(choice==='accepted') loadAhrefs();
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});
   else init();

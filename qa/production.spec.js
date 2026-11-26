@@ -16,6 +16,12 @@ const PAGES = [
   '/privacy.html'
 ];
 
+test('unknown URLs return the branded 404 page', async ({ page }) => {
+  const response = await page.goto(BASE + '/this-page-does-not-exist', { waitUntil: 'domcontentloaded', timeout: 30000 });
+  expect(response?.status()).toBe(404);
+  await expect(page).toHaveTitle(/Page not found/);
+});
+
 test.describe.configure({ mode: 'serial' });
 
 test('production pages load without browser errors', async ({ page }) => {
@@ -29,11 +35,11 @@ test('production pages load without browser errors', async ({ page }) => {
   expect(failures, 'browser page errors').toEqual([]);
 });
 
-test('GA4 and consent mode are active on the production homepage', async ({ page }) => {
+test('GA4 loads only after consent on the production homepage', async ({ page }) => {
   await page.goto(BASE + '/', { waitUntil: 'networkidle', timeout: 30000 });
   await expect(page.locator('#deepdell-consent')).toBeVisible();
 
-  const ga = await page.evaluate(() => ({
+  const before = await page.evaluate(() => ({
     tag: document.querySelector('script[src*="googletagmanager.com/gtag/js?id=G-K592HB9G99"]') !== null,
     gtag: typeof window.gtag === 'function',
     defaultDenied: Array.isArray(window.dataLayer) && window.dataLayer.some(
@@ -41,19 +47,21 @@ test('GA4 and consent mode are active on the production homepage', async ({ page
         item[2]?.analytics_storage === 'denied'
     )
   }));
-  expect(ga.tag).toBe(true);
-  expect(ga.gtag).toBe(true);
-  expect(ga.defaultDenied).toBe(true);
+  expect(before.tag, 'gtag.js must not load before consent').toBe(false);
+  expect(before.gtag).toBe(true);
+  expect(before.defaultDenied).toBe(true);
 
   await page.getByRole('button', { name: 'Allow analytics' }).click();
   await expect(page.locator('#deepdell-consent')).toHaveCount(0);
 
   const accepted = await page.evaluate(() => ({
+    tag: document.querySelector('script[src*="googletagmanager.com/gtag/js?id=G-K592HB9G99"]') !== null,
     granted: Array.isArray(window.dataLayer) && window.dataLayer.some(
       item => item && item[0] === 'consent' && item[1] === 'update' &&
         item[2]?.analytics_storage === 'granted'
     )
   }));
+  expect(accepted.tag).toBe(true);
   expect(accepted.granted).toBe(true);
 });
 
@@ -65,6 +73,8 @@ test('consent rejection keeps analytics storage denied', async ({ page }) => {
       item[2]?.analytics_storage === 'denied'
   ));
   expect(denied).toBe(true);
+  const tag = await page.evaluate(() => document.querySelector('script[src*="googletagmanager.com/gtag/js"]') !== null);
+  expect(tag, 'gtag.js must not load after rejection').toBe(false);
 });
 
 test('mobile navigation opens and closes', async ({ browser }) => {
