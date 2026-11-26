@@ -135,3 +135,23 @@ test('lead forms are wired to the Web3Forms helper', async ({ page }) => {
     await expect.poll(() => page.evaluate(() => typeof window.submitDeepdellForm === 'function')).toBe(true);
   }
 });
+
+test('translated pages are published with correct language metadata', async ({ page }) => {
+  const LANGS = { fr: 'ltr', de: 'ltr', es: 'ltr', it: 'ltr', ar: 'rtl', ms: 'ltr', id: 'ltr' };
+  for (const [lang, dir] of Object.entries(LANGS)) {
+    for (const path of ['/', '/services.html', '/contact.html']) {
+      const response = await page.goto(`${BASE}/${lang}${path}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+      expect(response?.status(), `${lang}${path}`).toBe(200);
+      const meta = await page.evaluate(() => ({
+        lang: document.documentElement.lang,
+        dir: document.documentElement.dir,
+        alternates: document.querySelectorAll('link[rel="alternate"][hreflang]').length,
+        switcher: document.querySelectorAll('.lang-menu a').length
+      }));
+      expect(meta.lang).toBe(lang);
+      expect(meta.dir).toBe(dir);
+      expect(meta.alternates).toBe(9);
+      expect(meta.switcher).toBe(8);
+    }
+  }
+});

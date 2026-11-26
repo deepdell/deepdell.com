@@ -1,3 +1,31 @@
+/* i18n runtime: translate text that scripts create on translated pages (see tools/i18n_build.py). */
+(function(){
+  const D=window.DD_I18N; if(!D||!window.MutationObserver) return;
+  const phrases=Object.keys(D).filter(k=>k.length>=8&&/\s/.test(k)).sort((a,b)=>b.length-a.length);
+  const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const big=phrases.length?new RegExp(phrases.map(esc).join('|'),'g'):null;
+  function tr(v){
+    const key=v.replace(/\s+/g,' ').trim(); if(!key) return null;
+    if(Object.prototype.hasOwnProperty.call(D,key)) return v.replace(v.trim(),()=>D[key]);
+    if(big&&big.test(v)){big.lastIndex=0;return v.replace(big,m=>D[m]);}
+    return null;
+  }
+  const ATTR=['placeholder','aria-label','title','alt'];
+  const done=new WeakMap(); // node -> value we wrote; never re-translate our own output
+  function walk(node){
+    if(node.nodeType===3){const p=node.parentNode;if(p&&/^(SCRIPT|STYLE)$/.test(p.nodeName))return;if(done.get(node)===node.nodeValue)return;const t=tr(node.nodeValue);if(t!=null&&t!==node.nodeValue){node.nodeValue=t;}done.set(node,node.nodeValue);return;}
+    if(node.nodeType!==1||/^(SCRIPT|STYLE)$/.test(node.nodeName))return;
+    const seen=done.get(node)||{};
+    for(const a of ATTR){const v=node.getAttribute&&node.getAttribute(a);if(v&&seen[a]!==v){const t=tr(v);const out=(t!=null?t:v);if(out!==v)node.setAttribute(a,out);seen[a]=out;}}
+    done.set(node,seen);
+    if((node.nodeName==='INPUT'||node.nodeName==='BUTTON')&&/^(button|submit)$/i.test(node.type)&&node.value){const t=tr(node.value);if(t)node.value=t;}
+    for(let c=node.firstChild;c;c=c.nextSibling)walk(c);
+  }
+  const run=()=>{walk(document.body);new MutationObserver(list=>{for(const m of list){if(m.type==='characterData')walk(m.target);else m.addedNodes.forEach(walk);}}).observe(document.body,{childList:true,subtree:true,characterData:true});};
+  if(document.body) run(); else document.addEventListener('DOMContentLoaded',run,{once:true});
+  // Keep visitors inside their language when scripts build links to English pages.
+  document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('a[href^="/"]');if(!a)return;const h=a.getAttribute('href');const L=window.DD_LANG;if(L&&/^\/[\w-]+\.html/.test(h)&&!h.startsWith('/'+L+'/'))a.setAttribute('href','/'+L+h);},true);
+})();
 (()=>{
 const path=location.pathname;
 if(path==='/index.html'||path==='/index.htm'){location.replace('/'+location.search+location.hash);return}
@@ -110,7 +138,7 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
       if(form.querySelector('input[name="botcheck"]')) return;
       const trap=document.createElement('input');
       trap.type='text';trap.name='botcheck';trap.tabIndex=-1;trap.autocomplete='off';trap.setAttribute('aria-hidden','true');
-      trap.style.cssText='position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;opacity:0!important';
+      trap.style.cssText='position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;border:0!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;opacity:0!important;pointer-events:none!important';
       form.appendChild(trap);
     });
   }
