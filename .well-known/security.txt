@@ -1,4 +1,6 @@
-Contact: mailto:support@deepdell.com
+Contact: mailto:bonjour.deepdell@gmail.com
+Contact: https://deepdell.com/contact.html
+Expires: 2027-11-26T00:00:00.000Z
 Canonical: https://deepdell.com/.well-known/security.txt
-Policy: https://deepdell.com/contact.html
+Policy: https://deepdell.com/privacy.html
 Preferred-Languages: en
