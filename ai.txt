@@ -5,5 +5,3 @@ LLM context: https://deepdell.com/llms.txt
 Full LLM context: https://deepdell.com/llms-full.txt
 Agent manifest: https://deepdell.com/agent.json
 Agentic manifest: https://deepdell.com/agentic.json
-UCP: https://deepdell.com/.well-known/ucp
-A2A: https://deepdell.com/.well-known/agent-card.json

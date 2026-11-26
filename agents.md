@@ -6,7 +6,5 @@ Canonical website: https://deepdell.com/
 Agent information: https://deepdell.com/agent.md
 Agent manifest: https://deepdell.com/agent.json
 Agentic manifest: https://deepdell.com/agentic.json
-UCP discovery: https://deepdell.com/.well-known/ucp
-A2A discovery: https://deepdell.com/.well-known/agent-card.json
 
 DEEPDELL does not expose private credentials through these documents.

@@ -19,8 +19,4 @@ Description: Digital engineering company specialising in Shopify Plus, AI agents
 ## Discovery
 See https://deepdell.com/llms.txt and https://deepdell.com/agentic.json.
 
-## Protocol discovery
-UCP profile: https://deepdell.com/.well-known/ucp
-A2A Agent Card: https://deepdell.com/.well-known/agent-card.json
-
 This document describes public capabilities only. It is not an API credential or authorization mechanism.

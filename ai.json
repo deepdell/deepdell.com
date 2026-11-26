@@ -5,7 +5,5 @@
   "llms": "https://deepdell.com/llms.txt",
   "llms_full": "https://deepdell.com/llms-full.txt",
   "agent": "https://deepdell.com/agent.json",
-  "agentic": "https://deepdell.com/agentic.json",
-  "ucp": "https://deepdell.com/.well-known/ucp",
-  "a2a": "https://deepdell.com/.well-known/agent-card.json"
+  "agentic": "https://deepdell.com/agentic.json"
 }

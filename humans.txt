@@ -9,5 +9,3 @@ Capabilities: Shopify Plus, AI agents, agentic automation, business automation, 
 Machine-readable resources:
 https://deepdell.com/llms.txt
 https://deepdell.com/agentic.json
-https://deepdell.com/.well-known/ucp
-https://deepdell.com/.well-known/agent-card.json

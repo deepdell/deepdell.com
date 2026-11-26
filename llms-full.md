@@ -23,5 +23,3 @@ https://deepdell.com/robots.txt
 https://deepdell.com/sitemap.xml
 https://deepdell.com/llms.txt
 https://deepdell.com/agentic.json
-https://deepdell.com/.well-known/ucp
-https://deepdell.com/.well-known/agent-card.json
