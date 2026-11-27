@@ -10,6 +10,11 @@ const PAGES = [
   '/automation.html',
   '/support.html',
   '/pricing.html',
+  '/tools.html',
+  '/utm-builder.html',
+  '/ad-calculator.html',
+  '/profit-calculator.html',
+  '/seo-preview.html',
   '/industries.html',
   '/contact.html',
   '/agentic-check.html',
@@ -180,4 +185,22 @@ test('early sign-up popup opens from the footer, asks for consent and closes wit
   await expect(page.locator('#dd-signup input[name="consent"]')).toHaveAttribute('required', '');
   await page.keyboard.press('Escape');
   await expect(page.locator('#dd-signup')).toBeHidden();
+});
+
+
+test('free tools calculate correctly in the browser', async ({ page }) => {
+  await page.goto(BASE + '/ad-calculator.html', { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await page.selectOption('[name="cur"]', 'USD');
+  for (const [name, value] of [['spend', '1000'], ['revenue', '4000'], ['orders', '80'], ['margin', '40']]) {
+    await page.fill(`[name="${name}"]`, value);
+  }
+  await expect(page.locator('[data-out="roas"]').first()).toHaveText('4.00×');
+  await expect(page.locator('[data-out="be"]').first()).toHaveText('2.50×');
+
+  await page.goto(BASE + '/utm-builder.html', { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await page.fill('[name="url"]', 'https://example.com');
+  await page.fill('[name="source"]', 'google');
+  await page.fill('[name="medium"]', 'cpc');
+  await page.fill('[name="campaign"]', 'spring_sale');
+  await expect(page.locator('[data-out="link"]').first()).toHaveText('https://example.com/?utm_source=google&utm_medium=cpc&utm_campaign=spring_sale');
 });

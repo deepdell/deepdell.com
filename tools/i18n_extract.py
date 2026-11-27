@@ -90,7 +90,7 @@ JUNK = {'Tab','DEEPDELL Early Sign-up','(not provided)','Early sign-up for news 
         'script[data-deepdell-ahrefs]','(prefers-reduced-motion: reduce)','(pointer: coarse)','(hover: hover) and (pointer: fine)','server-status error','DEEPDELL Website Lead',
         'DEEPDELL Website','Web3Forms submission failed.','Contact delivery is not configured.','Magento','sitemap index','well-known security'}
 dynamic = [d.lstrip('">').strip() for d in dynamic if d not in JUNK and not d.startswith('i18n runtime') and not re.match(r'^(Asia|Europe)/', d)]
-static = [t for t in static if not re.fullmatch(r'[A-Z]{3}( \S)?', t) and not re.fullmatch(r'[A-Z]{3} [^\sA-Za-z]{1,2}', t)]
+static = [t for t in static if not re.fullmatch(r'[A-Z]{3}( \S)?', t) and not re.fullmatch(r'[A-Z]{3} [^\sA-Za-z]{1,2}', t) and not re.fullmatch(r'[A-Z]{3} (RM|Rp|Rs)', t)]
 EXTRA = ['AI', 'API', 'JAN', 'MAR', 'MAY', 'JUL', 'SEP', 'NOV', 'ACT', 'Agentic checker preview', 'https://yourwebsite.com or yourwebsite.com']
 static = uniq(static + EXTRA); dynamic = [d for d in uniq(dynamic) if d not in set(static)]
 json.dump({'static': static, 'dynamic': dynamic}, open(os.path.join(ROOT, 'i18n', 'en.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)

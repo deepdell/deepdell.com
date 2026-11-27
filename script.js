@@ -42,7 +42,7 @@ document.querySelectorAll('.nav').forEach(nav=>{
  const group=document.createElement('div');group.className='nav-group';
  const toggle=document.createElement('button');toggle.type='button';toggle.className='nav-group-toggle';toggle.setAttribute('aria-expanded','false');toggle.textContent='DEEPDELL Lab';
  const submenu=document.createElement('div');submenu.className='nav-submenu';submenu.setAttribute('aria-label','DEEPDELL Lab');
- const items=[['agentic-check.html','Agentic Check'],['commerce-calculator.html','E-Commerce Calculator'],['game.html','Commerce Reset Game']];
+ const items=[['agentic-check.html','Agentic Check'],['commerce-calculator.html','E-Commerce Calculator'],['game.html','Commerce Reset Game'],['tools.html','All free tools']];
  items.forEach(([href,label])=>{const a=document.createElement('a');a.href=href;a.textContent=label;submenu.appendChild(a)});
  group.append(toggle,submenu);agent.replaceWith(group);
  toggle.addEventListener('click',e=>{e.stopPropagation();const open=group.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open))});
@@ -346,7 +346,7 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
   const K_DONE='dd-signup-done',K_NO='dd-signup-dismissed',K_SES='dd-signup-shown',DAYS=21;
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
   const ss={get(k){try{return sessionStorage.getItem(k)}catch(e){return null}},set(k,v){try{sessionStorage.setItem(k,v)}catch(e){}}};
-  const SKIP=/(^|\/)(contact|agentic-check|contact-card|game|commerce-calculator|privacy)(\.html)?$/;
+  const SKIP=/(^|\/)(contact|agentic-check|contact-card|game|commerce-calculator|privacy|utm-builder|ad-calculator|profit-calculator|seo-preview)(\.html)?$/;
   const FOCUS='a[href],button:not([disabled]),input:not([disabled]):not([tabindex="-1"]),select,textarea';
   let isOpen=false,last=null;
   const msgs=n=>form.querySelector('[data-su-msg="'+n+'"]');
