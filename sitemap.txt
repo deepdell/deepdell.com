@@ -78,6 +78,14 @@ https://deepdell.com/it/industries.html
 https://deepdell.com/ar/industries.html
 https://deepdell.com/ms/industries.html
 https://deepdell.com/id/industries.html
+https://deepdell.com/pricing.html
+https://deepdell.com/fr/pricing.html
+https://deepdell.com/de/pricing.html
+https://deepdell.com/es/pricing.html
+https://deepdell.com/it/pricing.html
+https://deepdell.com/ar/pricing.html
+https://deepdell.com/ms/pricing.html
+https://deepdell.com/id/pricing.html
 https://deepdell.com/privacy.html
 https://deepdell.com/fr/privacy.html
 https://deepdell.com/de/privacy.html
@@ -102,3 +110,11 @@ https://deepdell.com/it/shopify-plus.html
 https://deepdell.com/ar/shopify-plus.html
 https://deepdell.com/ms/shopify-plus.html
 https://deepdell.com/id/shopify-plus.html
+https://deepdell.com/support.html
+https://deepdell.com/fr/support.html
+https://deepdell.com/de/support.html
+https://deepdell.com/es/support.html
+https://deepdell.com/it/support.html
+https://deepdell.com/ar/support.html
+https://deepdell.com/ms/support.html
+https://deepdell.com/id/support.html

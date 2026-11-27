@@ -8,6 +8,8 @@ const PAGES = [
   '/ai.html',
   '/data.html',
   '/automation.html',
+  '/support.html',
+  '/pricing.html',
   '/industries.html',
   '/contact.html',
   '/agentic-check.html',

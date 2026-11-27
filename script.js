@@ -283,7 +283,7 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
 
   /* cursor glow, card spotlight and magnetic buttons (mouse devices only) */
   const cur=doc.createElement('div');cur.className='fx-cursor';cur.setAttribute('aria-hidden','true');doc.body.appendChild(cur);
-  const cards=$$('.service,.ai-grid article,.why-grid article,.steps article,.vertical,.arch-card,.engagement,.protocol,.tech-item,.page-card,.digital-card,.agentic-card,.live-console');
+  const cards=$$('.service,.ai-grid article,.why-grid article,.steps article,.vertical,.arch-card,.engagement,.protocol,.tech-item,.page-card,.plan,.digital-card,.agentic-card,.live-console');
   cards.forEach(c=>{if(getComputedStyle(c).position==='static')c.style.position='relative';c.classList.add('fx-card');const g=doc.createElement('i');g.className='fx-glow';g.setAttribute('aria-hidden','true');c.appendChild(g)});
   const mags=$$('.btn.primary,.header-cta');
   const move=raf((x,y,t)=>{cur.style.setProperty('--cx',x+'px');cur.style.setProperty('--cy',y+'px');cur.classList.add('on');

@@ -1863,3 +1863,27 @@ html[dir="rtl"] .service-num{right:auto!important;left:30px!important}
 html[dir="rtl"] .tool-cloud span:before{margin-right:0!important;margin-left:8px!important}
 @media(max-width:700px){html[dir="rtl"] .service-num{left:18px!important}}
 .tool-cloud+.tech-note{color:#7189a4;font-size:13px;margin-top:18px}
+
+/* ==== pricing plans ==== */
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px;align-items:stretch}
+@media(max-width:1180px){.plans{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.plans{grid-template-columns:1fr}}
+.plan{position:relative;display:flex;flex-direction:column;padding:32px 26px 28px;border:1px solid rgba(137,249,253,.16);border-radius:6px;background:linear-gradient(160deg,rgba(7,21,38,.92),rgba(2,28,61,.55))}
+.plan.featured{border-color:rgba(32,243,251,.65);box-shadow:0 0 0 1px rgba(32,243,251,.22),0 34px 70px -34px rgba(32,243,251,.4)}
+.plan.custom{background:linear-gradient(160deg,rgba(10,127,219,.24),rgba(2,28,61,.75))}
+.plan-badge{position:absolute;top:-12px;inset-inline-start:24px;padding:6px 12px;border-radius:999px;background:#20F3FB;color:#011434;font:700 11px/1 'DM Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase}
+.plan h3{margin:0 0 6px!important;font-size:23px!important;color:#fff}
+.plan-for{min-height:44px;margin:0!important;color:#9eb0c5!important;font-size:14px!important;line-height:1.5!important}
+.plan-price{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;margin:22px 0 2px}
+.plan-price .from,.price-line .from{color:#7189a4;font-size:13px}
+.plan-price .amt{font-size:46px;font-weight:800;letter-spacing:-.03em;line-height:1;color:#fff}
+.plan-price .amt-text{font-size:32px;letter-spacing:-.02em}
+.plan-price small,.price-line small{color:#9eb0c5;font-size:14px}
+.plan ul{display:grid;gap:12px;flex:1;margin:22px 0 28px;padding:0;list-style:none}
+.plan li{position:relative;padding-inline-start:26px;color:#c7d6e4;font-size:14.5px;line-height:1.5}
+.plan li:before{content:"";position:absolute;inset-inline-start:2px;top:.5em;width:10px;height:5px;border-left:2px solid #20F3FB;border-bottom:2px solid #20F3FB;transform:rotate(-45deg)}
+.plan .btn{justify-content:center;text-align:center}
+.plan-note{margin-top:20px;color:#7189a4;font-size:13px}
+.price-line{margin:14px 0 0!important}
+.price-line strong{color:#20F3FB;font-size:24px;font-weight:700}
+html[dir="rtl"] .plan li:before{transform:rotate(45deg)}
