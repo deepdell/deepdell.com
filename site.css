@@ -1890,3 +1890,16 @@ html[dir="rtl"] .tool-cloud span:before{margin-right:0!important;margin-left:8px
 .price-line{margin:14px 0 0!important}
 .price-line strong{color:#20F3FB;font-size:24px;font-weight:700}
 html[dir="rtl"] .plan li:before{transform:rotate(45deg)}
+
+/* ==== currency picker ==== */
+.cur-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;margin-top:28px}
+.cur-bar+.plans{margin-top:22px}
+.cur-pick{display:flex;align-items:center;gap:10px;color:#9eb0c5;font-size:14px}
+.cur-pick select{padding:9px 34px 9px 12px;border:1px solid rgba(137,249,253,.3);border-radius:4px;background:#071526;color:#fff;font:600 13px/1 'DM Mono',ui-monospace,monospace;cursor:pointer}
+.cur-pick select:hover{border-color:rgba(32,243,251,.65)}
+.cur-pick select:focus-visible{outline:2px solid #20F3FB;outline-offset:2px}
+.cur-note{margin:0;color:#7189a4;font-size:13px}
+.plan-price .amt-l{font-size:36px}
+.plan-price .amt-xl{font-size:30px}
+/* price block: fixed height and bottom aligned so every plan's feature list starts at the same line, in any currency */
+.plan-price{flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:2px;min-height:98px}

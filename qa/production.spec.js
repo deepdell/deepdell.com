@@ -158,3 +158,14 @@ test('translated pages are published with correct language metadata', async ({ p
     }
   }
 });
+
+test('pricing shows local currency defaults and the currency picker works', async ({ page }) => {
+  const defaults = { ms: 'MYR', id: 'IDR', ar: 'AED', fr: 'EUR' };
+  for (const [lang, cur] of Object.entries(defaults)) {
+    await page.goto(`${BASE}/${lang}/pricing.html`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await expect(page.locator('#dd-cur')).toHaveValue(cur);
+  }
+  await page.goto(BASE + '/pricing.html', { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await page.selectOption('#dd-cur', 'MYR');
+  await expect(page.locator('.plan .amt').first()).toContainText('RM');
+});

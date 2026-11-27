@@ -23,12 +23,13 @@ LANGS = {  # code: (native name, og:locale, text direction)
     'id': ('Bahasa Indonesia', 'id_ID', 'ltr'),
 }
 TARGETS = [c for c in LANGS if c != 'en']
+LANG_CURRENCY = {'fr': 'EUR', 'de': 'EUR', 'es': 'EUR', 'it': 'EUR', 'ar': 'AED', 'ms': 'MYR', 'id': 'IDR'}  # default price currency per language
 HREFLANG = {'ms': 'ms-MY'}  # region-targeted versions; others are language-only
 REGION = {'ms': {'locale': 'ms-MY', 'currency': 'MYR'}}  # number and currency formatting in tools
 PAGES = sorted(os.path.basename(p) for p in glob.glob(os.path.join(ROOT, '*.html')) if not p.endswith('404.html'))
 ATTRS = ('title', 'alt', 'aria-label', 'placeholder')
 META = ('description', 'og:title', 'og:description', 'og:image:alt', 'twitter:title', 'twitter:description')
-VER = '20261126e'
+VER = '20261126f'
 
 
 def page_url(lang, page):
@@ -187,6 +188,25 @@ def apply_shared(src, page, lang, alternates=True):
     return src
 
 
+def amt_class(text):
+    n = len(text)
+    return 'amt' + (' amt-xl' if n >= 10 else ' amt-l' if n >= 7 else '')
+
+
+def apply_currency(src, code):
+    """Pre-render the pricing page in a language's default currency (the picker still lets visitors change it)."""
+    def one(m):
+        tag, cls, attr, text = m
+        prices = json.loads(html.unescape(attr))
+        val = prices.get(code, text)
+        if cls.startswith('amt'):
+            cls = amt_class(val)
+        return '<%s class="%s" data-p="%s">%s</%s>' % (tag, cls, attr, html.escape(val, quote=False), tag)
+    src = re.sub(r'<(span|strong)( class="[^"]*")? data-p="([^"]+)">([^<]*)</\1>', lambda m: one((m.group(1), (m.group(2) or ' class=""')[8:-1], m.group(3), m.group(4))), src)
+    src = re.sub(r'<option value="USD" selected>', '<option value="USD">', src)
+    return src.replace('<option value="%s">' % code, '<option value="%s" selected>' % code)
+
+
 def build_page(page, lang, d):
     src = open(os.path.join(ROOT, page), encoding='utf-8').read()
     tr = make_tr(d)
@@ -201,6 +221,8 @@ def build_page(page, lang, d):
     src = re.sub(r'<link rel="canonical" href="[^"]*">', f'<link rel="canonical" href="{page_url(lang, page)}">', src)
     src = re.sub(r'<meta property="og:url" content="[^"]*">', f'<meta property="og:url" content="{page_url(lang, page)}">', src)
     src = re.sub(r'<meta property="og:locale" content="[^"]*">', f'<meta property="og:locale" content="{locale}">', src)
+    if page == 'pricing.html' and lang in LANG_CURRENCY:
+        src = apply_currency(src, LANG_CURRENCY[lang])
     return apply_shared(src, page, lang)
 
 

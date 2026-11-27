@@ -915,5 +915,9 @@
  "/ hour": "/ ساعة",
  "Starter": "البداية",
  "Growth": "النمو",
- "Pro": "الاحترافية"
+ "Pro": "الاحترافية",
+ "Show prices in": "عرض الأسعار بعملة",
+ "Prices are adjusted to your region's purchasing power.": "الأسعار مُعدَّلة بما يناسب القدرة الشرائية في منطقتك.",
+ "Save 15% with annual billing. Prices exclude taxes.": "وفّر 15% عند الدفع السنوي. الأسعار غير شاملة للضرائب.",
+ "Yes. Prices are shown in your local currency, adjusted to local purchasing power, and billed in that currency. Use the selector above to change it.": "نعم. تُعرض الأسعار بعملتك المحلية بعد تعديلها بما يناسب القدرة الشرائية المحلية، وتُفوتر بهذه العملة. استخدم القائمة أعلاه لتغييرها."
 }

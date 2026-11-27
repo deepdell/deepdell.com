@@ -908,5 +908,9 @@
  "E-commerce Technical Support & Operations": "Dukungan Teknis & Operasional E-commerce",
  "E-commerce consultation, technical support and custom utilities": "Konsultasi, dukungan teknis, dan utilitas kustom untuk e-commerce",
  "/ month": "/ bulan",
- "/ hour": "/ jam"
+ "/ hour": "/ jam",
+ "Show prices in": "Tampilkan harga dalam",
+ "Prices are adjusted to your region's purchasing power.": "Harga disesuaikan dengan daya beli di wilayah Anda.",
+ "Save 15% with annual billing. Prices exclude taxes.": "Hemat 15% dengan penagihan tahunan. Harga belum termasuk pajak.",
+ "Yes. Prices are shown in your local currency, adjusted to local purchasing power, and billed in that currency. Use the selector above to change it.": "Ya. Harga ditampilkan dalam mata uang lokal Anda, disesuaikan dengan daya beli setempat, dan ditagih dalam mata uang tersebut. Gunakan pilihan di atas untuk mengubahnya."
 }

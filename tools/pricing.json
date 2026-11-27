@@ -1,24 +1,152 @@
 {
-  "_note": "Edit prices here, then run: python3 tools/gen_pages.py && python3 tools/i18n_extract.py && python3 tools/i18n_build.py",
-  "currency": "USD",
-  "symbol": "$",
+  "_note": "Base prices are in USD. Local prices are computed as usd * rate * ppp, then rounded to a friendly number. 'rate' = units of local currency per 1 USD (AED and SAR are fixed pegs, the rest are APPROXIMATE: update them). 'ppp' < 1 lowers the price for markets with lower local purchasing power. After editing run: python3 tools/gen_pages.py && python3 tools/i18n_extract.py && python3 tools/i18n_build.py",
   "annual_discount_percent": 15,
   "plans": [
-    {"id": "starter", "name": "Starter", "for": "For new and small stores", "price": 99, "cta": "Get started",
-     "features": ["Up to 5 support hours a month", "1 sales platform", "Monthly store health check", "Small fixes and settings changes", "Email support, 2-day response", "1 simple automation maintained"]},
-    {"id": "growth", "name": "Growth", "for": "For stores that are scaling", "price": 299, "cta": "Get started", "badge": "Most popular",
-     "features": ["Up to 20 support hours a month", "Up to 3 platforms or marketplaces", "Weekly performance report", "Up to 3 automations built and maintained", "Priority support, 1-day response", "Monthly strategy call"]},
-    {"id": "pro", "name": "Pro", "for": "For multi-channel operations", "price": 799, "cta": "Get started",
-     "features": ["Up to 50 support hours a month", "Single-window dashboard across platforms", "Multi-agent AI workflows with approvals", "Custom utilities within your hours", "4-hour response on business days", "Dedicated engineer and weekly call"]},
-    {"id": "custom", "name": "Advanced Custom", "for": "For complex or enterprise needs", "price": null, "price_label": "Let's talk", "cta": "Talk to us",
-     "features": ["Scope and price built around your operation", "Dedicated team and custom service levels", "Custom integrations and utilities", "Security review and compliance support", "Private hosting and data options", "Training and documentation"]}
+    {
+      "id": "starter",
+      "name": "Starter",
+      "for": "For new and small stores",
+      "price": 99,
+      "cta": "Get started",
+      "features": [
+        "Up to 5 support hours a month",
+        "1 sales platform",
+        "Monthly store health check",
+        "Small fixes and settings changes",
+        "Email support, 2-day response",
+        "1 simple automation maintained"
+      ]
+    },
+    {
+      "id": "growth",
+      "name": "Growth",
+      "for": "For stores that are scaling",
+      "price": 299,
+      "cta": "Get started",
+      "badge": "Most popular",
+      "features": [
+        "Up to 20 support hours a month",
+        "Up to 3 platforms or marketplaces",
+        "Weekly performance report",
+        "Up to 3 automations built and maintained",
+        "Priority support, 1-day response",
+        "Monthly strategy call"
+      ]
+    },
+    {
+      "id": "pro",
+      "name": "Pro",
+      "for": "For multi-channel operations",
+      "price": 799,
+      "cta": "Get started",
+      "features": [
+        "Up to 50 support hours a month",
+        "Single-window dashboard across platforms",
+        "Multi-agent AI workflows with approvals",
+        "Custom utilities within your hours",
+        "4-hour response on business days",
+        "Dedicated engineer and weekly call"
+      ]
+    },
+    {
+      "id": "custom",
+      "name": "Advanced Custom",
+      "for": "For complex or enterprise needs",
+      "price": null,
+      "price_label": "Let's talk",
+      "cta": "Talk to us",
+      "features": [
+        "Scope and price built around your operation",
+        "Dedicated team and custom service levels",
+        "Custom integrations and utilities",
+        "Security review and compliance support",
+        "Private hosting and data options",
+        "Training and documentation"
+      ]
+    }
   ],
   "services": [
-    {"name": "Technical consultation", "text": "Talk a problem through with an engineer and leave with a clear plan.", "price": 49, "unit": "/ hour"},
-    {"name": "Store & operations audit", "text": "A written review of your store, integrations and processes with a prioritised fix list.", "price": 149},
-    {"name": "Marketplace feed fix", "text": "Fix and optimise product feeds for Amazon, eBay, Walmart or Google Merchant Center.", "price": 99},
-    {"name": "Spreadsheet to automation", "text": "Turn a manual Excel or CSV routine into an automatic flow.", "price": 149},
-    {"name": "Custom utility", "text": "A focused tool or automation built for one task, tested and documented.", "price": 199},
-    {"name": "Dashboard setup", "text": "Your key platforms connected into one dashboard with roles and scheduled data.", "price": 499}
-  ]
+    {
+      "name": "Technical consultation",
+      "text": "Talk a problem through with an engineer and leave with a clear plan.",
+      "price": 49,
+      "unit": "/ hour"
+    },
+    {
+      "name": "Store & operations audit",
+      "text": "A written review of your store, integrations and processes with a prioritised fix list.",
+      "price": 149
+    },
+    {
+      "name": "Marketplace feed fix",
+      "text": "Fix and optimise product feeds for Amazon, eBay, Walmart or Google Merchant Center.",
+      "price": 99
+    },
+    {
+      "name": "Spreadsheet to automation",
+      "text": "Turn a manual Excel or CSV routine into an automatic flow.",
+      "price": 149
+    },
+    {
+      "name": "Custom utility",
+      "text": "A focused tool or automation built for one task, tested and documented.",
+      "price": 199
+    },
+    {
+      "name": "Dashboard setup",
+      "text": "Your key platforms connected into one dashboard with roles and scheduled data.",
+      "price": 499
+    }
+  ],
+  "currencies": {
+    "USD": {
+      "symbol": "$",
+      "rate": 1,
+      "ppp": 1.0,
+      "label": "USD $"
+    },
+    "EUR": {
+      "symbol": "€",
+      "rate": 0.92,
+      "ppp": 1.0,
+      "label": "EUR €"
+    },
+    "GBP": {
+      "symbol": "£",
+      "rate": 0.79,
+      "ppp": 1.0,
+      "label": "GBP £"
+    },
+    "AED": {
+      "symbol": "AED ",
+      "rate": 3.6725,
+      "ppp": 1.0,
+      "label": "AED"
+    },
+    "SAR": {
+      "symbol": "SAR ",
+      "rate": 3.75,
+      "ppp": 1.0,
+      "label": "SAR"
+    },
+    "MYR": {
+      "symbol": "RM ",
+      "rate": 4.4,
+      "ppp": 0.7,
+      "label": "MYR RM"
+    },
+    "IDR": {
+      "symbol": "Rp ",
+      "rate": 16300,
+      "ppp": 0.5,
+      "thousands": ".",
+      "label": "IDR Rp"
+    },
+    "PKR": {
+      "symbol": "Rs ",
+      "rate": 280,
+      "ppp": 0.4,
+      "label": "PKR Rs"
+    }
+  }
 }

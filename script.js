@@ -314,3 +314,27 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
     host.addEventListener('pointerleave',()=>{mx=-1e3;my=-1e3});
   });
 })();
+
+/* ==== pricing: local currency picker (client side only, nothing is sent anywhere) ==== */
+(function(){
+  const sel=document.getElementById('dd-cur');if(!sel)return;
+  const els=[...document.querySelectorAll('[data-p]')];
+  const cls=t=>'amt'+(t.length>=10?' amt-xl':t.length>=7?' amt-l':'');
+  const LANG={fr:'EUR',de:'EUR',es:'EUR',it:'EUR',ar:'AED',ms:'MYR',id:'IDR'};
+  const TZ={'Asia/Karachi':'PKR','Asia/Dubai':'AED','Asia/Riyadh':'SAR','Asia/Kuala_Lumpur':'MYR','Asia/Jakarta':'IDR','Asia/Makassar':'IDR','Europe/London':'GBP'};
+  const REG={PK:'PKR',AE:'AED',SA:'SAR',MY:'MYR',ID:'IDR',GB:'GBP',FR:'EUR',DE:'EUR',ES:'EUR',IT:'EUR',NL:'EUR',BE:'EUR',IE:'EUR',AT:'EUR',PT:'EUR'};
+  const has=c=>[...sel.options].some(o=>o.value===c);
+  function guess(){
+    try{const s=localStorage.getItem('dd-currency');if(s&&has(s))return s}catch(e){}
+    const l=document.documentElement.lang;if(LANG[l])return LANG[l];
+    try{const z=Intl.DateTimeFormat().resolvedOptions().timeZone;if(TZ[z])return TZ[z];if(/^Europe\//.test(z)&&z!=='Europe/London')return 'EUR'}catch(e){}
+    const r=((navigator.language||'').split('-')[1]||'').toUpperCase();if(REG[r])return REG[r];
+    return 'USD';
+  }
+  function apply(c){
+    if(!has(c))c='USD';sel.value=c;
+    els.forEach(e=>{let m;try{m=JSON.parse(e.dataset.p)}catch(x){return}const v=m[c];if(!v)return;e.textContent=v;if(e.classList.contains('amt')||/\bamt\b/.test(e.className))e.className=cls(v)});
+  }
+  sel.addEventListener('change',()=>{try{localStorage.setItem('dd-currency',sel.value)}catch(e){}apply(sel.value)});
+  apply(guess());
+})();

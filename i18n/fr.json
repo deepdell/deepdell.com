@@ -909,5 +909,9 @@
  "E-commerce Technical Support & Operations": "Support technique & opérations e-commerce",
  "E-commerce consultation, technical support and custom utilities": "Conseil, support technique et outils sur mesure pour l’e-commerce",
  "/ month": "/ mois",
- "/ hour": "/ heure"
+ "/ hour": "/ heure",
+ "Show prices in": "Afficher les prix en",
+ "Prices are adjusted to your region's purchasing power.": "Les prix sont adaptés au pouvoir d’achat de votre région.",
+ "Save 15% with annual billing. Prices exclude taxes.": "Économisez 15 % avec la facturation annuelle. Prix hors taxes.",
+ "Yes. Prices are shown in your local currency, adjusted to local purchasing power, and billed in that currency. Use the selector above to change it.": "Oui. Les prix sont affichés dans votre devise locale, adaptés au pouvoir d’achat local, et facturés dans cette devise. Utilisez le sélecteur ci-dessus pour la modifier."
 }
