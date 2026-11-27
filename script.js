@@ -346,7 +346,7 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
   const K_DONE='dd-signup-done',K_NO='dd-signup-dismissed',K_SES='dd-signup-shown',DAYS=21;
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
   const ss={get(k){try{return sessionStorage.getItem(k)}catch(e){return null}},set(k,v){try{sessionStorage.setItem(k,v)}catch(e){}}};
-  const SKIP=/(^|\/)(contact|agentic-check|contact-card|game|commerce-calculator|privacy|utm-builder|ad-calculator|profit-calculator|seo-preview)(\.html)?$/;
+  const SKIP=/(^|\/)(contact|agentic-check|contact-card|game|commerce-calculator|privacy|utm-builder|ad-calculator|profit-calculator|seo-preview|discount-calculator|ai-files-generator|schema-generator|qr-generator)(\.html)?$/;
   const FOCUS='a[href],button:not([disabled]),input:not([disabled]):not([tabindex="-1"]),select,textarea';
   let isOpen=false,last=null;
   const msgs=n=>form.querySelector('[data-su-msg="'+n+'"]');

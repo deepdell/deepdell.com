@@ -15,6 +15,10 @@ const PAGES = [
   '/ad-calculator.html',
   '/profit-calculator.html',
   '/seo-preview.html',
+  '/discount-calculator.html',
+  '/qr-generator.html',
+  '/schema-generator.html',
+  '/ai-files-generator.html',
   '/industries.html',
   '/contact.html',
   '/agentic-check.html',
@@ -203,4 +207,21 @@ test('free tools calculate correctly in the browser', async ({ page }) => {
   await page.fill('[name="medium"]', 'cpc');
   await page.fill('[name="campaign"]', 'spring_sale');
   await expect(page.locator('[data-out="link"]').first()).toHaveText('https://example.com/?utm_source=google&utm_medium=cpc&utm_campaign=spring_sale');
+});
+
+
+test('discount calculator, QR generator and file generator work in the browser', async ({ page }) => {
+  await page.goto(BASE + '/discount-calculator.html', { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await page.fill('[name="margin"]', '40');
+  await page.fill('[name="discount"]', '10');
+  await expect(page.locator('[data-out="extra"]').first()).toHaveText('33.3%');
+
+  await page.goto(BASE + '/qr-generator.html', { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await page.fill('[name="text"]', 'https://deepdell.com');
+  await expect(page.locator('.qr-box svg path')).toHaveCount(1);
+
+  await page.goto(BASE + '/ai-files-generator.html', { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await page.fill('[name="name"]', 'Acme');
+  await expect(page.locator('[data-out="llms"]').first()).toContainText('# Acme');
+  await expect(page.locator('[data-out="robots"]').first()).toContainText('User-agent: GPTBot');
 });

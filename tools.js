@@ -45,6 +45,11 @@
     }
   }
 
+  function save(name, blob) {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); a.parentNode.removeChild(a); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
+
   const tools = {
     /* ───────── UTM link builder ───────── */
     utm() {
@@ -141,6 +146,126 @@
       f.addEventListener('input', raf(run)); f.addEventListener('reset', () => setTimeout(run, 0));
       $$('[data-device]').forEach(b => b.addEventListener('click', () => { $$('[data-device]').forEach(x => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); }); box.classList.toggle('is-mobile', b.dataset.device === 'mobile'); run(); }));
       const im = $('.og-img'); im.addEventListener('error', () => { im.hidden = true; });
+      run();
+    },
+
+    /* ───────── discount calculator ───────── */
+    discount() {
+      const run = () => {
+        const m = val('margin') / 100, d = val('discount') / 100, orders = val('orders');
+        const ready = m > 0 && m < 1 && d > 0 && d < 1;
+        show('[data-state="empty"]', !ready); show('[data-state="ready"]', ready);
+        if (!ready) return;
+        const newMargin = (m - d) / (1 - d), loss = d >= m;
+        out('newmargin', pct(newMargin)); out('max', pct(m));
+        out('extra', loss ? '—' : pct(d / (m - d)));
+        out('needed', !loss && orders > 0 ? plain(orders * m / (m - d), 0) : '—');
+        $$('[data-verdict]').forEach(e => { e.hidden = e.dataset.verdict !== (loss ? 'bad' : 'good'); });
+        const nm = $('[data-out="newmargin"]'); if (nm) { nm.classList.toggle('good', !loss); nm.classList.toggle('bad', loss); }
+      };
+      f.addEventListener('input', run); f.addEventListener('reset', () => setTimeout(run, 0)); run();
+    },
+
+    /* ───────── llms.txt and robots.txt generator ───────── */
+    ai() {
+      const BOTS = ['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'PerplexityBot', 'Google-Extended'];
+      const files = { llms: '', robots: '' };
+      const run = () => {
+        const name = txt('name'), url = txt('url'), desc = txt('desc'), sitemap = txt('sitemap');
+        const pages = txt('pages').split('\n').map(l => l.trim()).filter(Boolean);
+        const allow = f.elements.allow.checked;
+        const ready = !!name;
+        show('[data-state="empty"]', !ready); show('[data-state="ready"]', ready);
+        if (!ready) return;
+        const l = ['# ' + name, ''];
+        if (desc) l.push('> ' + desc, '');
+        if (url) l.push('Website: ' + url, '');
+        if (pages.length) {
+          l.push('## Key pages', '');
+          pages.forEach(p => { const [t, a, n] = p.split('|').map(x => x.trim()); l.push(a ? '- [' + t + '](' + a + ')' + (n ? ': ' + n : '') : '- ' + t); });
+          l.push('');
+        }
+        files.llms = l.join('\n').replace(/\n+$/, '\n');
+        const r = ['User-agent: *', 'Allow: /', '', '# AI and answer-engine crawlers'];
+        BOTS.forEach(b => { r.push('User-agent: ' + b, allow ? 'Allow: /' : 'Disallow: /', ''); });
+        if (sitemap) r.push('Sitemap: ' + sitemap);
+        files.robots = r.join('\n').replace(/\n+$/, '\n');
+        out('llms', files.llms); out('robots', files.robots);
+      };
+      f.addEventListener('input', run); f.addEventListener('change', run); f.addEventListener('reset', () => setTimeout(run, 0));
+      $$('[data-copy]').forEach(b => b.addEventListener('click', () => copy(files[b.dataset.copy], b)));
+      $$('[data-dl]').forEach(b => b.addEventListener('click', () => save(b.dataset.dl === 'llms' ? 'llms.txt' : 'robots.txt', new Blob([files[b.dataset.dl]], { type: 'text/plain;charset=utf-8' }))));
+      run();
+    },
+
+    /* ───────── schema (JSON-LD) generator ───────── */
+    schema() {
+      const AV = { instock: 'InStock', outofstock: 'OutOfStock', preorder: 'PreOrder' };
+      const clean = o => { Object.keys(o).forEach(k => { const v = o[k]; if (v === '' || v == null || (Array.isArray(v) && !v.length)) delete o[k]; }); return o; };
+      const lines = n => txt(n).split('\n').map(x => x.trim()).filter(Boolean);
+      let outText = '';
+      const run = () => {
+        const kind = f.elements.kind.value;
+        $$('[data-for]').forEach(e => { e.hidden = e.dataset.for !== kind; });
+        let obj = null;
+        if (kind === 'product' && txt('pname')) {
+          const price = txt('price');
+          obj = clean({ '@context': 'https://schema.org', '@type': 'Product', name: txt('pname'), description: txt('pdesc'), image: txt('pimage'), sku: txt('sku'),
+            brand: txt('brand') ? { '@type': 'Brand', name: txt('brand') } : '',
+            offers: price ? clean({ '@type': 'Offer', url: txt('purl'), price: price, priceCurrency: f.elements.cur.value, availability: 'https://schema.org/' + AV[f.elements.avail.value] }) : '' });
+        } else if (kind === 'faq') {
+          const blocks = txt('faq').split(/\n\s*\n/).map(b => b.split('\n').map(x => x.trim()).filter(Boolean)).filter(b => b.length > 1);
+          if (blocks.length) obj = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: blocks.map(b => ({ '@type': 'Question', name: b[0], acceptedAnswer: { '@type': 'Answer', text: b.slice(1).join(' ') } })) };
+        } else if (kind === 'org' && txt('oname')) {
+          obj = clean({ '@context': 'https://schema.org', '@type': 'Organization', name: txt('oname'), url: txt('ourl'), logo: txt('ologo'), email: txt('oemail'), sameAs: lines('osocial') });
+        }
+        show('[data-state="empty"]', !obj); show('[data-state="ready"]', !!obj);
+        if (!obj) { outText = ''; return; }
+        outText = '<script type="application/ld+json">\n' + JSON.stringify(obj, null, 2).replace(/</g, '\\u003c') + '\n</script>';
+        out('code', outText);
+      };
+      f.addEventListener('input', run); f.addEventListener('change', run); f.addEventListener('reset', () => setTimeout(run, 0));
+      $('[data-copy]').addEventListener('click', e => copy(outText, e.currentTarget));
+      run();
+    },
+
+    /* ───────── QR code generator ───────── */
+    qr() {
+      const SIZES = { s: 256, m: 512, l: 1024 };
+      let model = null;
+      function build() {
+        const t = txt('text');
+        model = null; show('[data-msg="long"]', false);
+        if (!t) return;
+        try { qrcode.stringToBytes = qrcode.stringToBytesFuncs['UTF-8']; const q = qrcode(0, 'M'); q.addData(t); q.make(); model = q; } catch (e) { show('[data-msg="long"]', true); }
+      }
+      const hex = v => /^#[0-9a-f]{6}$/i.test(v) ? v : '#000000';
+      function svg() {
+        const n = model.getModuleCount(), q = 4, fg = hex(f.elements.fg.value), bg = hex(f.elements.bg.value); let p = '';
+        for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (model.isDark(r, c)) p += 'M' + (c + q) + ' ' + (r + q) + 'h1v1h-1z';
+        const w = n + q * 2;
+        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + w + ' ' + w + '" shape-rendering="crispEdges"><rect width="' + w + '" height="' + w + '" fill="' + bg + '"/><path fill="' + fg + '" d="' + p + '"/></svg>';
+      }
+      const lum = h => { const c = [1, 3, 5].map(i => parseInt(h.substr(i, 2), 16) / 255).map(x => x <= .03928 ? x / 12.92 : Math.pow((x + .055) / 1.055, 2.4)); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]; };
+      const run = () => {
+        build();
+        show('[data-state="empty"]', !model); show('[data-state="ready"]', !!model);
+        $$('[data-dl]').forEach(b => { b.disabled = !model; });
+        if (!model) { $('.qr-box').innerHTML = ''; show('[data-msg="contrast"]', false); return; }
+        $('.qr-box').innerHTML = svg();
+        const a = lum(hex(f.elements.fg.value)), b = lum(hex(f.elements.bg.value)), ratio = (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
+        show('[data-msg="contrast"]', ratio < 3 || a > b);
+      };
+      f.addEventListener('input', run); f.addEventListener('change', run); f.addEventListener('reset', () => setTimeout(run, 0));
+      $('[data-dl="svg"]').addEventListener('click', () => { if (model) save('qr-code.svg', new Blob([svg()], { type: 'image/svg+xml' })); });
+      $('[data-dl="png"]').addEventListener('click', () => {
+        if (!model) return;
+        const n = model.getModuleCount(), q = 4, total = n + q * 2, px = Math.max(1, Math.floor(SIZES[f.elements.size.value] / total));
+        const cv = document.createElement('canvas'); cv.width = cv.height = total * px; const x = cv.getContext('2d');
+        x.fillStyle = hex(f.elements.bg.value); x.fillRect(0, 0, cv.width, cv.height); x.fillStyle = hex(f.elements.fg.value);
+        for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (model.isDark(r, c)) x.fillRect((c + q) * px, (r + q) * px, px, px);
+        cv.toBlob(b => save('qr-code.png', b), 'image/png');
+      });
       run();
     }
   };

@@ -62,7 +62,7 @@ def page(slug, title, desc, crumb, main, name, kind_ld='WebApplication'):
           "applicationCategory": "BusinessApplication", "operatingSystem": "Any (web browser)", "isAccessibleForFree": True,
           "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@id": SITE + "/#organization"}}
     out = page_from_template(title, desc, url, main, [ld, breadcrumb(crumb)])
-    out = out.replace('<script src="script.js?v=%s"></script>' % VER, '<script src="script.js?v=%s"></script><script src="tools.js?v=%s"></script>' % (VER, VER))
+    out = out.replace('<script src="script.js?v=%s"></script>' % VER, '<script src="script.js?v=%s"></script>' % VER + ('<script src="assets/qrcode.js"></script>' if slug == 'qr-generator' else '') + '<script src="tools.js?v=%s"></script>' % VER)
     open(os.path.join(ROOT, slug + '.html'), 'w', encoding='utf-8').write(out)
 
 
@@ -143,13 +143,112 @@ def seo():
          'Free SEO preview tool. See how your title and description look in Google and on social media, with live length checks.', 'SEO & Social Preview', main, 'SEO & Social Preview')
 
 
+
+# ───────────────────────── helpers for the second batch ─────────────────────────
+def select(name, label, options, extra=''):
+    o = ''.join('<option value="%s">%s</option>' % (v, e(t)) for v, t in options)
+    return '<label class="tl-field"><span class="tl-l">%s</span><select name="%s"%s>%s</select></label>' % (e(label), name, extra, o)
+
+
+def check(name, label, checked=False):
+    return '<label class="tl-check"><input type="checkbox" name="%s"%s><span>%s</span></label>' % (name, ' checked' if checked else '', e(label))
+
+
+def page_js(slug, title, desc, crumb, main, name, extra_script=''):
+    page(slug, title, desc, crumb, main, name)
+    if extra_script:
+        fp = os.path.join(ROOT, slug + '.html')
+        t = open(fp, encoding='utf-8').read()
+        t = t.replace('<script src="script.js?v=%s"></script>' % VER, '<script src="script.js?v=%s"></script>' % VER + extra_script, 1)
+        open(fp, 'w', encoding='utf-8').write(t)
+
+
+# ───────────────────────── discount calculator ─────────────────────────
+def discount():
+    left = (field('margin', 'Current gross margin (%)', 'The share of the price left after product cost.', '40') + field('discount', 'Discount (%)', None, '15')
+            + field('orders', 'Current orders per month (optional)', None, '200'))
+    right = ('<h3 class="tl-title">Your results</h3><p class="tl-empty" data-state="empty">Enter your margin and discount to see the results.</p><div data-state="ready" hidden>'
+             + verdicts('This discount still leaves you with a profit.', 'This discount still leaves you with a profit.', 'This discount makes you lose money on every sale.')
+             + '<div class="kpis">' + kpi('newmargin', 'Margin after discount', True) + kpi('extra', 'Extra sales needed', True) + kpi('needed', 'Orders needed per month', True)
+             + kpi('max', 'Maximum discount before a loss') + '</div>'
+             + '<p class="tl-note">This assumes your costs stay the same and the extra sales come from the discount.</p></div>')
+    main = '<main>' + hero('Discount Calculator', 'Is your discount', 'worth it?', 'Enter your margin and discount to see how many extra sales you need just to earn the same profit.') \
+        + '<section class="section-pad"><div class="tool" data-tool="discount">' + card(left, right, 'Your numbers') + '</div>' + cta() + '</section></main>'
+    page('discount-calculator', 'Discount Calculator: How Much Extra Sales Do You Need? | DEEPDELL',
+         'Free discount calculator for online stores. See your new margin and how much extra sales volume a promotion needs to keep the same profit.', 'Discount Calculator', main, 'Discount Calculator')
+
+
+# ───────────────────────── AI and search files ─────────────────────────
+def aifiles():
+    left = (field('name', 'Business name', None, 'Your Business', 'text') + field('url', 'Website URL', None, 'https://yourwebsite.com', 'url')
+            + field('desc', 'One-line description', None, 'We sell sports gear online and ship across Europe.', 'text')
+            + field('pages', 'Key pages', 'One per line: title | address | short note (the note is optional).', 'Shop | https://yourwebsite.com/shop | All products', 'textarea', ' rows="5"')
+            + field('sitemap', 'Sitemap address (optional)', None, 'https://yourwebsite.com/sitemap.xml', 'url')
+            + check('allow', 'Allow AI crawlers such as GPTBot, ClaudeBot and PerplexityBot', True))
+    box = lambda key, fname: ('<div class="code-head"><b>%s</b><span class="code-actions"><button class="btn ghost sm" type="button" data-copy="%s"><span class="b1">Copy</span><span class="b2" hidden>Copied</span></button>'
+                              '<button class="btn ghost sm" type="button" data-dl="%s"><span>Download</span></button></span></div><pre class="tl-code"><code data-out="%s"></code></pre>') % (fname, key, key, key)
+    right = ('<h3 class="tl-title">Your files</h3><p class="tl-empty" data-state="empty">Enter your business name to create your files.</p><div data-state="ready" hidden>'
+             + box('llms', 'llms.txt') + box('robots', 'robots.txt')
+             + '<p class="tl-note">Upload both files to the root of your website, for example yourwebsite.com/llms.txt.</p></div>')
+    main = '<main>' + hero('AI & Search Files Generator', 'Help AI and search', 'understand your site.', 'Create an llms.txt file and a robots.txt file for your website, ready to copy or download.') \
+        + '<section class="section-pad"><div class="tool" data-tool="ai">' + card(left, right, 'Your website') + '</div>' + cta() + '</section></main>'
+    page('ai-files-generator', 'AI & Search Files Generator: llms.txt and robots.txt | DEEPDELL',
+         'Free generator for llms.txt and robots.txt. Help AI assistants and search engines understand your website. Runs in your browser.', 'AI & Search Files Generator', main, 'AI & Search Files Generator')
+
+
+# ───────────────────────── schema generator ─────────────────────────
+def schema():
+    curs = [(k, c['label']) for k, c in CUR.items()]
+    curs = [(k, k) for k, _ in curs]
+    prod = ('<div data-for="product">' + field('pname', 'Product name', None, 'Trail Running Shoes', 'text') + field('pdesc', 'Description', None, 'Lightweight shoes with strong grip for trail running.', 'textarea', ' rows="2"')
+            + field('pimage', 'Image address', None, 'https://yourwebsite.com/shoes.jpg', 'url') + field('brand', 'Brand', None, None, 'text') + field('sku', 'SKU', None, None, 'text')
+            + field('price', 'Price', None, '89.00') + select('cur', 'Currency', curs)
+            + select('avail', 'Availability', [('instock', 'In stock'), ('outofstock', 'Out of stock'), ('preorder', 'Pre-order')]) + field('purl', 'Page address', None, 'https://yourwebsite.com/shoes', 'url') + '</div>')
+    faq = ('<div data-for="faq" hidden>' + field('faq', 'Questions and answers', 'Write the question on one line and the answer on the lines below. Leave a blank line between questions.',
+           'Do you ship internationally?\nYes, we ship to most countries.\n\nCan I return an item?\nYes, within 30 days.', 'textarea', ' rows="8"') + '</div>')
+    org = ('<div data-for="org" hidden>' + field('oname', 'Business name', None, 'Your Business', 'text') + field('ourl', 'Website URL', None, 'https://yourwebsite.com', 'url')
+           + field('ologo', 'Logo address', None, 'https://yourwebsite.com/logo.png', 'url') + field('oemail', 'Contact email', None, 'hello@yourwebsite.com', 'text')
+           + field('osocial', 'Social profile addresses', 'One address per line.', 'https://www.linkedin.com/company/yourbusiness', 'textarea', ' rows="3"') + '</div>')
+    left = select('kind', 'Markup type', [('product', 'Product'), ('faq', 'FAQ'), ('org', 'Organization')]) + prod + faq + org
+    right = ('<h3 class="tl-title">Your structured data</h3><p class="tl-empty" data-state="empty">Fill in the details to create your markup.</p><div data-state="ready" hidden>'
+             '<div class="code-head"><b>JSON-LD</b><span class="code-actions"><button class="btn ghost sm" type="button" data-copy><span class="b1">Copy</span><span class="b2" hidden>Copied</span></button></span></div>'
+             '<pre class="tl-code"><code data-out="code"></code></pre><p class="tl-note">Paste it into the page head or body, then test it with Google\'s Rich Results Test before publishing.</p></div>')
+    main = '<main>' + hero('Schema Markup Generator', 'Create structured data', 'for search engines.', 'Generate JSON-LD for products, FAQs and your organization so search engines can show richer results.') \
+        + '<section class="section-pad"><div class="tool" data-tool="schema">' + card(left, right, 'Markup details') + '</div>' + cta() + '</section></main>'
+    page('schema-generator', 'Schema Markup Generator: Product, FAQ and Organization JSON-LD | DEEPDELL',
+         'Free schema markup generator. Create Product, FAQ and Organization structured data (JSON-LD) to copy into your website.', 'Schema Markup Generator', main, 'Schema Markup Generator')
+
+
+# ───────────────────────── QR code generator ─────────────────────────
+def qr():
+    left = (field('text', 'Text or web address', None, 'https://yourwebsite.com', 'textarea', ' rows="3"')
+            + select('size', 'PNG size', [('s', 'Small'), ('m', 'Medium'), ('l', 'Large')], '')
+            + '<div class="row2"><label class="tl-field"><span class="tl-l">QR colour</span><input type="color" name="fg" value="#000000"></label>'
+              '<label class="tl-field"><span class="tl-l">Background colour</span><input type="color" name="bg" value="#ffffff"></label></div>'
+            + '<small class="tl-h tl-keep">Keep strong contrast between the two colours so phones can scan it.</small>')
+    right = ('<h3 class="tl-title">Your QR code</h3><p class="tl-empty" data-state="empty">Type a link or text to create your QR code.</p>'
+             '<p class="tl-msg" data-msg="long" hidden>That is too long for a QR code. Try something shorter.</p>'
+             '<div data-state="ready" hidden><div class="qr-box"></div>'
+             '<p class="tl-msg" data-msg="contrast" hidden>Low contrast: use a dark QR colour on a light background so phones can scan it.</p>'
+             '<div class="qr-actions"><button class="btn primary" type="button" data-dl="png" disabled><span>Download PNG</span></button>'
+             '<button class="btn ghost" type="button" data-dl="svg" disabled><span>Download SVG</span></button></div>'
+             '<p class="tl-note">Always test your QR code with a phone before printing.</p></div>')
+    main = '<main>' + hero('QR Code Generator', 'Make a QR code', 'in seconds.', 'Turn any link or text into a QR code you can download for print, packaging and ads.') \
+        + '<section class="section-pad"><div class="tool" data-tool="qr">' + card(left, right, 'QR code details') + '</div>' + cta() + '</section></main>'
+    page('qr-generator', 'QR Code Generator: Free, Downloadable QR Codes | DEEPDELL',
+         'Free QR code generator for links, text and campaigns. Download as PNG or SVG. Nothing is stored or sent anywhere.', 'QR Code Generator', main, 'QR Code Generator')
+
 # ───────────────────────── hub ─────────────────────────
 TOOLS_MKT = [('M01 / TRACKING', 'UTM Link Builder', 'Add campaign tracking to any link so analytics shows exactly where each visitor came from.', 'utm-builder.html'),
              ('M02 / ADVERTISING', 'Ad Performance Calculator', 'Work out ROAS, cost per order and break-even to see if your ads really make money.', 'ad-calculator.html'),
-             ('M03 / SEO', 'SEO & Social Preview', 'See how your page looks on Google and social media, with live length checks.', 'seo-preview.html')]
+             ('M03 / QR CODES', 'QR Code Generator', 'Turn any link or text into a downloadable QR code for print, packaging and ads.', 'qr-generator.html')]
 TOOLS_ECOM = [('E01 / PRICING', 'Profit & Pricing Calculator', 'Find your real profit per order after fees, shipping and ads, and the price you need.', 'profit-calculator.html'),
-              ('E02 / BENCHMARK', 'Commerce Calculator', "Benchmark your store's conversion, margin and repeat purchases and see the revenue opportunity.", 'commerce-calculator.html'),
-              ('E03 / AI READINESS', 'Agentic Readiness Checker', 'Check whether AI agents and search engines can discover and understand your website.', 'agentic-check.html')]
+              ('E02 / PROMOTIONS', 'Discount Calculator', 'See how much extra sales a discount needs just to earn the same profit.', 'discount-calculator.html'),
+              ('E03 / BENCHMARK', 'Commerce Calculator', "Benchmark your store's conversion, margin and repeat purchases and see the revenue opportunity.", 'commerce-calculator.html')]
+TOOLS_SEARCH = [('S01 / SEO', 'SEO & Social Preview', 'See how your page looks on Google and social media, with live length checks.', 'seo-preview.html'),
+                ('S02 / STRUCTURED DATA', 'Schema Markup Generator', 'Create product, FAQ and organization structured data for richer search results.', 'schema-generator.html'),
+                ('S03 / AI SEARCH', 'AI & Search Files Generator', 'Create llms.txt and robots.txt files that help AI assistants and search engines understand your site.', 'ai-files-generator.html'),
+                ('S04 / AI READINESS', 'Agentic Readiness Checker', 'Check whether AI agents and search engines can discover and understand your website.', 'agentic-check.html')]
 
 
 def hub():
@@ -157,7 +256,8 @@ def hub():
                                   % (e(c), e(t), e(d), h) for c, t, d, h in items)
     main = ('<main>' + hero('Free Tools', 'Free tools for', 'e-commerce and marketing.', 'Practical calculators and generators you can use right now. No sign-up, no cost, and nothing leaves your browser.')
             + '<section class="section-pad"><div class="section-kicker">01 / MARKETING TOOLS</div><div class="section-heading"><h2>Plan, track and <span>measure campaigns.</span></h2></div><div class="page-grid">%s</div></section>' % cards(TOOLS_MKT)
-            + '<section class="section-pad"><div class="section-kicker">02 / E-COMMERCE TOOLS</div><div class="section-heading"><h2>Price, profit and <span>grow smarter.</span></h2></div><div class="page-grid">%s</div>' % cards(TOOLS_ECOM)
+            + '<section class="section-pad"><div class="section-kicker">02 / E-COMMERCE TOOLS</div><div class="section-heading"><h2>Price, profit and <span>grow smarter.</span></h2></div><div class="page-grid">%s</div></section>' % cards(TOOLS_ECOM)
+            + '<section class="section-pad"><div class="section-kicker">03 / SEARCH & AI TOOLS</div><div class="section-heading"><h2>Be found by search <span>and by AI.</span></h2></div><div class="page-grid g4">%s</div>' % cards(TOOLS_SEARCH)
             + '<div class="cta-strip"><div><h2>Need a tool built for your own process?</h2><p>We build custom utilities and dashboards around your exact workflow.</p></div>'
               '<a class="btn primary" href="support.html">See custom utilities <span class="cta-arrow" aria-hidden="true"></span></a></div></section></main>')
     url = SITE + '/tools.html'
@@ -168,5 +268,5 @@ def hub():
 
 
 if __name__ == '__main__':
-    hub(); utm(); ad(); profit(); seo()
-    print('tools.html, utm-builder.html, ad-calculator.html, profit-calculator.html, seo-preview.html written')
+    hub(); utm(); ad(); profit(); seo(); discount(); aifiles(); schema(); qr()
+    print('tool pages written: hub + 8 tools')
