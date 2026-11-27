@@ -1862,3 +1862,4 @@ main h1 span,main h2 span,.hero h1 em{padding:.08em 0 .28em;margin-bottom:-.28em
 html[dir="rtl"] .service-num{right:auto!important;left:30px!important}
 html[dir="rtl"] .tool-cloud span:before{margin-right:0!important;margin-left:8px!important}
 @media(max-width:700px){html[dir="rtl"] .service-num{left:18px!important}}
+.tool-cloud+.tech-note{color:#7189a4;font-size:13px;margin-top:18px}

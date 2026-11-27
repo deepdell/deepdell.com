@@ -7,6 +7,7 @@ const PAGES = [
   '/shopify-plus.html',
   '/ai.html',
   '/data.html',
+  '/automation.html',
   '/industries.html',
   '/contact.html',
   '/agentic-check.html',

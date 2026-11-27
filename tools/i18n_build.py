@@ -28,7 +28,7 @@ REGION = {'ms': {'locale': 'ms-MY', 'currency': 'MYR'}}  # number and currency f
 PAGES = sorted(os.path.basename(p) for p in glob.glob(os.path.join(ROOT, '*.html')) if not p.endswith('404.html'))
 ATTRS = ('title', 'alt', 'aria-label', 'placeholder')
 META = ('description', 'og:title', 'og:description', 'og:image:alt', 'twitter:title', 'twitter:description')
-VER = '20261126c'
+VER = '20261126d'
 
 
 def page_url(lang, page):
