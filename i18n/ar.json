@@ -919,5 +919,22 @@
  "Show prices in": "عرض الأسعار بعملة",
  "Prices are adjusted to your region's purchasing power.": "الأسعار مُعدَّلة بما يناسب القدرة الشرائية في منطقتك.",
  "Save 15% with annual billing. Prices exclude taxes.": "وفّر 15% عند الدفع السنوي. الأسعار غير شاملة للضرائب.",
- "Yes. Prices are shown in your local currency, adjusted to local purchasing power, and billed in that currency. Use the selector above to change it.": "نعم. تُعرض الأسعار بعملتك المحلية بعد تعديلها بما يناسب القدرة الشرائية المحلية، وتُفوتر بهذه العملة. استخدم القائمة أعلاه لتغييرها."
+ "Yes. Prices are shown in your local currency, adjusted to local purchasing power, and billed in that currency. Use the selector above to change it.": "نعم. تُعرض الأسعار بعملتك المحلية بعد تعديلها بما يناسب القدرة الشرائية المحلية، وتُفوتر بهذه العملة. استخدم القائمة أعلاه لتغييرها.",
+ "Get news & offers": "احصل على الأخبار والعروض",
+ "EARLY ACCESS": "وصول مبكر",
+ "Get early access to news and special offers": "احصل على وصول مبكر إلى الأخبار والعروض الخاصة",
+ "Join our list for product updates, practical e-commerce tips and special offers before anyone else.": "انضم إلى قائمتنا لتصلك تحديثات المنتجات ونصائح عملية للتجارة الإلكترونية والعروض الخاصة قبل أي أحد.",
+ "Name": "الاسم",
+ "Email": "البريد الإلكتروني",
+ "Phone": "الهاتف",
+ "(optional)": "(اختياري)",
+ "I agree to receive news and special offers from DEEPDELL. I can unsubscribe at any time.": "أوافق على تلقي الأخبار والعروض الخاصة من DEEPDELL. يمكنني إلغاء الاشتراك في أي وقت.",
+ "Please enter your name and a valid email address.": "يرجى إدخال اسمك وعنوان بريد إلكتروني صالح.",
+ "Please check your phone number or leave it empty.": "يرجى التحقق من رقم هاتفك أو تركه فارغًا.",
+ "Join the early list": "انضم إلى القائمة",
+ "You're on the list": "تم تسجيلك في القائمة",
+ "Thank you! We will send you news and special offers.": "شكرًا لك! سنرسل إليك الأخبار والعروض الخاصة.",
+ "Close": "إغلاق",
+ "News and offers sign-up": "الاشتراك في الأخبار والعروض",
+ "If you join our early list, we collect your name, email address and, optionally, your phone number to send you news and special offers. Your details are delivered to us by email through Web3Forms. You can unsubscribe or ask us to delete your details at any time by contacting us.": "إذا انضممت إلى قائمتنا المبكرة، فسنجمع اسمك وبريدك الإلكتروني ورقم هاتفك اختياريًا لنرسل إليك الأخبار والعروض الخاصة. تصلنا بياناتك عبر البريد الإلكتروني من خلال Web3Forms. يمكنك إلغاء الاشتراك أو طلب حذف بياناتك في أي وقت بالتواصل معنا."
 }

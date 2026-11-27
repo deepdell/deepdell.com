@@ -169,3 +169,15 @@ test('pricing shows local currency defaults and the currency picker works', asyn
   await page.selectOption('#dd-cur', 'MYR');
   await expect(page.locator('.plan .amt').first()).toContainText('RM');
 });
+
+test('early sign-up popup opens from the footer, asks for consent and closes with Escape', async ({ page }) => {
+  await page.goto(BASE + '/services.html', { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await expect(page.locator('#dd-signup')).toBeHidden();
+  await page.locator('footer [data-su-open]').click();
+  await expect(page.locator('#dd-signup')).toBeVisible();
+  await expect(page.locator('#dd-signup input[name="email"]')).toBeVisible();
+  await expect(page.locator('#dd-signup input[name="phone"]')).not.toHaveAttribute('required', '');
+  await expect(page.locator('#dd-signup input[name="consent"]')).toHaveAttribute('required', '');
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#dd-signup')).toBeHidden();
+});

@@ -913,5 +913,22 @@
  "Show prices in": "Preise anzeigen in",
  "Prices are adjusted to your region's purchasing power.": "Die Preise sind an die Kaufkraft Ihrer Region angepasst.",
  "Save 15% with annual billing. Prices exclude taxes.": "Sparen Sie 15 % bei jährlicher Abrechnung. Preise zzgl. Steuern.",
- "Yes. Prices are shown in your local currency, adjusted to local purchasing power, and billed in that currency. Use the selector above to change it.": "Ja. Die Preise werden in Ihrer Landeswährung angezeigt, an die lokale Kaufkraft angepasst und in dieser Währung abgerechnet. Mit der Auswahl oben können Sie die Währung ändern."
+ "Yes. Prices are shown in your local currency, adjusted to local purchasing power, and billed in that currency. Use the selector above to change it.": "Ja. Die Preise werden in Ihrer Landeswährung angezeigt, an die lokale Kaufkraft angepasst und in dieser Währung abgerechnet. Mit der Auswahl oben können Sie die Währung ändern.",
+ "Get news & offers": "News & Angebote erhalten",
+ "EARLY ACCESS": "FRÜHZUGANG",
+ "Get early access to news and special offers": "Erhalten Sie frühzeitig News und Sonderangebote",
+ "Join our list for product updates, practical e-commerce tips and special offers before anyone else.": "Tragen Sie sich ein und erhalten Sie Produktneuigkeiten, praxisnahe E-Commerce-Tipps und Sonderangebote vor allen anderen.",
+ "Name": "Name",
+ "Email": "E-Mail",
+ "Phone": "Telefon",
+ "(optional)": "(optional)",
+ "I agree to receive news and special offers from DEEPDELL. I can unsubscribe at any time.": "Ich bin damit einverstanden, News und Sonderangebote von DEEPDELL zu erhalten. Ich kann mich jederzeit abmelden.",
+ "Please enter your name and a valid email address.": "Bitte geben Sie Ihren Namen und eine gültige E-Mail-Adresse ein.",
+ "Please check your phone number or leave it empty.": "Bitte prüfen Sie Ihre Telefonnummer oder lassen Sie das Feld leer.",
+ "Join the early list": "Auf die Liste setzen",
+ "You're on the list": "Sie stehen auf der Liste",
+ "Thank you! We will send you news and special offers.": "Vielen Dank! Wir senden Ihnen News und Sonderangebote.",
+ "Close": "Schließen",
+ "News and offers sign-up": "Anmeldung für News und Angebote",
+ "If you join our early list, we collect your name, email address and, optionally, your phone number to send you news and special offers. Your details are delivered to us by email through Web3Forms. You can unsubscribe or ask us to delete your details at any time by contacting us.": "Wenn Sie sich in unsere Early-Access-Liste eintragen, erfassen wir Ihren Namen, Ihre E-Mail-Adresse und optional Ihre Telefonnummer, um Ihnen News und Sonderangebote zu senden. Ihre Angaben werden uns per E-Mail über Web3Forms zugestellt. Sie können sich jederzeit abmelden oder die Löschung Ihrer Daten verlangen, indem Sie uns kontaktieren."
 }

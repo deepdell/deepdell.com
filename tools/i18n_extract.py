@@ -84,7 +84,7 @@ for p in PAGES:
 dynamic += js_strings(open(os.path.join(ROOT, 'script.js'), encoding='utf-8').read())
 uniq = lambda xs: list(dict.fromkeys(xs))
 # Technical literals that are not visible text
-JUNK = {'POST','Content-Type','application/json','Accept','en-US','scoreSub','leadStatus','leadForm','image/png','resetBtn','Escape',
+JUNK = {'Tab','DEEPDELL Early Sign-up','(not provided)','Early sign-up for news and special offers','Agreed to receive news and special offers','POST','Content-Type','application/json','Accept','en-US','scoreSub','leadStatus','leadForm','image/png','resetBtn','Escape',
         'IntersectionObserver','0px 0px -30px','section-pad agentic-home','Organization','knowsAbout','WebSite','WebPage','isPartOf',
         'application/ld+json','mailto:','DOMContentLoaded','G-K592HB9G99','O2AUj4tmiR8cKN9efAkM5Q','script[data-deepdell-ga]',
         'script[data-deepdell-ahrefs]','(prefers-reduced-motion: reduce)','(pointer: coarse)','(hover: hover) and (pointer: fine)','server-status error','DEEPDELL Website Lead',

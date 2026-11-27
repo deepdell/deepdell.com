@@ -338,3 +338,70 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
   sel.addEventListener('change',()=>{try{localStorage.setItem('dd-currency',sel.value)}catch(e){}apply(sel.value)});
   apply(guess());
 })();
+
+/* ==== early sign-up popup (news and special offers) ==== */
+(function(){
+  const dlg=document.getElementById('dd-signup');if(!dlg)return;
+  const doc=document,root=doc.documentElement,card=dlg.querySelector('.su-card'),form=dlg.querySelector('.su-form'),done=dlg.querySelector('.su-done'),body=dlg.querySelector('.su-body');
+  const K_DONE='dd-signup-done',K_NO='dd-signup-dismissed',K_SES='dd-signup-shown',DAYS=21;
+  const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  const ss={get(k){try{return sessionStorage.getItem(k)}catch(e){return null}},set(k,v){try{sessionStorage.setItem(k,v)}catch(e){}}};
+  const SKIP=/(^|\/)(contact|agentic-check|contact-card|game|commerce-calculator|privacy)(\.html)?$/;
+  const FOCUS='a[href],button:not([disabled]),input:not([disabled]):not([tabindex="-1"]),select,textarea';
+  let isOpen=false,last=null;
+  const msgs=n=>form.querySelector('[data-su-msg="'+n+'"]');
+  const clear=()=>form.querySelectorAll('.su-msg').forEach(m=>m.hidden=true);
+  const show=n=>{clear();const m=msgs(n);if(m)m.hidden=false};
+  const busy=b=>{const s=form.querySelector('.su-submit');s.disabled=b;s.querySelector('.su-b1').hidden=b;s.querySelector('.su-b2').hidden=!b};
+
+  function open(){
+    if(isOpen)return;isOpen=true;last=doc.activeElement;ss.set(K_SES,'1');
+    dlg.hidden=false;root.classList.add('su-lock');
+    setTimeout(()=>{const f=form.hidden?card:form.elements.name;f&&f.focus&&f.focus()},60);
+  }
+  function close(){
+    if(!isOpen)return;isOpen=false;dlg.hidden=true;root.classList.remove('su-lock');
+    if(!ls.get(K_DONE))ls.set(K_NO,String(Date.now()));
+    if(last&&last.focus)try{last.focus()}catch(e){}
+  }
+  dlg.addEventListener('click',e=>{if(e.target.closest('[data-su-close]'))close()});
+  doc.addEventListener('keydown',e=>{
+    if(!isOpen)return;
+    if(e.key==='Escape'){e.preventDefault();close();return}
+    if(e.key!=='Tab')return;
+    const f=[...dlg.querySelectorAll(FOCUS)].filter(x=>x.offsetParent!==null);if(!f.length)return;
+    const a=f[0],z=f[f.length-1];
+    if(e.shiftKey&&(doc.activeElement===a||doc.activeElement===card)){e.preventDefault();z.focus()}
+    else if(!e.shiftKey&&doc.activeElement===z){e.preventDefault();a.focus()}
+  });
+  doc.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-su-open]');if(t){e.preventDefault();open()}});
+
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const v=n=>(form.elements[n].value||'').trim(),name=v('name'),email=v('email'),phone=v('phone');
+    if(name.length<2||!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){show('invalid');return}
+    if(phone&&!/^[+()\d][\d\s().+-]{5,29}$/.test(phone)){show('phone');return}
+    if(!form.elements.consent.checked){show('consent');return}
+    clear();
+    const ok=()=>{ls.set(K_DONE,'1');body.hidden=true;done.hidden=false;done.setAttribute('tabindex','-1');done.focus();if(typeof deepdellEvent==='function')deepdellEvent('generate_lead',{form_name:'early_signup'})};
+    if(form.elements.botcheck.value){ok();return}
+    busy(true);
+    try{
+      if(typeof window.submitDeepdellForm!=='function')throw new Error('unavailable');
+      await window.submitDeepdellForm({subject:'DEEPDELL Early Sign-up',name,email,phone:phone||'(not provided)',message:'Early sign-up for news and special offers',page:location.pathname,language:root.lang,consent:'Agreed to receive news and special offers'});
+      ok();
+    }catch(err){busy(false);show('error')}
+  });
+
+  /* when to show it on its own: once per visit, never on tool or form pages, never after a sign-up or a recent dismissal */
+  const path=location.pathname.replace(/\/+$/,'');
+  const recently=(+ls.get(K_NO)||0)>Date.now()-DAYS*864e5;
+  if(SKIP.test(path)||ls.get(K_DONE)||recently||ss.get(K_SES))return;
+  const t0=Date.now();let armed=true;
+  const calm=()=>!isOpen&&!doc.getElementById('deepdell-consent')&&!/^(INPUT|TEXTAREA|SELECT)$/.test((doc.activeElement||{}).tagName||'');
+  const fire=()=>{if(armed&&calm()){armed=false;open()}};
+  const depth=()=>{const m=doc.documentElement.scrollHeight-innerHeight;return m>0?scrollY/m:0};
+  addEventListener('scroll',()=>{if(Date.now()-t0>10000&&depth()>.5)fire()},{passive:true});
+  setTimeout(()=>{if(armed)fire()},35000);
+  doc.addEventListener('mouseout',e=>{if(e.clientY<=0&&!e.relatedTarget&&Date.now()-t0>12000&&matchMedia('(hover: hover) and (pointer: fine)').matches)fire()});
+})();
