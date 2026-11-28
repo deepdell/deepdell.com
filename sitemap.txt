@@ -30,6 +30,14 @@ https://deepdell.com/it/ai.html
 https://deepdell.com/ar/ai.html
 https://deepdell.com/ms/ai.html
 https://deepdell.com/id/ai.html
+https://deepdell.com/arcade.html
+https://deepdell.com/fr/arcade.html
+https://deepdell.com/de/arcade.html
+https://deepdell.com/es/arcade.html
+https://deepdell.com/it/arcade.html
+https://deepdell.com/ar/arcade.html
+https://deepdell.com/ms/arcade.html
+https://deepdell.com/id/arcade.html
 https://deepdell.com/automation.html
 https://deepdell.com/fr/automation.html
 https://deepdell.com/de/automation.html

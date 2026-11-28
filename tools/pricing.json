@@ -107,13 +107,13 @@
     },
     "EUR": {
       "symbol": "€",
-      "rate": 0.92,
+      "rate": 0.9136,
       "ppp": 1.0,
       "label": "EUR €"
     },
     "GBP": {
       "symbol": "£",
-      "rate": 0.79,
+      "rate": 0.763,
       "ppp": 1.0,
       "label": "GBP £"
     },
@@ -131,22 +131,23 @@
     },
     "MYR": {
       "symbol": "RM ",
-      "rate": 4.4,
+      "rate": 4.1213,
       "ppp": 0.7,
       "label": "MYR RM"
     },
     "IDR": {
       "symbol": "Rp ",
-      "rate": 16300,
+      "rate": 18322,
       "ppp": 0.5,
       "thousands": ".",
       "label": "IDR Rp"
     },
     "PKR": {
       "symbol": "Rs ",
-      "rate": 280,
+      "rate": 276.617,
       "ppp": 0.4,
       "label": "PKR Rs"
     }
-  }
+  },
+  "_rates_updated": "2026-11-28 (open.er-api.com)"
 }

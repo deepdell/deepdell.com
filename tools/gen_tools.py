@@ -238,6 +238,35 @@ def qr():
     page('qr-generator', 'QR Code Generator: Free, Downloadable QR Codes | DEEPDELL',
          'Free QR code generator for links, text and campaigns. Download as PNG or SVG. Nothing is stored or sent anywhere.', 'QR Code Generator', main, 'QR Code Generator')
 
+
+# ───────────────────────── arcade game ─────────────────────────
+def arcade():
+    badge = lambda k, n, pts: '<li data-badge="%s"><b>%s</b><span>%s points</span></li>' % (k, e(n), pts)
+    labels = ''.join('<span data-s="%s" hidden>%s</span>' % (k, e(v)) for k, v in (
+        ('badge_rookie', 'New badge: Rookie Seller'), ('badge_merchant', 'New badge: Merchant'), ('badge_scaleup', 'New badge: Scale-up'), ('badge_unicorn', 'New badge: Unicorn'),
+        ('share_a', 'I scored'), ('share_b', 'in DEEPDELL Cart Dash.')))
+    game = ('<div class="arcade" data-arcade><div class="ar-hud"><div><span>Score</span><strong data-o="score">0</strong></div><div><span>Combo</span><strong data-o="combo">x1</strong></div>'
+            '<div><span>Lives</span><strong data-o="lives">❤❤❤</strong></div><div><span>Best</span><strong data-o="best">0</strong></div></div>'
+            '<div class="ar-stage"><canvas width="360" height="520" tabindex="0" role="img" aria-label="Cart Dash game area"></canvas>'
+            '<div class="ar-pane" data-pane="start"><h2>Cart Dash</h2><p>Slide your cart to catch 📦 orders and ⭐ reviews. Dodge 💸 refunds and 🐞 bugs. Grab a 🤖 bot to pull orders in.</p>'
+            '<button class="btn primary" type="button" data-play="daily"><span>Play today\'s run</span></button>'
+            '<button class="btn ghost" type="button" data-play="free"><span>Free play</span></button>'
+            '<p class="ar-fine">Daily run #<b data-o="dayno">1</b> is the same for everyone. Day streak: <b data-o="streak">0</b></p></div>'
+            '<div class="ar-pane" data-pane="over" hidden><h2>Game over</h2><p class="ar-big" data-o="final">0</p><p class="ar-pill" data-o="newbest" hidden>New personal best!</p>'
+            '<p class="ar-pill" data-o="newbadge" hidden></p>'
+            '<button class="btn primary" type="button" data-play="free"><span>Play again</span></button>'
+            '<button class="btn ghost" type="button" data-o="share"><span class="b1">Share your score</span><span class="b2" hidden>Copied</span></button>'
+            '<a class="text-link" href="#signup" data-su-open>Get news &amp; offers</a></div></div>'
+            '<p class="ar-fine">Move with your finger, mouse or the arrow keys. Space pauses. Your scores stay in this browser.</p>' + labels + '</div>')
+    side = ('<div class="tool-card"><h3 class="tl-title">Badges</h3><ul class="ar-badges">%s</ul>'
+            '<p class="tl-note">Faster items and more bugs arrive as you play. Combos multiply your points up to x5.</p></div>'
+            % (badge('rookie', 'Rookie Seller', 100) + badge('merchant', 'Merchant', 400) + badge('scaleup', 'Scale-up', 900) + badge('unicorn', 'Unicorn', 1800)))
+    main = '<main>' + hero('Cart Dash', 'Catch the orders,', 'dodge the bugs.', 'A quick arcade break. Play the daily run, build a streak and share your score. Takes about a minute.') \
+        + '<section class="section-pad"><div class="ar-wrap">' + game + side + '</div>' + cta() + '</section></main>'
+    page_js('arcade', 'Cart Dash: Free Daily Arcade Game for E-commerce People | DEEPDELL',
+            'Play Cart Dash, a quick browser arcade game. Catch orders, dodge refunds and bugs, keep a daily streak and share your score. Free, no sign-up.', 'Cart Dash', main, 'Cart Dash',
+            '<script src="arcade.js?v=%s"></script>' % VER)
+
 # ───────────────────────── hub ─────────────────────────
 TOOLS_MKT = [('M01 / TRACKING', 'UTM Link Builder', 'Add campaign tracking to any link so analytics shows exactly where each visitor came from.', 'utm-builder.html'),
              ('M02 / ADVERTISING', 'Ad Performance Calculator', 'Work out ROAS, cost per order and break-even to see if your ads really make money.', 'ad-calculator.html'),
@@ -250,6 +279,8 @@ TOOLS_SEARCH = [('S01 / SEO', 'SEO & Social Preview', 'See how your page looks o
                 ('S03 / AI SEARCH', 'AI & Search Files Generator', 'Create llms.txt and robots.txt files that help AI assistants and search engines understand your site.', 'ai-files-generator.html'),
                 ('S04 / AI READINESS', 'Agentic Readiness Checker', 'Check whether AI agents and search engines can discover and understand your website.', 'agentic-check.html')]
 
+TOOLS_PLAY = [('G01 / GAME', 'Cart Dash', 'Catch orders, dodge refunds and bugs, keep a daily streak and share your score.', 'arcade.html')]
+
 
 def hub():
     cards = lambda items: ''.join('<article class="page-card"><span class="card-code">%s</span><h3>%s</h3><p>%s</p><a class="text-link" href="%s">Open tool <span class="cta-arrow" aria-hidden="true"></span></a></article>'
@@ -257,8 +288,9 @@ def hub():
     main = ('<main>' + hero('Free Tools', 'Free tools for', 'e-commerce and marketing.', 'Practical calculators and generators you can use right now. No sign-up, no cost, and nothing leaves your browser.')
             + '<section class="section-pad"><div class="section-kicker">01 / MARKETING TOOLS</div><div class="section-heading"><h2>Plan, track and <span>measure campaigns.</span></h2></div><div class="page-grid">%s</div></section>' % cards(TOOLS_MKT)
             + '<section class="section-pad"><div class="section-kicker">02 / E-COMMERCE TOOLS</div><div class="section-heading"><h2>Price, profit and <span>grow smarter.</span></h2></div><div class="page-grid">%s</div></section>' % cards(TOOLS_ECOM)
-            + '<section class="section-pad"><div class="section-kicker">03 / SEARCH & AI TOOLS</div><div class="section-heading"><h2>Be found by search <span>and by AI.</span></h2></div><div class="page-grid g4">%s</div>' % cards(TOOLS_SEARCH)
-            + '<div class="cta-strip"><div><h2>Need a tool built for your own process?</h2><p>We build custom utilities and dashboards around your exact workflow.</p></div>'
+            + '<section class="section-pad"><div class="section-kicker">03 / SEARCH & AI TOOLS</div><div class="section-heading"><h2>Be found by search <span>and by AI.</span></h2></div><div class="page-grid g4">%s</div></section>' % cards(TOOLS_SEARCH)
+            + '<section class="section-pad"><div class="section-kicker">04 / TAKE A BREAK</div><div class="section-heading"><h2>A one-minute <span>arcade break.</span></h2></div><div class="page-grid">%s</div></section>' % cards(TOOLS_PLAY)
+            + '<section class="section-pad"><div class="cta-strip"><div><h2>Need a tool built for your own process?</h2><p>We build custom utilities and dashboards around your exact workflow.</p></div>'
               '<a class="btn primary" href="support.html">See custom utilities <span class="cta-arrow" aria-hidden="true"></span></a></div></section></main>')
     url = SITE + '/tools.html'
     desc = 'Free calculators and generators for e-commerce and digital marketing: UTM builder, ad ROAS calculator, profit calculator, SEO preview and more. No sign-up needed.'
@@ -268,5 +300,5 @@ def hub():
 
 
 if __name__ == '__main__':
-    hub(); utm(); ad(); profit(); seo(); discount(); aifiles(); schema(); qr()
-    print('tool pages written: hub + 8 tools')
+    hub(); utm(); ad(); profit(); seo(); discount(); aifiles(); schema(); qr(); arcade()
+    print('tool pages written: hub + 8 tools + arcade')

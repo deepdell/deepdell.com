@@ -24,6 +24,7 @@ const PAGES = [
   '/agentic-check.html',
   '/contact-card.html',
   '/game.html',
+  '/arcade.html',
   '/commerce-calculator.html',
   '/privacy.html'
 ];
@@ -224,4 +225,12 @@ test('discount calculator, QR generator and file generator work in the browser',
   await page.fill('[name="name"]', 'Acme');
   await expect(page.locator('[data-out="llms"]').first()).toContainText('# Acme');
   await expect(page.locator('[data-out="robots"]').first()).toContainText('User-agent: GPTBot');
+});
+
+test('Cart Dash arcade game starts and scores', async ({ page }) => {
+  await page.goto(BASE + '/arcade.html', { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await page.locator('[data-play="free"]').first().click();
+  await expect(page.locator('[data-arcade]')).toHaveClass(/is-playing/);
+  await page.locator('[data-arcade] canvas').click();
+  await expect(page.locator('[data-o="lives"]')).toBeVisible();
 });

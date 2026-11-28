@@ -29,7 +29,7 @@ REGION = {'ms': {'locale': 'ms-MY', 'currency': 'MYR'}}  # number and currency f
 PAGES = sorted(os.path.basename(p) for p in glob.glob(os.path.join(ROOT, '*.html')) if not p.endswith('404.html'))
 ATTRS = ('title', 'alt', 'aria-label', 'placeholder')
 META = ('description', 'og:title', 'og:description', 'og:image:alt', 'twitter:title', 'twitter:description')
-VER = '20261126j'
+VER = '20261128a'
 
 
 def page_url(lang, page):
@@ -177,7 +177,7 @@ def switcher(page, lang):
 
 
 def apply_shared(src, page, lang, alternates=True):
-    src = re.sub(r'<!-- i18n:head -->.*?<!-- /i18n:head -->', '', src, flags=re.S)
+    src = re.sub(r'\n*<!-- i18n:head -->.*?<!-- /i18n:head -->\n*', '\n', src, flags=re.S)
     src = re.sub(r'<!-- i18n:switch -->.*?<!-- /i18n:switch -->', '', src, flags=re.S)
     src = re.sub(r'<script src="/?i18n/[a-z]+\.js[^"]*"></script>\n?', '', src)
     if alternates:
