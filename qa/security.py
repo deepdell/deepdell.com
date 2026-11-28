@@ -90,6 +90,8 @@ for f in CODE:
     t = read(f)
     for m in re.finditer(r'\.innerHTML\s*=\s*[^;\n]{0,200}', t):
         if SAFE_INNER.search(m.group(0)): continue
+        full = re.match(r'\.innerHTML\s*=\s*(`[^`]*`|(?:\s*\+?\s*(?:\'[^\'\n]*\'|"[^"\n]*"))+)\s*;', t[m.start():m.start() + 6000])
+        if full and '${' not in full.group(1): continue  # a fixed string with nothing inserted
         if re.search(r'\$\{[^}]*(value|location|search|hash|param|dataset|textContent)', m.group(0)): fail('innerHTML built from user-controlled data in %s: %s' % (f, m.group(0)[:80]))
         else: warn('innerHTML assignment to review in %s: %s' % (f, m.group(0)[:70]))
 if not any(m.startswith('unsafe') for m in fails): ok('no eval, document.write or insertAdjacentHTML')
