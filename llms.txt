@@ -45,6 +45,9 @@ Shopify, Shopify Plus, React, Next.js, Node.js, TypeScript, JavaScript, PHP, Mag
 
 - Blog (practical e-commerce, tracking, automation and AI guides): https://deepdell.com/blog/
 - UTM tracking guide: https://deepdell.com/blog/utm-tracking-guide-for-online-stores.html
+- E-commerce technology services guide: https://deepdell.com/blog/ecommerce-technology-services-guide.html
+- Shopify Plus technical guide: https://deepdell.com/blog/shopify-plus-technical-guide.html
+- Agentic AI systems for e-commerce: https://deepdell.com/blog/agentic-ai-systems-for-ecommerce.html
 - Shopify automation guide: https://deepdell.com/blog/shopify-store-automation-ideas.html
 
 ## Languages
