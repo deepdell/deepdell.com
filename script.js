@@ -64,7 +64,7 @@ labNavStyle.textContent=`
 .site-header .nav .nav-submenu a:after,.site-header .nav .nav-submenu a[aria-current="page"]:after{content:none!important;display:none!important}
 .site-header .nav .nav-submenu a[aria-current="page"]{color:#20f3fb!important;background:rgba(32,243,251,.05)!important}
 .site-header .nav .nav-submenu a:hover,.site-header .nav .nav-submenu a:focus-visible{color:#20f3fb!important;background:rgba(32,243,251,.07)!important}
-@media(max-width:950px){
+@media(max-width:1240px){
   .site-header.menu-open .nav .nav-group{display:block!important;width:100%!important;height:auto!important}
   .site-header.menu-open .nav .nav-group-toggle{width:100%!important;justify-content:space-between!important;padding:14px 4px!important}
   .site-header.menu-open .nav .nav-submenu,

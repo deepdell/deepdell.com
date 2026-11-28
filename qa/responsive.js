@@ -25,10 +25,10 @@ const MATRIX = [
   custom('Galaxy Z Fold folded 280', 280, 653, true), custom('Small phone 320', 320, 568, true), D('iPhone SE'), D('iPhone 13'), D('iPhone 14 Pro Max'),
   D('Pixel 7'), D('Galaxy S9+'), D('iPhone 13 landscape'), D('Galaxy S9+ landscape'),
   D('iPad Mini'), D('iPad (gen 7)'), D('iPad Pro 11'), D('iPad Pro 11 landscape'), D('Galaxy Tab S4'),
-  custom('Laptop 1280x720', 1280, 720), custom('Laptop 1366x768', 1366, 768), custom('Desktop 1440x900', 1440, 900), custom('Full HD 1920x1080', 1920, 1080),
+  custom('Tablet landscape 1024x768', 1024, 768, true), custom('Narrow laptop 1100x700', 1100, 700), custom('Laptop 1280x720', 1280, 720), custom('Laptop 1366x768', 1366, 768), custom('Desktop 1440x900', 1440, 900), custom('Full HD 1920x1080', 1920, 1080),
   custom('QHD monitor 2560x1440', 2560, 1440), custom('TV 4K 3840x2160', 3840, 2160),
 ].filter(Boolean);
-const QUICK = ['Small phone 320', 'iPhone SE', 'Pixel 7', 'iPad Mini', 'Laptop 1366x768', 'Full HD 1920x1080'];
+const QUICK = ['Small phone 320', 'iPhone SE', 'Pixel 7', 'iPad Mini', 'Tablet landscape 1024x768', 'Laptop 1280x720', 'Laptop 1366x768', 'Full HD 1920x1080'];
 const THIN = ['Small phone 320', 'iPad Mini', 'Desktop 1440x900'];
 const KEY = ['/', '/services.html', '/pricing.html', '/tools.html', '/arcade.html', '/contact.html', '/blog/', '/blog/utm-tracking-guide-for-online-stores.html', '/ar/', '/ar/pricing.html'];
 const ALL = fs.readdirSync(ROOT).filter(f => f.endsWith('.html')).map(f => '/' + f).concat(fs.readdirSync(path.join(ROOT, 'blog')).filter(f => f.endsWith('.html') && f !== 'index.html').map(f => '/blog/' + f));
