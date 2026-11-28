@@ -48,6 +48,12 @@ bad = [f for f in glob.glob('**/*', recursive=True) if os.path.isfile(f) and not
 if bad: [fail('sensitive/junk file would be published: ' + f) for f in bad]
 else: ok('no sensitive or backup files in the published tree')
 
+# 2b. private digital cards must never be published
+cards = [f for f in glob.glob('**/*', recursive=True) if os.path.isfile(f) and not f.startswith(SKIP_DIRS) and
+         (re.search(r'(^|/)(card-front|card-back)\.png$|deepdell-private-cards|(^|/)cards?/', f) or (f.endswith('.vcf') and os.path.basename(f) not in ('contact.vcf',)))]
+if cards: [fail('private digital card file inside the website tree: ' + f) for f in cards]
+else: ok('no private digital cards in the published tree')
+
 # 3. external hosts: scripts and styles must come from an allow-list
 ALLOW_SCRIPT = {'www.googletagmanager.com', 'analytics.ahrefs.com', 'cdnjs.cloudflare.com'}
 ALLOW_STYLE = {'fonts.googleapis.com', 'fonts.gstatic.com'}

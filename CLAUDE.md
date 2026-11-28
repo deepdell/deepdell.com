@@ -17,6 +17,9 @@ bash qa/predeploy.sh --quick    # same with 6 devices, for iterating
 
 Report gate results honestly: list any WARN items and anything not tested. A check cannot prove a site is unhackable; say what was checked.
 
+## Private digital cards
+Digital visiting cards for executives and referral/affiliate partners are private. Follow `.claude/skills/digital-card/SKILL.md`: ask for the person's details first, generate with `tools/digital_card.py` into `~/deepdell-private-cards/`, deliver the files to the user, and never commit, publish or link them from the website.
+
 ## Conventions
 - Brand: dark navy, cyan `#24e4f2` accent, Manrope text, DM Mono labels, plain English, no specific client project names, no invented statistics or testimonials.
 - Every visible string lives in the HTML so the translation pipeline picks it up. Add translations for new strings in all 7 languages.
