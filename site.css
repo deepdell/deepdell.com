@@ -2068,3 +2068,31 @@ html[dir="rtl"] .su-field input[type="email"],html[dir="rtl"] .su-field input[ty
 .ar-badges span{color:#8ea4ba;font-size:12px}
 @media(max-width:860px){.ar-wrap{grid-template-columns:1fr}.arcade{margin:auto}}
 html[dir="rtl"] .ar-hud,html[dir="rtl"] .ar-stage{direction:ltr}
+
+/* Blog */
+.post{max-width:780px;margin:auto;padding:80px 24px 40px}
+.post-head h1{font-size:clamp(34px,5vw,54px);line-height:1.08;letter-spacing:-.04em;margin:12px 0 18px}
+.post-lead{font-size:18px;color:var(--muted);line-height:1.7;margin:0 0 14px}
+.post-meta{font:12px 'DM Mono',monospace;color:#7f93a8;letter-spacing:.05em;margin:0 0 28px}
+.post-toc{border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin:0 0 34px;background:rgba(7,21,38,.7)}
+.post-toc strong{font:11px 'DM Mono',monospace;letter-spacing:.1em;color:var(--cyan);text-transform:uppercase}
+.post-toc ol{margin:10px 0 0;padding-left:20px;display:grid;gap:6px}
+.post-toc a{color:#cfdbe8;text-decoration:none;font-size:14px}.post-toc a:hover{color:var(--cyan)}
+.post-body{font-size:16.5px;line-height:1.85;color:#cdd9e6}
+.post-body h2,.post-faq h2{font-size:clamp(26px,3.4vw,34px);letter-spacing:-.03em;line-height:1.2;margin:48px 0 14px;color:#fff;scroll-margin-top:96px}
+.post-body p{margin:0 0 18px}.post-body ul,.post-body ol{margin:0 0 20px;padding-left:22px}.post-body li{margin-bottom:8px}
+.post-body a,.post-faq a{color:var(--cyan)}
+.post-body strong{color:#fff}
+.post-body code{font-family:'DM Mono',monospace;font-size:.9em;background:rgba(36,228,242,.08);padding:2px 6px;border-radius:4px}
+.post-body pre{overflow:auto;padding:16px;border:1px solid var(--line);border-radius:8px;background:#050f1d}
+.post-body blockquote{margin:22px 0;padding:6px 18px;border-left:3px solid var(--cyan);color:#b8c8d8}
+.post-table{overflow-x:auto;margin:0 0 22px;border:1px solid var(--line);border-radius:8px}
+.post-table table{border-collapse:collapse;width:100%;font-size:14px}
+.post-table th,.post-table td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.post-table th{color:var(--cyan);font:11px 'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+.post-faq h3{font-size:18px;margin:26px 0 6px;color:#fff}.post-faq p{margin:0;color:#b8c8d8}
+.post-tags{display:flex;flex-wrap:wrap;gap:8px;margin:36px 0 30px}
+.post-tags span{font-size:11px;border:1px solid rgba(75,213,240,.25);color:#93c8d5;padding:5px 10px;border-radius:99px}
+.post-related{max-width:var(--max);margin:50px auto 0}.post-related h2{margin-bottom:22px}
+.post-card h3 a{color:#fff;text-decoration:none}.post-card h3 a:hover{color:var(--cyan)}
+@media(max-width:600px){.post{padding-top:50px}.post-body{font-size:16px}}

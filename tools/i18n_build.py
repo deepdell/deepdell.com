@@ -29,7 +29,7 @@ REGION = {'ms': {'locale': 'ms-MY', 'currency': 'MYR'}}  # number and currency f
 PAGES = sorted(os.path.basename(p) for p in glob.glob(os.path.join(ROOT, '*.html')) if not p.endswith('404.html'))
 ATTRS = ('title', 'alt', 'aria-label', 'placeholder')
 META = ('description', 'og:title', 'og:description', 'og:image:alt', 'twitter:title', 'twitter:description')
-VER = '20261128b'
+VER = '20261128c'
 
 
 def page_url(lang, page):
@@ -245,11 +245,16 @@ def sitemap():
         alts += f'<xhtml:link rel="alternate" hreflang="x-default" href="{page_url("en", page)}"/>'
         for c in LANGS:
             rows.append(f'  <url><loc>{page_url(c, page)}</loc><lastmod>2026-11-26</lastmod>{alts}</url>')
+    bp = os.path.join(ROOT, 'blog', 'posts.json')
+    if os.path.exists(bp):  # English-only blog: index plus one URL per post
+        posts = json.load(open(bp, encoding='utf-8'))
+        rows.append(f'  <url><loc>https://deepdell.com/blog/</loc><lastmod>{max([p["updated"] for p in posts] or ["2026-11-28"])}</lastmod></url>')
+        rows += [f'  <url><loc>{p["url"]}</loc><lastmod>{p["updated"]}</lastmod></url>' for p in posts]
     xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
            'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + '\n'.join(rows) + '\n</urlset>\n')
     open(os.path.join(ROOT, 'sitemap.xml'), 'w', encoding='utf-8').write(xml)
     open(os.path.join(ROOT, 'sitemap.txt'), 'w', encoding='utf-8').write(
-        '\n'.join(page_url(c, p) for p in PAGES for c in LANGS) + '\n')
+        '\n'.join([page_url(c, p) for p in PAGES for c in LANGS] + (['https://deepdell.com/blog/'] + [p['url'] for p in posts] if os.path.exists(bp) else [])) + '\n')
 
 
 def main():

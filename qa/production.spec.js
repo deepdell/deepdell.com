@@ -234,3 +234,16 @@ test('Cart Dash arcade game starts and scores', async ({ page }) => {
   await page.locator('[data-arcade] canvas').click();
   await expect(page.locator('[data-o="lives"]')).toBeVisible();
 });
+
+test('blog index, posts, RSS and sitemap are published', async ({ page, request }) => {
+  await page.goto(BASE + '/blog/', { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await expect(page.locator('h1')).toHaveCount(1);
+  const href = await page.locator('.post-card h3 a').first().getAttribute('href');
+  await page.goto(BASE + href, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await expect(page.locator('h1')).toHaveCount(1);
+  const ld = await page.$$eval('script[type="application/ld+json"]', n => n.map(x => x.textContent).join(' '));
+  expect(ld).toContain('BlogPosting');
+  expect((await request.get(BASE + '/blog/rss.xml')).status()).toBe(200);
+  expect(await (await request.get(BASE + '/sitemap.xml')).text()).toContain('/blog/');
+});
+

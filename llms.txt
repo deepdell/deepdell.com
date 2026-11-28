@@ -43,6 +43,10 @@ Shopify, Shopify Plus, React, Next.js, Node.js, TypeScript, JavaScript, PHP, Mag
 - https://deepdell.com/commerce-calculator.html
 - https://deepdell.com/game.html
 
+- Blog (practical e-commerce, tracking, automation and AI guides): https://deepdell.com/blog/
+- UTM tracking guide: https://deepdell.com/blog/utm-tracking-guide-for-online-stores.html
+- Shopify automation guide: https://deepdell.com/blog/shopify-store-automation-ideas.html
+
 ## Languages
 
 English: https://deepdell.com/ · Français: https://deepdell.com/fr/ · Deutsch: https://deepdell.com/de/ · Español: https://deepdell.com/es/ · Italiano: https://deepdell.com/it/ · العربية: https://deepdell.com/ar/ · Bahasa Melayu: https://deepdell.com/ms/ · Bahasa Indonesia: https://deepdell.com/id/
