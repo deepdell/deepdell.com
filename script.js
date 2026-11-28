@@ -42,9 +42,9 @@ document.querySelectorAll('.nav').forEach(nav=>{
  const group=document.createElement('div');group.className='nav-group';
  const toggle=document.createElement('button');toggle.type='button';toggle.className='nav-group-toggle';toggle.setAttribute('aria-expanded','false');toggle.textContent='DEEPDELL Lab';
  const submenu=document.createElement('div');submenu.className='nav-submenu';submenu.setAttribute('aria-label','DEEPDELL Lab');
- const items=[['agentic-check.html','Agentic Check'],['commerce-calculator.html','E-Commerce Calculator'],['game.html','Commerce Reset Game'],['arcade.html','Cart Dash Game'],['/blog/','Blog'],['tools.html','All free tools']];
+ const items=[['agentic-check.html','Agentic Check'],['commerce-calculator.html','E-Commerce Calculator'],['game.html','Commerce Reset Game'],['arcade.html','Cart Dash Game'],['tools.html','All free tools']];
  items.forEach(([href,label])=>{const a=document.createElement('a');a.href=href;a.textContent=label;submenu.appendChild(a)});
- group.append(toggle,submenu);agent.replaceWith(group);
+ group.append(toggle,submenu);if(!nav.querySelector('a[href="/blog/"]')){const b=document.createElement('a');b.href='/blog/';b.textContent='Blog';agent.before(b)}agent.replaceWith(group);
  toggle.addEventListener('click',e=>{e.stopPropagation();const open=group.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open))});
 document.addEventListener('click',e=>{if(!group.contains(e.target)){group.classList.remove('open');toggle.setAttribute('aria-expanded','false')}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){group.classList.remove('open');toggle.setAttribute('aria-expanded','false')}});
