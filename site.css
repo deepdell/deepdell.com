@@ -2096,3 +2096,4 @@ html[dir="rtl"] .ar-hud,html[dir="rtl"] .ar-stage{direction:ltr}
 .post-related{max-width:var(--max);margin:50px auto 0}.post-related h2{margin-bottom:22px}
 .post-card h3 a{color:#fff;text-decoration:none}.post-card h3 a:hover{color:var(--cyan)}
 @media(max-width:600px){.post{padding-top:50px}.post-body{font-size:16px}}
+.post-head .card-code{display:inline-block;font:11px 'DM Mono',monospace;letter-spacing:.12em;color:var(--cyan)}

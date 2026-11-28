@@ -1,0 +1,22 @@
+name: Pre-deploy gate
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - name: Security check
+        run: python3 qa/security.py
+      - name: Install Playwright
+        run: |
+          mkdir -p /tmp/pw && cd /tmp/pw && npm init -y >/dev/null && npm i @playwright/test@1.64.1 >/dev/null
+          npx playwright install --with-deps chromium
+      - name: Responsive, UI and brand check (6 devices)
+        run: NODE_PATH=/tmp/pw/node_modules node qa/responsive.js --quick
