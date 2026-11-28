@@ -9,7 +9,7 @@ Cards are PRIVATE. Never commit them, never put them in this repository, never p
 ## 1. Ask for the details first (never invent them)
 Ask for anything missing before generating. Use AskUserQuestion for the choices, plain questions for the free text.
 
-EVERY card is bilingual: English plus ONE second language, Arabic or Malay. Ask which one (default suggestion: Arabic for Gulf and Middle East contacts, Malay for Malaysia). English is the front, the second language is the back with the QR code.
+EVERY card is ONE bilingual digital card (not front and back): English plus ONE second language, Arabic or Malay, shown together on the same card. It is made to be posted on WhatsApp or social status and kept on a phone, and it carries a QR code that saves the contact. Ask which second language (suggest Arabic for Gulf and Middle East contacts, Malay for Malaysia).
 
 Required:
 - Second language: Arabic or Malay
@@ -35,11 +35,11 @@ python3 tools/digital_card.py --name "..." --title "..." --role executive|referr
   --phone "+971 ..." --email ... [--city ...] [--whatsapp ...] [--linkedin URL] [--code CODE] \
   --second ar|ms [--name-ar ... --title-ar ... | --title-ms ...] [--qr contact|website|referral]
 ```
-Output goes to `~/deepdell-private-cards/<name>/`: `card-front.png` (English), `card-back.png` (Arabic or Malay, with the QR), `card.pdf` (print size 3.5 x 2 in), `card.html` (mobile card with Save contact, Call, Email, WhatsApp buttons, marked noindex), `contact.vcf`, `qr.svg`, `qr.png`.
+Output goes to `~/deepdell-private-cards/<name>/`: `card.png` (1080 x 1920, status/story size, with the QR), `card.html` (mobile card with Save contact, Call, WhatsApp, Email, Website and Share buttons, marked noindex), `contact.vcf`, `qr.png`, `qr.svg`. No print files.
 
 ## 3. Check, then deliver
-- Look at card-front.png and card-back.png. Confirm the name, title and numbers match what the user gave.
+- Look at card.png. Confirm the name, title and numbers match what the user gave.
 - Decode the QR (jsQR) and confirm it matches the details.
-- Send the files with SendUserFile: front and back PNG, the PDF, card.html and contact.vcf.
+- Send the files with SendUserFile: card.png, card.html and contact.vcf.
 - Remind the user: share the card only with the person it is for; the QR holds their phone and email in plain form; the tracked referral link only counts visits if the website records the `ref` parameter, which it does not do yet.
 - Never create a git commit for card files.
