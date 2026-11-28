@@ -321,8 +321,8 @@ const page=path.split('/').pop()||'';document.querySelectorAll('.nav a').forEach
   const els=[...document.querySelectorAll('[data-p]')];
   const cls=t=>'amt'+(t.length>=10?' amt-xl':t.length>=7?' amt-l':'');
   const LANG={fr:'EUR',de:'EUR',es:'EUR',it:'EUR',ar:'AED',ms:'MYR',id:'IDR'};
-  const TZ={'Asia/Karachi':'PKR','Asia/Dubai':'AED','Asia/Riyadh':'SAR','Asia/Kuala_Lumpur':'MYR','Asia/Jakarta':'IDR','Asia/Makassar':'IDR','Europe/London':'GBP'};
-  const REG={PK:'PKR',AE:'AED',SA:'SAR',MY:'MYR',ID:'IDR',GB:'GBP',FR:'EUR',DE:'EUR',ES:'EUR',IT:'EUR',NL:'EUR',BE:'EUR',IE:'EUR',AT:'EUR',PT:'EUR'};
+  const TZ={'Asia/Dubai':'AED','Asia/Riyadh':'SAR','Asia/Kuala_Lumpur':'MYR','Asia/Jakarta':'IDR','Asia/Makassar':'IDR','Europe/London':'GBP'};
+  const REG={AE:'AED',SA:'SAR',MY:'MYR',ID:'IDR',GB:'GBP',FR:'EUR',DE:'EUR',ES:'EUR',IT:'EUR',NL:'EUR',BE:'EUR',IE:'EUR',AT:'EUR',PT:'EUR'};
   const has=c=>[...sel.options].some(o=>o.value===c);
   function guess(){
     try{const s=localStorage.getItem('dd-currency');if(s&&has(s))return s}catch(e){}
