@@ -9,9 +9,12 @@ Cards are PRIVATE. Never commit them, never put them in this repository, never p
 ## 1. Ask for the details first (never invent them)
 Ask for anything missing before generating. Use AskUserQuestion for the choices, plain questions for the free text.
 
+EVERY card is bilingual: English plus ONE second language, Arabic or Malay. Ask which one (default suggestion: Arabic for Gulf and Middle East contacts, Malay for Malaysia). English is the front, the second language is the back with the QR code.
+
 Required:
-- Full name (and Arabic name if the card is for an Arabic-speaking contact)
-- Job title
+- Second language: Arabic or Malay
+- Full name; for Arabic also the name written in Arabic (ask, do not transliterate it yourself)
+- Job title in English; plus the title in Arabic (for Arabic) or in Malay (for Malay). Offer a translation and let the user confirm it
 - Role: executive, referral partner, or affiliate partner
 - Mobile number with country code (this is also used for WhatsApp unless another is given)
 - Email address
@@ -22,7 +25,6 @@ Ask about, but optional:
 - LinkedIn profile link
 - Partner or referral code (referral and affiliate partners)
 - What the QR code opens: saves contact details (default, works offline), opens deepdell.com, or opens a tracked referral link (needs a code)
-- Card language: English (default) or Arabic (right to left)
 
 Do not ask for anything sensitive (ID numbers, bank details, home address). Use only what the person gave you.
 
@@ -31,9 +33,9 @@ Do not ask for anything sensitive (ID numbers, bank details, home address). Use 
 pip install segno      # first time only
 python3 tools/digital_card.py --name "..." --title "..." --role executive|referral|affiliate \
   --phone "+971 ..." --email ... [--city ...] [--whatsapp ...] [--linkedin URL] [--code CODE] \
-  [--qr contact|website|referral] [--lang en|ar --name-ar ... --title-ar ...]
+  --second ar|ms [--name-ar ... --title-ar ... | --title-ms ...] [--qr contact|website|referral]
 ```
-Output goes to `~/deepdell-private-cards/<name>/`: `card-front.png`, `card-back.png` (QR), `card.pdf` (print size 3.5 x 2 in), `card.html` (mobile card with Save contact, Call, Email, WhatsApp buttons, marked noindex), `contact.vcf`, `qr.svg`, `qr.png`.
+Output goes to `~/deepdell-private-cards/<name>/`: `card-front.png` (English), `card-back.png` (Arabic or Malay, with the QR), `card.pdf` (print size 3.5 x 2 in), `card.html` (mobile card with Save contact, Call, Email, WhatsApp buttons, marked noindex), `contact.vcf`, `qr.svg`, `qr.png`.
 
 ## 3. Check, then deliver
 - Look at card-front.png and card-back.png. Confirm the name, title and numbers match what the user gave.

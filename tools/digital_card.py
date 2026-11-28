@@ -8,7 +8,10 @@ contact details (vCard), so it works offline with no page to host.
   python3 tools/digital_card.py --name "Full Name" --title "Partnerships Lead" --role referral \
       --phone "+971 50 000 0000" --email name@example.com --city "Dubai, UAE" \
       [--whatsapp ...] [--linkedin URL] [--website https://deepdell.com] [--code PARTNER01] \
-      [--qr contact|website|referral] [--lang en|ar] [--name-ar "..."] [--title-ar "..."] [--out DIR]
+      --second ar|ms  [--name-ar "..."] [--title-ar "..."] [--title-ms "..."] [--qr contact|website|referral] [--out DIR]
+
+EVERY card is bilingual: English on the front, plus Arabic (right to left) or Malay on the back with the QR code.
+Arabic needs --name-ar and --title-ar. Malay needs --title-ms (the name stays as written).
 
 Roles: executive, referral, affiliate.  Needs: pip install segno ; node + playwright for PNG/PDF.
 Writes: card.html (mobile card), card-front.png, card-back.png, card.pdf (print, 3.5 x 2 in), contact.vcf, qr.svg, qr.png
@@ -17,8 +20,10 @@ import argparse, base64, os, re, subprocess, sys, html, json
 import segno
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ROLES = {'executive': ('Executive', 'تنفيذي'), 'referral': ('Referral Partner', 'شريك إحالة'), 'affiliate': ('Affiliate Partner', 'شريك تسويق بالعمولة')}
+ROLES = {'executive': {'en': 'Executive', 'ar': 'تنفيذي', 'ms': 'Eksekutif'}, 'referral': {'en': 'Referral Partner', 'ar': 'شريك إحالة', 'ms': 'Rakan Rujukan'},
+         'affiliate': {'en': 'Affiliate Partner', 'ar': 'شريك تسويق بالعمولة', 'ms': 'Rakan Affiliate'}}
 LABELS = {'en': dict(save='Save contact', call='Call', loc='City', mail='Email', wa='WhatsApp', web='Website', scan='Scan to save my contact', code='Partner code', private='Private card', tag='Deep technology. Clear impact.'),
+          'ms': dict(save='Simpan kenalan', call='Telefon', loc='Bandar', mail='E-mel', wa='WhatsApp', web='Laman web', scan='Imbas untuk simpan kenalan saya', code='Kod rakan kongsi', private='Kad persendirian', tag='Teknologi mendalam. Impak jelas.'),
           'ar': dict(save='حفظ جهة الاتصال', call='اتصال', loc='المدينة', mail='بريد', wa='واتساب', web='الموقع', scan='امسح الرمز لحفظ جهة الاتصال', code='رمز الشريك', private='بطاقة خاصة', tag='تقنية عميقة. أثر واضح.')}
 
 
@@ -33,14 +38,14 @@ def digits(p): return re.sub(r'\D', '', p or '')
 def vcard(a):
     first, _, last = a.name.strip().rpartition(' ')
     L = ['BEGIN:VCARD', 'VERSION:3.0', 'N:%s;%s;;;' % (vesc(last or a.name), vesc(first)), 'FN:%s' % vesc(a.name), 'ORG:DEEPDELL',
-         'TITLE:%s' % vesc(a.title), 'ROLE:%s' % vesc(ROLES[a.role][0])]
+         'TITLE:%s' % vesc(a.title), 'ROLE:%s' % vesc(ROLES[a.role]['en'])]
     if a.phone: L.append('TEL;TYPE=CELL,VOICE:%s' % a.phone.replace(' ', ''))
     if a.whatsapp and digits(a.whatsapp) != digits(a.phone): L.append('TEL;TYPE=CELL:%s' % a.whatsapp.replace(' ', ''))
     if a.email: L.append('EMAIL;TYPE=INTERNET,WORK:%s' % a.email)
     L.append('URL:%s' % a.website)
     if a.linkedin: L.append('URL:%s' % a.linkedin)
     if a.city: L.append('ADR;TYPE=WORK:;;;%s;;;' % vesc(a.city))
-    note = '%s at DEEPDELL' % ROLES[a.role][0]
+    note = '%s at DEEPDELL' % ROLES[a.role]['en']
     if a.code: note += ' | Partner code: %s' % a.code
     L += ['NOTE:%s' % vesc(note), 'END:VCARD']
     return '\r\n'.join(L) + '\r\n'
@@ -69,23 +74,25 @@ body{font-family:Manrope,Inter,Arial,sans-serif;background:var(--bg);color:var(-
 .card .logo{position:absolute;left:26px;top:24px;display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.02em}
 .card .logo img{width:30px;height:30px}
 .card .badge{position:absolute;right:24px;top:26px;font:600 9px/1 'DM Mono',ui-monospace,monospace;letter-spacing:.14em;color:var(--cyan);border:1px solid var(--line);padding:6px 9px;border-radius:99px;text-transform:uppercase}
-.front .who{position:absolute;left:26px;right:26px;top:92px}
+.front .who{position:absolute;left:26px;right:26px;top:84px}
 .front h1{font-size:27px;line-height:1.08;margin:0 0 6px;letter-spacing:-.03em}
 .front .title{font-size:13px;color:var(--cyan);font-weight:700;margin:0 0 3px}
 .front .alt{font-size:12px;color:var(--muted);margin:0}
-.front .contacts{position:absolute;left:26px;right:26px;bottom:22px;display:grid;gap:5px;font-size:11.5px;color:#d5e3ef}
+.front .contacts{position:absolute;left:26px;right:26px;bottom:30px;display:grid;gap:5px;font-size:11.5px;color:#d5e3ef}
 .front .contacts span{display:flex;gap:8px;align-items:baseline}
-.front .contacts b{font:600 8.5px/1 'DM Mono',ui-monospace,monospace;letter-spacing:.12em;color:var(--cyan);width:48px;flex:none;white-space:nowrap;text-transform:uppercase}
-.back{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:9px}
-.back .qr{width:158px;height:158px;margin-top:34px;background:#fff;border-radius:10px;padding:9px}
-.back .qr img{width:100%;height:100%;display:block}
-.back .scan{font-size:11px;color:var(--muted);letter-spacing:.02em}
-.back .code{font:600 10px/1 'DM Mono',ui-monospace,monospace;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
-.back .logo{top:20px}.back .badge{top:22px}
+.front .contacts b{font:600 8.5px/1 'DM Mono',ui-monospace,monospace;letter-spacing:.12em;color:var(--cyan);min-width:62px;flex:none;white-space:nowrap;text-transform:uppercase}
+.qrbox{position:absolute;right:26px;top:74px;width:124px;text-align:center}
+.qrbox .qr{width:124px;height:124px;background:#fff;border-radius:9px;padding:7px}
+.qrbox .qr img{width:100%;height:100%;display:block}
+.qrbox .scan{font-size:9.5px;color:var(--muted);margin-top:7px;line-height:1.3}
+.qrbox .code{font:600 8.5px/1.2 'DM Mono',ui-monospace,monospace;color:var(--cyan);letter-spacing:.1em;margin-top:5px;text-transform:uppercase}
+.has-qr .who,.has-qr .contacts{right:176px}
+[dir=rtl].has-qr .who,.card[dir=rtl].has-qr .contacts{right:26px;left:176px}
+.card[dir=rtl] .qrbox{right:auto;left:26px}
 .foot{position:absolute;left:0;right:0;bottom:12px;text-align:center;font:500 8.5px/1 'DM Mono',ui-monospace,monospace;letter-spacing:.14em;color:#6f869d;text-transform:uppercase}
-[dir=rtl] .card .logo{left:auto;right:26px}[dir=rtl] .card .badge{right:auto;left:24px}
-[dir=rtl] .front .who,[dir=rtl] .front .contacts{text-align:right}
-[dir=rtl] .front .contacts span{flex-direction:row-reverse;justify-content:flex-end}
+.card[dir=rtl] .logo{left:auto;right:26px}.card[dir=rtl] .badge{right:auto;left:24px}
+.card[dir=rtl] .who,.card[dir=rtl] .contacts{text-align:right}
+.card[dir=rtl] .contacts span{flex-direction:row-reverse;justify-content:flex-end}
 .m{max-width:420px;margin:0 auto;padding:18px 16px 40px}
 .m .card{width:100%;height:auto;aspect-ratio:525/300}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
@@ -97,12 +104,13 @@ body{font-family:Manrope,Inter,Arial,sans-serif;background:var(--bg);color:var(-
 """
 
 
-def card_faces(a, qr_data):
-    L = LABELS[a.lang]; rtl = a.lang == 'ar'
-    role = ROLES[a.role][1 if rtl else 0]
-    name = a.name_ar if (rtl and a.name_ar) else a.name
-    title = a.title_ar if (rtl and a.title_ar) else a.title
-    alt = (a.name if rtl and a.name_ar else a.name_ar) or ''
+def face(a, lang, qr_data=None):
+    """One side of the card in one language. The second-language side also carries the QR code."""
+    L = LABELS[lang]; rtl = lang == 'ar'
+    role = ROLES[a.role][lang]
+    name = a.name_ar if (lang == 'ar' and a.name_ar) else a.name
+    title = {'en': a.title, 'ar': a.title_ar, 'ms': a.title_ms}[lang] or a.title
+    alt = a.name if (lang == 'ar' and a.name_ar) else ''
     rows = []
     if a.phone: rows.append((L['call'], a.phone))
     if a.email: rows.append((L['mail'], a.email))
@@ -110,26 +118,32 @@ def card_faces(a, qr_data):
     rows.append((L['web'], re.sub(r'^https?://', '', a.website).rstrip('/')))
     if a.city: rows.append((L['loc'], a.city))
     contacts = ''.join('<span><b>%s</b><span dir="ltr">%s</span></span>' % (esc(k), esc(v)) for k, v in rows[:5])
-    front = ('<div class="card front"><div class="logo"><img src="%s" alt="">DEEPDELL</div><div class="badge">%s</div>'
-             '<div class="who"><h1>%s</h1><p class="title">%s</p>%s</div><div class="contacts">%s</div></div>'
-             % (logo_uri(), esc(role), esc(name), esc(title), '<p class="alt">%s</p>' % esc(alt) if alt else '', contacts))
-    code = '<div class="code">%s: %s</div>' % (esc(L['code']), esc(a.code)) if a.code else ''
-    back = ('<div class="card back"><div class="logo"><img src="%s" alt="">DEEPDELL</div><div class="badge">%s</div>'
-            '<div class="qr"><img src="%s" alt="QR code"></div><div class="scan">%s</div>%s<div class="foot">%s</div></div>'
-            % (logo_uri(), esc(role), qr_data, esc(L['scan'] if a.qr == 'contact' else a.website), code, esc(L['tag'])))
-    return front, back
+    qr = ''
+    if qr_data:
+        scan = L['scan'] if a.qr == 'contact' else re.sub(r'^https?://', '', a.website)
+        code = '<div class="code">%s: %s</div>' % (esc(L['code']), esc(a.code)) if a.code else ''
+        qr = '<div class="qrbox"><div class="qr"><img src="%s" alt="QR code"></div><div class="scan">%s</div>%s</div>' % (qr_data, esc(scan), code)
+    return ('<div class="card front%s" dir="%s" lang="%s"><div class="logo"><img src="%s" alt="">DEEPDELL</div><div class="badge">%s</div>'
+            '<div class="who"><h1>%s</h1><p class="title">%s</p>%s</div><div class="contacts">%s</div>%s<div class="foot">%s</div></div>'
+            % (' has-qr' if qr_data else '', 'rtl' if rtl else 'ltr', lang, logo_uri(), esc(role), esc(name), esc(title),
+               '<p class="alt">%s</p>' % esc(alt) if alt else '', contacts, qr, esc(L['tag'])))
+
+
+def card_faces(a, qr_data):
+    return face(a, 'en'), face(a, a.second, qr_data)
 
 
 def page(a, front, back, vcf_uri, mobile):
-    L = LABELS[a.lang]; rtl = a.lang == 'ar'
+    L, S = LABELS['en'], LABELS[a.second]
+    both = lambda k: esc(L[k]) + ' · ' + esc(S[k])
     tel = 'tel:' + a.phone.replace(' ', '') if a.phone else '#'
     wa = 'https://wa.me/' + digits(a.whatsapp or a.phone) if (a.whatsapp or a.phone) else '#'
     actions = ('<div class="actions"><a class="primary" href="%s" download="%s.vcf">%s</a><a href="%s">%s</a><a href="mailto:%s">%s</a><a href="%s" rel="noopener">%s</a><a href="%s" rel="noopener">%s</a></div>'
-               % (vcf_uri, slug(a.name), esc(L['save']), tel, esc(L['call']), esc(a.email), esc(L['mail']), wa, esc(L['wa']), esc(a.website), esc(L['web'])))
-    body = '<div class="m">%s%s%s<p class="note">%s</p></div>' % (front, actions, back, esc(L['private'])) if mobile else '<div class="sheet">%s%s</div>' % (front, back)
-    return ('<!doctype html><html lang="%s" dir="%s"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+               % (vcf_uri, slug(a.name), both('save'), tel, both('call'), esc(a.email), both('mail'), wa, both('wa'), esc(a.website), both('web')))
+    body = '<div class="m">%s%s%s<p class="note">%s</p></div>' % (front, actions, back, both('private')) if mobile else '<div class="sheet">%s%s</div>' % (front, back)
+    return ('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             '<meta name="robots" content="noindex,nofollow,noarchive"><title>%s | DEEPDELL</title><style>%s</style></head><body>%s</body></html>'
-            % (a.lang, 'rtl' if rtl else 'ltr', esc(a.name), CSS, body))
+            % (esc(a.name), CSS, body))
 
 
 def render(outdir, files):
@@ -159,9 +173,12 @@ def main():
     ap.add_argument('--whatsapp', default=''); ap.add_argument('--city', default=''); ap.add_argument('--linkedin', default='')
     ap.add_argument('--website', default='https://deepdell.com'); ap.add_argument('--code', default='')
     ap.add_argument('--qr', choices=['contact', 'website', 'referral'], default='contact')
-    ap.add_argument('--lang', choices=['en', 'ar'], default='en'); ap.add_argument('--name-ar', default=''); ap.add_argument('--title-ar', default='')
+    ap.add_argument('--second', choices=['ar', 'ms'], required=True, help='second language: Arabic or Malay (cards are always bilingual with English)')
+    ap.add_argument('--name-ar', default=''); ap.add_argument('--title-ar', default=''); ap.add_argument('--title-ms', default='')
     ap.add_argument('--out', default='')
     a = ap.parse_args()
+    if a.second == 'ar' and not (a.name_ar and a.title_ar): sys.exit('Arabic side needs --name-ar and --title-ar')
+    if a.second == 'ms' and not a.title_ms: sys.exit('Malay side needs --title-ms')
     if a.qr == 'referral' and not a.code: sys.exit('--qr referral needs --code')
     if not re.match(r'^\+?[0-9 ()-]{7,20}$', a.phone): sys.exit('phone must include the country code, for example +971 50 000 0000')
     if not re.match(r'^[^@\s]+@[^@\s]+\.[^@\s]+$', a.email): sys.exit('email looks invalid')
